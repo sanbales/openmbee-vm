@@ -1,0 +1,94 @@
+version: '3.1'
+
+# Generated on 23-04-2018
+# Based on: https://hub.docker.com/r/openmbeeguest/mms-repo/
+
+services:
+  alfresco:
+    image: openmbeeguest/mms-repo:3.2.4-SNAPSHOT
+    environment:
+      CATALINA_OPTS: "-Xmx1G -XX:+UseConcMarkSweepGC"
+    depends_on:
+      - postgresql
+      - activemq
+      - elastic
+    networks:
+      - internal
+    ports:
+      - 8080:8080
+    volumes:
+      - alf_logs:/usr/local/tomcat/logs
+      - alf_data:/opt/alf_data
+    tmpfs:
+      - /tmp
+      - /usr/local/tomcat/temp/
+      - /usr/local/tomcat/work/
+
+  solr:
+    image: openmbeeguest/mms-solr:3.2.4-SNAPSHOT
+    environment:
+      CATALINA_OPTS: "-Xmx1G -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:G1HeapRegionSize=8m -XX:MaxGCPauseMillis=200"
+    depends_on:
+      - alfresco
+    networks:
+      - internal
+    volumes:
+      - solr_logs:/usr/local/tomcat/logs/
+      - solr_content_store:/opt/solr/ContentStore
+    tmpfs:
+      - /tmp
+      - /usr/local/tomcat/temp/
+      - /usr/local/tomcat/work/
+
+  activemq:
+    image: openmbeeguest/mms-activemq:3.2.4-SNAPSHOT
+    ports:
+      - 61616:61616
+      - 61614:61614
+      - 8161:8161
+    volumes:
+      - activemq-data-volume:/data/activemq
+      - activemq-log-volume:/var/log/activemq
+      - activemq-conf-volume:/opt/activemq/conf
+    environment:
+      - ACTIVEMQ_ADMIN_LOGIN admin
+      - ACTIVEMQ_ADMIN_PASSWORD admin
+    networks:
+      - internal
+
+  elastic:
+    image: openmbeeguest/mms-elastic:3.2.4-SNAPSHOT
+    environment:
+      CLEAN: 'false'
+    ports:
+      - 9200:9200
+    volumes:
+      - elastic-data-volume:/usr/share/elasticsearch/data
+    networks:
+      - internal
+
+  postgresql:
+    image: openmbeeguest/mms-postgres:3.2.4-SNAPSHOT
+    volumes:
+       - pgsql_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=alfresco
+      - POSTGRES_PASSWORD=alfresco
+      - POSTGRES_DB=alfresco
+    networks:
+      - internal
+
+volumes:
+  alf_logs:
+  alf_data:
+  solr_logs:
+  solr_content_store:
+  pgsql_data:
+  activemq-data-volume:
+  activemq-log-volume:
+  activemq-conf-volume:
+  elastic-data-volume:
+  nginx-external-volume:
+
+networks:
+  internal:
