@@ -14,7 +14,7 @@ if ! (grep -q -E "^docker:" /etc/group); then
     usermod -aG docker vagrant
 fi
 
-if ! ( systemctl is-active --quiet service ); then
+if ! ( systemctl is-active --quiet docker ); then
   echo ">>> Starting docker daemon"
   sudo systemctl start docker
 fi
