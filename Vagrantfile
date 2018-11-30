@@ -29,11 +29,17 @@ Vagrant.configure("2") do |config|
 
     http://localhost:8080/alfresco
 
+    If that is not working, checkout the docker-compose logs by:
+
+    1. SSH'ing into the VM: `vagrant ssh`
+    2. Inspecting the logs: `docker-compose -f /vagrant/docker-compose.yml logs`
+
     Important Notice:
     -----------------
-    For this server to be useful, you will need to have: MagicDraw, the MDK plugin, and a model.
+    For this server to be useful, you will need to have: MagicDraw, the the MagicDraw Model Development Kit
+    (MDK) plugin, and a SysML model.
 
-    As of Nov 30, 2018, the MDK plugin version for MagicDraw is 3.3.6 and can be found here:
+    As of Nov 30, 2018, the latest MDK plugin version for MagicDraw is 3.3.6 and can be found here:
 
     https://bintray.com/openmbee/maven/mdk/3.3.6
 
