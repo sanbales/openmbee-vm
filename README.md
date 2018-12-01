@@ -55,8 +55,8 @@ If that is not working, checkout the `docker-compose` logs by:
     ```
 
 ### Important Notice
-For this server to be useful, you will need to have: [MagicDraw][magicdraw], the MagicDraw 
-[Model Development Kit][mdk] plugin, and a SysML model.
+For this server to be useful, you will need to have: [MagicDraw][magicdraw], the
+[Model Development Kit (MDK)][mdk] plugin, and a SysML model.
 
 As of Nov 30, 2018, the latest MDK plugin version for MagicDraw is 3.3.6 and can be found here:
 
