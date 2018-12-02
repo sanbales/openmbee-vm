@@ -1,0 +1,26 @@
+alias dc='docker-compose -f /vagrant/docker-compose.yml'
+
+commands() {
+  cat << EOF
+
+OpenMBEE VM Custom Commands Help:
+
+  dc                 - function alias for docker-compose (alias for 'docker-compose -f /vagrant/docker-compose.yml')
+  enter <container>  - exec bash on a running container (e.g., 'enter alfresco' to enter the alfresco container)
+  clean_restart      - remove all containers and volumes and restart containers
+
+EOF
+}
+
+enter() {
+    dc exec "${1}" env TERM=xterm bash
+}
+
+clean_restart() {
+    dc stop
+    dc kill
+    dc rm -f -v
+    dc build
+    dc up -d
+    echo use "dc logs" to see the container output
+}

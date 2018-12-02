@@ -14,6 +14,7 @@ if [[ "$(sysctl -n vm.max_map_count)" -ne "$ES_MAX_MAP_COUNT" ]]; then
 
   # Make vm.max_map_count setting permanent
   if [[ ! -f ${ES_SYSCTL_CONF_FILE} ]]; then
+    echo "  > Making the MAX_MAP_COUNT setting for Elastic Search persistent"
     echo "vm.max_map_count=$ES_MAX_MAP_COUNT" | sudo tee -a ${ES_SYSCTL_CONF_FILE}
   fi
 fi

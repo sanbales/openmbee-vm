@@ -53,6 +53,18 @@ If that is not working, checkout the `docker-compose` logs by:
     ```
     docker-compose -f /vagrant/docker-compose.yml logs
     ```
+    
+    Alternatively, a user can use the `dc` alias command:
+    
+    ```
+    dc logs
+    ``` 
+    
+    For more information on the custom commands, type:
+    
+    ```
+    commands
+    ``` 
 
 ### Important Notice
 For this server to be useful, you will need to have: [MagicDraw][magicdraw], the
