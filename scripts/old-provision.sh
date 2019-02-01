@@ -22,14 +22,11 @@ fi
 
 if ! ( command -v docker ); then
   echo ">>> Installing Docker"
-  yum -y install docker
-fi
-
-
-if ! ( grep -q -E "^docker:" /etc/group ); then
-  echo ">>> Creating a docker user group and adding vagrant user to it"
-  groupadd docker
-  usermod -aG docker vagrant
+  yum install -y yum-utils   device-mapper-persistent-data   lvm2
+  yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  yum install -y docker-ce docker-ce-cli containerd.io
+  echo ">>> Starting docker daemon"
+  systemctl start docker
 fi
 
 
@@ -45,15 +42,15 @@ if ! ( systemctl is-active --quiet docker ); then
 fi
 
 
-if [[ ! -f ${DOCKER_COMPOSE_LOCATION} ]]; then
-    echo ">>> Downloading docker-compose and making it executable"
-    sudo curl -L "$DOCKER_COMPOSE_BASE_URL/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" \
-              -o "$DOCKER_COMPOSE_LOCATION"
-    sudo chmod +x "$DOCKER_COMPOSE_LOCATION"
-fi
+#if [[ ! -f ${DOCKER_COMPOSE_LOCATION} ]]; then
+#    echo ">>> Downloading docker-compose and making it executable"
+#    sudo curl -L "$DOCKER_COMPOSE_BASE_URL/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" \
+#              -o "$DOCKER_COMPOSE_LOCATION"
+#    sudo chmod +x "$DOCKER_COMPOSE_LOCATION"
+#fi
 
 
-if [[ -z `docker ps -q --no-trunc | grep $(${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml ps -q alfresco)` ]]; then
-  echo ">>> Starting containerized services"
-  ${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml up -d
-fi
+#if [[ -z `docker ps -q --no-trunc | grep $(${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml ps -q alfresco)` ]]; then
+#  echo ">>> Starting containerized services"
+#  ${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml up -d
+#fi
