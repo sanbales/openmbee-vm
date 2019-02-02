@@ -1,10 +1,10 @@
 DOCKER_CE_REPO_URL=https://download.docker.com/linux/centos/docker-ce.repo
-HOST_ADDR=127.0.0.1
+HOST_ADDR=localhost
 PGSQL_IMAGE=postgres:9.4-alpine
 PGSQL_CONTAINER_NAME=pgsql-docker
 PGSQL_PORT=5432
 PGSQL_DB_NAME=mms
-PGSQL_DB_PASS=SoM3sUp3rSECRETr@nD0mP@sSw0rD!
+PGSQL_PASSWORD=SoM3sUp3rSECRETr@nD0mP@sSw0rD!
 PGSQL_USERNAME=mms_manager
 PGSQL_DB_CREATION_COMMAND="create table if not exists organizations (   id bigserial primary key,   orgId text not null,   orgName text not null,   constraint unique_organizations unique(orgId, orgName) ); create index orgId on organizations(orgId);  create table projects (   id bigserial primary key,   projectId text not null,   orgId integer references organizations(id),   name text not null,   location text not null,   constraint unique_projects unique(orgId, projectId) ); create index projectIdIndex on projects(projectid);"
 ES_IMAGE=elasticsearch:5.5-alpine
@@ -41,8 +41,11 @@ if ! ( command -v docker ); then
   systemctl start docker
 fi
 
+echo ">>> Starting the MMS Container"
+docker run -d --name ${MMS_CONTAINER_NAME} --mount source=mmsvol,target=/mnt/alf_data --publish=8080:8080 -e APP_USER=${MMS_USERNAME} -e APP_PASS=${MMS_PASSWORD} -e PG_HOST=${HOST_ADDR} -e PG_PORT=${PGSQL_PORT} -e PG_DB_NAME=${PGSQL_DB_NAME} -e PG_DB_USER=${PGSQL_USERNAME} -e PG_DB_PASS=${PGSQL_PASSWORD} -e ES_HOST=${HOST_ADDR} -e ES_PORT=${ES_PORT} ${MMS_IMAGE}
+
 echo ">>> Starting the PostgreSQL Container"
-docker run -d --name ${PGSQL_CONTAINER_NAME} --publish=${PGSQL_PORT}:${PGSQL_PORT} -e POSTGRES_USER=${PGSQL_USERNAME} -e POSTGRES_PASSWORD=${PGSQL_DB_PASS} ${PGSQL_IMAGE}
+docker run -d --name ${PGSQL_CONTAINER_NAME} --publish=${PGSQL_PORT}:${PGSQL_PORT} -e POSTGRES_USER=${PGSQL_USERNAME} -e POSTGRES_PASSWORD=${PGSQL_PASSWORD} ${PGSQL_IMAGE}
 echo "  > Sleeping to make sure PostgreSQL is running"
 sleep 5
 echo " >> Allowing user '${PGSQL_USERNAME}' to create databases"
@@ -63,12 +66,7 @@ if [[ ! -f ${ES_MAPPING_TEMPLATE_FILE} ]]; then
   wget -O ${ES_MAPPING_TEMPLATE_FILE} ${ES_MAPPING_TEMPLATE_URL}
 fi
 echo "  > Sleeping to make sure Elasticsearch is running"
-sleep 5
+sleep 10
 echo " >> Uploading MMS Mapping Template File to Elasticsearch"
 echo "    curl -XPUT http://${HOST_ADDR}:9200/_template/template -d @${ES_MAPPING_TEMPLATE_FILE}"
 curl -XPUT http://${HOST_ADDR}:9200/_template/template -d @${ES_MAPPING_TEMPLATE_FILE}
-
-echo
-
-echo ">>> Starting the MMS Container"
-docker run -d --name ${MMS_CONTAINER_NAME} --mount source=mmsvol,target=/mnt/alf_data --publish=8080:8080 -e APP_USER=${MMS_USERNAME} -e APP_PASS=${MMS_PASSWORD} -e PG_HOST=${HOST_ADDR} -e PG_PORT=${PGSQL_PORT} -e PG_DB_NAME=${PGSQL_DB_NAME} -e PG_DB_USER=${PGSQL_USERNAME} -e PG_DB_PASS=${PGSQL_DB_PASS} -e ES_HOST=${HOST_ADDR} -e ES_PORT=${ES_PORT} ${MMS_IMAGE}

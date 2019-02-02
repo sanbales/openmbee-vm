@@ -1,13 +1,11 @@
-version: '3.7'
-
-# Generated on 2019-01-29
+version: '3'
 
 services:
   mms:
     image: openmbee/mms:latest
     environment:
-      ES_HOST=${HOST_ADDR}
-      PG_HOST=${HOST_ADDR}
+      ES_HOST="${HOST_ADDR}"
+      PG_HOST="${HOST_ADDR}"
       PG_DB_NAME=${PGSQL_DB_NAME}
       PG_DB_USER=${PGSQL_USERNAME}
       PG_DB_PASS=${PGSQL_DB_PASS}
