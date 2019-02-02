@@ -1,23 +1,4 @@
-DOCKER_CE_REPO_URL=https://download.docker.com/linux/centos/docker-ce.repo
-HOST_ADDR=localhost
-PGSQL_IMAGE=postgres:9.4-alpine
-PGSQL_CONTAINER_NAME=pgsql-docker
-PGSQL_PORT=5432
-PGSQL_DB_NAME=mms
-PGSQL_PASSWORD=SoM3sUp3rSECRETr@nD0mP@sSw0rD!
-PGSQL_USERNAME=mms_manager
-PGSQL_DB_CREATION_COMMAND="create table if not exists organizations (   id bigserial primary key,   orgId text not null,   orgName text not null,   constraint unique_organizations unique(orgId, orgName) ); create index orgId on organizations(orgId);  create table projects (   id bigserial primary key,   projectId text not null,   orgId integer references organizations(id),   name text not null,   location text not null,   constraint unique_projects unique(orgId, projectId) ); create index projectIdIndex on projects(projectid);"
-ES_IMAGE=elasticsearch:5.5-alpine
-ES_CONTAINER_NAME=es-docker
-ES_PORT=9200
-ES_MAPPING_TEMPLATE_FILE=mapping_template.json
-ES_MAPPING_TEMPLATE_URL=https://github.com/Open-MBEE/mms/raw/develop/mms-ent/repo-amp/src/main/resources/mapping_template.json
-ES_MAX_MAP_COUNT=262144
-ES_SYSCTL_CONF_FILE=/usr/lib/sysctl.d/90-elastic-search.conf
-MMS_IMAGE=openmbee/mms:latest
-MMS_CONTAINER_NAME=mms-docker
-MMS_USERNAME=admin
-MMS_PASSWORD=admin
+source ../.env
 
 # This is required by Elastic Search, otherwise it will crash, as described here:
 # https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html
