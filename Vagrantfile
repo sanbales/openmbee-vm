@@ -11,7 +11,7 @@ Vagrant.configure("2") do |config|
     vb.gui = false
   end
 
-  config.vm.provision "shell", path: "scripts/provision.sh"
+  config.vm.provision "shell", path: "provision.sh"
 
   config.vm.post_up_message = "OpenMBEE MMS Virtual Machine has been successfully created.
 
@@ -21,18 +21,19 @@ Vagrant.configure("2") do |config|
 
     http://localhost:8080/alfresco/mmsapp/mms.html#/login
 
-    and using `admin` as both the username and the password.
+    and the values of MMS_USERNAME and MMS_PASSWORD in the .env file to log in. The default is `admin` for both.
 
     Troubleshoot:
     -------------
     If that URL is missing, make sure Alfresco is running, by going to:
 
-    http://localhost:8080/alfresco
+    http://127.0.0.1:8080/alfresco
 
     If that is not working, checkout the container logs by:
 
     1. SSH'ing into the VM: `vagrant ssh`
-    2. Inspecting the logs: `dc logs`
+    2. Make sure the services are running: `dc ps`
+    3. And inspecting the logs: `dc logs`
 
     Note:
     -----

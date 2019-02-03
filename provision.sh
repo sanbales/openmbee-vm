@@ -5,7 +5,7 @@ source /vagrant/.env
 if [[ ! -f ${CUSTOM_PROFILE_FILENAME} ]]; then
     echo ">>> Adding the aliases to /etc/profile, making it persistent"
     echo "set -a" > /etc/profile.d/${CUSTOM_PROFILE_FILENAME}
-    echo "source /vagrant/scripts/.bashrc" >> /etc/profile.d/${CUSTOM_PROFILE_FILENAME}
+    echo "source /vagrant/.bashrc" >> /etc/profile.d/${CUSTOM_PROFILE_FILENAME}
 fi
 
 
