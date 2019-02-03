@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
-DOCKER_COMPOSE_BASE_URL="https://github.com/docker/compose/releases/download"
-DOCKER_COMPOSE_LOCATION=/usr/local/bin/docker-compose
-DOCKER_COMPOSE_VERSION="1.23.2"
-ES_MAX_MAP_COUNT=262144
-ES_SYSCTL_CONF_FILE=/usr/lib/sysctl.d/90-elastic-search.conf
+source ../environment_variables
 
 
 # This is required by Elastic Search, otherwise it will crash, as described here:
@@ -25,8 +21,13 @@ if ! ( command -v docker ); then
   yum install -y yum-utils   device-mapper-persistent-data   lvm2
   yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
   yum install -y docker-ce docker-ce-cli containerd.io
-  echo ">>> Starting docker daemon"
-  systemctl start docker
+fi
+
+
+if ! ( grep -q -E "^docker:" /etc/group ); then
+  echo ">>> Creating a docker user group and adding vagrant user to it"
+  groupadd docker
+  usermod -aG docker vagrant
 fi
 
 
@@ -42,15 +43,21 @@ if ! ( systemctl is-active --quiet docker ); then
 fi
 
 
-#if [[ ! -f ${DOCKER_COMPOSE_LOCATION} ]]; then
-#    echo ">>> Downloading docker-compose and making it executable"
-#    sudo curl -L "$DOCKER_COMPOSE_BASE_URL/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" \
-#              -o "$DOCKER_COMPOSE_LOCATION"
-#    sudo chmod +x "$DOCKER_COMPOSE_LOCATION"
-#fi
+if [[ ! -f ${DOCKER_COMPOSE_LOCATION} ]]; then
+    echo ">>> Downloading docker-compose and making it executable"
+    sudo curl -L "$DOCKER_COMPOSE_BASE_URL/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" \
+              -o "$DOCKER_COMPOSE_LOCATION"
+    sudo chmod +x "$DOCKER_COMPOSE_LOCATION"
+fi
 
 
-#if [[ -z `docker ps -q --no-trunc | grep $(${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml ps -q alfresco)` ]]; then
+#if [[ -z `docker ps -q --no-trunc | grep $(${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml ps -q mms)` ]]; then
 #  echo ">>> Starting containerized services"
 #  ${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml up -d
 #fi
+
+
+if [[ ! -f ${CUSTOM_PROFILE_FILENAME} ]]; then
+    echo "set -a" >> ${CUSTOM_PROFILE_FILENAME}
+    echo "source /vagrant/scripts/alias-bash" >> ${CUSTOM_PROFILE_FILENAME}
+fi

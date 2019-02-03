@@ -1,26 +1,91 @@
-alias dc='docker-compose -f /vagrant/docker-compose.yml'
+source /vagrant/.env
+
+alias dc='docker-compose -f /vagrant/docker-compose.yml -p ${PROJECT_NAME} --project-directory /vagrant'
 
 commands() {
   cat << EOF
 
 OpenMBEE VM Custom Commands Help:
 
-  dc                 - function alias for docker-compose (alias for 'docker-compose -f /vagrant/docker-compose.yml')
-  enter <container>  - exec bash on a running container (e.g., 'enter alfresco' to enter the alfresco container)
-  clean_restart      - remove all containers and volumes and restart containers
+    clean_restart      - remove all containers and volumes and restart containers
+    dc                 - function alias for docker-compose (alias for 'docker-compose -f /vagrant/docker-compose.yml')
+    enter <container>  - exec bash on a running container (e.g., 'enter alfresco' to enter the alfresco container)
+    initialize         - initialize the PostgreSQL database and upload the
+    teardown           - remove all containers and volumes
 
 EOF
 }
 
 enter() {
-    dc exec "${1}" env TERM=xterm bash
+    dc exec "${1}" env TERM=xterm /bin/sh
 }
 
 clean_restart() {
+    teardown
+    dc up -d
+    initialize_postgres
+    initialize_elasticsearch
+    echo ">>> Use 'dc logs' to see the container output"
+}
+
+teardown() {
     dc stop
     dc kill
     dc rm -f -v
-    dc build
-    dc up -d
-    echo use "dc logs" to see the container output
+    docker system prune -f
+    docker volume prune -f
+    if [[ -f ${ES_MAPPING_TEMPLATE_FILE} ]]; then
+        rm ${ES_MAPPING_TEMPLATE_FILE}
+    fi
+}
+
+initialize_postgres() {
+    if [[ ! `dc ps -q ${PG_SERVICE_NAME}` ]]; then
+        echo "Waiting for PostgreSQL service to start"
+        sleep 10
+    fi
+
+    dc exec ${PG_SERVICE_NAME} psql -h ${HOST_ADDR} -p ${PG_PORT} -U ${PG_USERNAME} -c "ALTER ROLE ${PG_USERNAME} CREATEDB"
+
+    if ! `dc exec ${PG_SERVICE_NAME} psql -lqt -U ${PG_USERNAME} | cut -d \| -f 1 | grep -qw alfresco`; then
+        echo "  > Creating the Alfresco database ('alfresco')"
+        dc exec ${PG_SERVICE_NAME} createdb -h ${HOST_ADDR} -p ${PG_PORT} -U ${PG_USERNAME} alfresco
+    fi
+
+    if ! `dc exec ${PG_SERVICE_NAME} psql -lqt -U ${PG_USERNAME} | cut -d \| -f 1 | grep -qw ${PG_DB_NAME}`; then
+        echo "  > Creating the MMS database ('${PG_DB_NAME}')"
+        dc exec ${PG_SERVICE_NAME} createdb -h ${HOST_ADDR} -p ${PG_PORT} -U ${PG_USERNAME} ${PG_DB_NAME}
+    fi
+
+    dc exec ${PG_SERVICE_NAME} psql -h ${HOST_ADDR} -p ${PG_PORT} -U ${PG_USERNAME} -d ${PG_DB_NAME} -c "${PG_DB_CREATION_COMMAND}"
+}
+
+initialize_elasticsearch() {
+    if [[ ! `dc ps -q ${ES_SERVICE_NAME}` ]]; then
+        echo "Waiting for Elasticsearch service to start"
+        sleep 10
+    fi
+
+    if [[ ! -f ${ES_MAPPING_TEMPLATE_FILE} ]]; then
+      echo "  > Could not find '${ES_MAPPING_TEMPLATE_FILE}'!"
+      echo "  > Attempting to download the Elasticsearch Mapping File from the OpenMBEE MMS GitHub Repo"
+      wget -O ${ES_MAPPING_TEMPLATE_FILE} ${ES_MAPPING_TEMPLATE_URL}
+    fi
+
+    ES_RESPONSE=`curl -XGET http://${HOST_ADDR}:9200/_template/template`
+    if [[ "${ES_RESPONSE:0:1}" != "{" ]]; then
+        echo "  > Sleeping to make sure Elasticsearch is running"
+        sleep 10
+        ES_RESPONSE=`curl -XGET http://${HOST_ADDR}:9200/_template/template`
+    fi
+
+    if [[ "${ES_RESPONSE}" == "{}" ]]; then
+        echo " >> Uploading MMS Mapping Template File to Elasticsearch"
+        curl -XPUT http://${HOST_ADDR}:9200/_template/template -d @${ES_MAPPING_TEMPLATE_FILE}
+        ES_RESPONSE=`curl -XGET http://${HOST_ADDR}:9200/_template/template`
+        if [[ "${ES_RESPONSE}" == "{}" ]]; then
+            echo
+            echo ">>> Failed to upload the MMS Template to Elasticsearch"
+        fi
+    fi
 }

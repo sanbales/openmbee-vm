@@ -1,40 +1,48 @@
-version: '3'
+version: '3.2'
 
 services:
-  mms:
-    image: openmbee/mms:latest
+  server:
+    image: "${MMS_IMAGE}"
     environment:
-      ES_HOST="${HOST_ADDR}"
-      PG_HOST="${HOST_ADDR}"
-      PG_DB_NAME=${PGSQL_DB_NAME}
-      PG_DB_USER=${PGSQL_USERNAME}
-      PG_DB_PASS=${PGSQL_DB_PASS}
+      ES_HOST: "${HOST_ADDR}"
+      ES_PORT: "${ES_PORT:-9200}"
+      PG_HOST: "${HOST_ADDR}"
+      PG_PORT: "${PG_PORT:-5432}"
+      PG_DB_NAME: "${PG_DB_NAME:-mms}"
+      PG_DB_USER: "${PG_USERNAME}"
+      PG_DB_PASS: "${PG_PASSWORD}"
+      APP_USER: "${MMS_USERNAME:-admin}"
+      APP_PASS: "${MMS_PASSWORD:-admin}"
     depends_on:
-      - postgresql
-      - elastic
+      - postgres
+      - elasticsearch
     networks:
       - internal
     ports:
-      - 8080:8080
+      - "${MMS_EXTERNAL_PORT:-8080}:8080"
+    restart: on-failure
     volumes:
-      - mmsvol:/mnt/alf_data
+      - "mmsvol:${MMS_ALF_DATA_DIR}"
 
-  elastic:
+  elasticsearch:
     image: elasticsearch:5.5-alpine
     networks:
       - internal
     ports:
-      - 9200:9200
+      - "${ES_PORT:-9200}:9200"
+    restart: always
 
-  postgresql:
+  postgres:
     image: postgres:9.4-alpine
     environment:
-      - POSTGRES_USER=${PGSQL_USERNAME}
-      - POSTGRES_PASSWORD=${PGSQL_DB_PASS}
+      POSTGRES_USER: "${PG_USERNAME}"
+      POSTGRES_PASSWORD: "${PG_PASSWORD}"
+      POSTGRES_PORT: "${PG_PORT:-5432}"
     networks:
       - internal
     ports:
-      - 5432:5432
+      - "${PG_PORT:-5432}:${PG_PORT:-5432}"
+    restart: always
 
 volumes:
   mmsvol:
