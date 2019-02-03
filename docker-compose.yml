@@ -1,48 +1,58 @@
 version: '3.2'
 
 services:
-  server:
-    image: "${MMS_IMAGE}"
+  web:
+    image: "${MMS_IMAGE:-openmbee/mms:latest}"
     environment:
-      ES_HOST: "${HOST_ADDR}"
-      ES_PORT: "${ES_PORT:-9200}"
-      PG_HOST: "${HOST_ADDR}"
-      PG_PORT: "${PG_PORT:-5432}"
-      PG_DB_NAME: "${PG_DB_NAME:-mms}"
-      PG_DB_USER: "${PG_USERNAME}"
-      PG_DB_PASS: "${PG_PASSWORD}"
+      ALF_DATA_DIR: "${MMS_ALF_DATA_DIR:-/mnt/alf_data}"
       APP_USER: "${MMS_USERNAME:-admin}"
       APP_PASS: "${MMS_PASSWORD:-admin}"
+      ES_HOST: "${HOST_ADDR:-localhost}"
+      ES_PORT: "${ES_PORT:-9200}"
+      PG_HOST: "${HOST_ADDR:-localhost}"
+      PG_PORT: "${PG_PORT:-5432}"
+      PG_DB_NAME: "${PG_DB_NAME:-mms}"
+      PG_DB_USER: "${PG_USERNAME:-postgres}"
+      PG_DB_PASS: "${PG_PASSWORD:?Missing password for PostgreSQL (PG_PASSWORD)}"
     depends_on:
-      - postgres
-      - elasticsearch
+      - db
+      - search
     networks:
       - internal
     ports:
-      - "${MMS_EXTERNAL_PORT:-8080}:8080"
+      - target: 8080
+        published: "${MMS_EXTERNAL_PORT:-8080}"
+        protocol: tcp
+        mode: host
     restart: on-failure
     volumes:
-      - "mmsvol:${MMS_ALF_DATA_DIR}"
+      - "mmsvol:${MMS_ALF_DATA_DIR:-/mnt/alf_data}"
 
-  elasticsearch:
+  search:
     image: elasticsearch:5.5-alpine
     networks:
       - internal
     ports:
-      - "${ES_PORT:-9200}:9200"
-    restart: always
+      - target: 9200
+        published: "${ES_PORT:-9200}"
+        protocol: tcp
+        mode: host
+    restart: on-failure
 
-  postgres:
+  db:
     image: postgres:9.4-alpine
     environment:
-      POSTGRES_USER: "${PG_USERNAME}"
-      POSTGRES_PASSWORD: "${PG_PASSWORD}"
+      POSTGRES_USER: "${PG_USERNAME:-admin}"
+      POSTGRES_PASSWORD: "${PG_PASSWORD:?Missing password for PostgreSQL (PG_PASSWORD)}"
       POSTGRES_PORT: "${PG_PORT:-5432}"
     networks:
       - internal
     ports:
-      - "${PG_PORT:-5432}:${PG_PORT:-5432}"
-    restart: always
+      - target: "${PG_PORT:-5432}"
+        published: "${PG_PORT:-5432}"
+        protocol: tcp
+        mode: host
+    restart: on-failure
 
 volumes:
   mmsvol:

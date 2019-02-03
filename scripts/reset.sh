@@ -1,2 +1,0 @@
-./teardown.sh
-./setup.sh

@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
-source ../environment_variables
+source /vagrant/.env
+
+
+if [[ ! -f ${CUSTOM_PROFILE_FILENAME} ]]; then
+    echo ">>> Adding the aliases to /etc/profile, making it persistent"
+    echo "set -a" > /etc/profile.d/${CUSTOM_PROFILE_FILENAME}
+    echo "source /vagrant/scripts/.bashrc" >> /etc/profile.d/${CUSTOM_PROFILE_FILENAME}
+fi
 
 
 # This is required by Elastic Search, otherwise it will crash, as described here:
@@ -18,7 +25,7 @@ fi
 
 if ! ( command -v docker ); then
   echo ">>> Installing Docker"
-  yum install -y yum-utils   device-mapper-persistent-data   lvm2
+  yum install -y   yum-utils   device-mapper-persistent-data   lvm2
   yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
   yum install -y docker-ce docker-ce-cli containerd.io
 fi
@@ -51,13 +58,7 @@ if [[ ! -f ${DOCKER_COMPOSE_LOCATION} ]]; then
 fi
 
 
-#if [[ -z `docker ps -q --no-trunc | grep $(${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml ps -q mms)` ]]; then
-#  echo ">>> Starting containerized services"
-#  ${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml up -d
-#fi
-
-
-if [[ ! -f ${CUSTOM_PROFILE_FILENAME} ]]; then
-    echo "set -a" >> ${CUSTOM_PROFILE_FILENAME}
-    echo "source /vagrant/scripts/alias-bash" >> ${CUSTOM_PROFILE_FILENAME}
+if [[ -z `docker ps -q --no-trunc | grep $(${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml ps -q mms)` ]]; then
+  echo ">>> Starting containerized services"
+  ${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml up -d
 fi

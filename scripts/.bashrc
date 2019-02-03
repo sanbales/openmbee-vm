@@ -1,6 +1,7 @@
+#!/usr/bin/env bash
 source /vagrant/.env
 
-alias dc='docker-compose -f /vagrant/docker-compose.yml -p ${PROJECT_NAME} --project-directory /vagrant'
+alias dc='docker-compose -f /vagrant/docker-compose.yml --project-directory /vagrant'
 
 commands() {
   cat << EOF
@@ -9,8 +10,9 @@ OpenMBEE VM Custom Commands Help:
 
     clean_restart      - remove all containers and volumes and restart containers
     dc                 - function alias for docker-compose (alias for 'docker-compose -f /vagrant/docker-compose.yml')
-    enter <container>  - exec bash on a running container (e.g., 'enter alfresco' to enter the alfresco container)
-    initialize         - initialize the PostgreSQL database and upload the
+    enter <container>  - shell into a running container (e.g., 'enter db' to enter the PostgreSQL container)
+    initialize_db      - populate the PostgreSQL service with the necessary permissions and databases
+    initialize_search  - populate the Elasticsearch service by uploading the MMS Mapping Template
     teardown           - remove all containers and volumes
 
 EOF
@@ -41,29 +43,38 @@ teardown() {
 
 initialize_postgres() {
     if [[ ! `dc ps -q ${PG_SERVICE_NAME}` ]]; then
-        echo "Waiting for PostgreSQL service to start"
-        sleep 10
+        echo "  > Waiting ${ES_WAIT} seconds for PostgreSQL service to start"
+        sleep ${PG_WAIT}
     fi
 
-    dc exec ${PG_SERVICE_NAME} psql -h ${HOST_ADDR} -p ${PG_PORT} -U ${PG_USERNAME} -c "ALTER ROLE ${PG_USERNAME} CREATEDB"
+    if [[ ! `dc exec ${PG_SERVICE_NAME} psql -lq -U ${PG_USERNAME} | grep -q "List of databases"` ]]; then
+        echo "  > Waiting ${ES_WAIT} seconds for PostgreSQL to begin accepting connections"
+        sleep ${PG_WAIT}
+    fi
 
-    if ! `dc exec ${PG_SERVICE_NAME} psql -lqt -U ${PG_USERNAME} | cut -d \| -f 1 | grep -qw alfresco`; then
+    if [[ ! `dc exec db psql -U ${PG_USERNAME} -c ${PG_TEST_CREATEDB_ROLE_COMMAND} | grep -q "(1 row)"` ]]; then
+        echo "  > Giving '${PG_USERNAME}' permission to create databases"
+        dc exec ${PG_SERVICE_NAME} psql -h ${HOST_ADDR} -p ${PG_PORT} -U ${PG_USERNAME} -c "ALTER ROLE ${PG_USERNAME} CREATEDB"
+    fi
+
+    if [[ ! `dc exec ${PG_SERVICE_NAME} psql -lqt -U ${PG_USERNAME} | cut -d \| -f 1 | grep -qw alfresco` ]]; then
         echo "  > Creating the Alfresco database ('alfresco')"
         dc exec ${PG_SERVICE_NAME} createdb -h ${HOST_ADDR} -p ${PG_PORT} -U ${PG_USERNAME} alfresco
     fi
 
-    if ! `dc exec ${PG_SERVICE_NAME} psql -lqt -U ${PG_USERNAME} | cut -d \| -f 1 | grep -qw ${PG_DB_NAME}`; then
+    if [[ ! `dc exec ${PG_SERVICE_NAME} psql -lqt -U ${PG_USERNAME} | cut -d \| -f 1 | grep -qw ${PG_DB_NAME}` ]]; then
         echo "  > Creating the MMS database ('${PG_DB_NAME}')"
         dc exec ${PG_SERVICE_NAME} createdb -h ${HOST_ADDR} -p ${PG_PORT} -U ${PG_USERNAME} ${PG_DB_NAME}
     fi
 
+    # Don't need to check because the command checks to see if the 'organizations' table exists before creating new ones
     dc exec ${PG_SERVICE_NAME} psql -h ${HOST_ADDR} -p ${PG_PORT} -U ${PG_USERNAME} -d ${PG_DB_NAME} -c "${PG_DB_CREATION_COMMAND}"
 }
 
 initialize_elasticsearch() {
     if [[ ! `dc ps -q ${ES_SERVICE_NAME}` ]]; then
-        echo "Waiting for Elasticsearch service to start"
-        sleep 10
+        echo "  > Waiting ${ES_WAIT} seconds for Elasticsearch service to start"
+        sleep ${ES_WAIT}
     fi
 
     if [[ ! -f ${ES_MAPPING_TEMPLATE_FILE} ]]; then
@@ -75,7 +86,7 @@ initialize_elasticsearch() {
     ES_RESPONSE=`curl -XGET http://${HOST_ADDR}:9200/_template/template`
     if [[ "${ES_RESPONSE:0:1}" != "{" ]]; then
         echo "  > Sleeping to make sure Elasticsearch is running"
-        sleep 10
+        sleep ${ES_WAIT}
         ES_RESPONSE=`curl -XGET http://${HOST_ADDR}:9200/_template/template`
     fi
 
@@ -84,7 +95,7 @@ initialize_elasticsearch() {
         curl -XPUT http://${HOST_ADDR}:9200/_template/template -d @${ES_MAPPING_TEMPLATE_FILE}
         ES_RESPONSE=`curl -XGET http://${HOST_ADDR}:9200/_template/template`
         if [[ "${ES_RESPONSE}" == "{}" ]]; then
-            echo
+            echo ""
             echo ">>> Failed to upload the MMS Template to Elasticsearch"
         fi
     fi

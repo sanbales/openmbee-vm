@@ -5,14 +5,13 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 8080, host: 8080
 
   config.vm.provider "virtualbox" do |vb|
-    vb.name = "OpenMBEE Server"
+    vb.name = "MMS Server"
     vb.cpus = 4
-    vb.memory = 12288  # Solr requires a LOT of RAM
+    vb.memory = 12288  # Solr requires a lot of RAM
     vb.gui = false
   end
 
-  config.vm.provision "shell", path: "scripts/setup.sh"
-  config.vm.provision "file", source: "scripts/alias-bash", destination: ".alias-bash"
+  config.vm.provision "shell", path: "scripts/provision.sh"
 
   config.vm.post_up_message = "OpenMBEE MMS Virtual Machine has been successfully created.
 
@@ -22,7 +21,7 @@ Vagrant.configure("2") do |config|
 
     http://localhost:8080/alfresco/mmsapp/mms.html#/login
 
-    and using `` as both the username and the password.
+    and using `admin` as both the username and the password.
 
     Troubleshoot:
     -------------
