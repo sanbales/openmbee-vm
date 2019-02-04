@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
+set -a
 . /vagrant/.env
+set +a
 
 alias dc='docker-compose -f /vagrant/docker-compose.yml --project-directory /vagrant'
 
@@ -47,28 +49,28 @@ initialize_db() {
         sleep ${PG_WAIT}
     fi
 
-    if [[ ! `dc exec ${PG_SERVICE_NAME} psql -lq -U ${PG_USERNAME} | grep -q "List of databases"` ]]; then
+    if [[ ! `dc exec ${PG_SERVICE_NAME} env PGPASSWORD=${PG_PASSWORD} psql -lq -U ${PG_USERNAME} | grep -q "List of databases"` ]]; then
         echo "  > Waiting ${PG_WAIT} seconds for PostgreSQL to begin accepting connections"
         sleep ${PG_WAIT}
     fi
 
     if [[ ! `dc exec db psql -U ${PG_USERNAME} -c ${PG_TEST_CREATEDB_ROLE_COMMAND} | grep -q "(1 row)"` ]]; then
         echo "  > Giving '${PG_USERNAME}' permission to create databases"
-        dc exec ${PG_SERVICE_NAME} psql -h ${PG_SERVICE_NAME} -p ${PG_PORT} -U ${PG_USERNAME} -c "ALTER ROLE ${PG_USERNAME} CREATEDB"
+        dc exec ${PG_SERVICE_NAME} env PGPASSWORD=${PG_PASSWORD} psql -h ${PG_SERVICE_NAME} -p ${PG_PORT} -U ${PG_USERNAME} -c "ALTER ROLE ${PG_USERNAME} CREATEDB"
     fi
 
     if [[ ! `dc exec ${PG_SERVICE_NAME} psql -lqt -U ${PG_USERNAME} | cut -d \| -f 1 | grep -qw alfresco` ]]; then
         echo "  > Creating the Alfresco database ('alfresco')"
-        dc exec ${PG_SERVICE_NAME} createdb -h ${PG_SERVICE_NAME} -p ${PG_PORT} -U ${PG_USERNAME} alfresco
+        dc exec ${PG_SERVICE_NAME} env PGPASSWORD=${PG_PASSWORD} createdb -h ${PG_SERVICE_NAME} -p ${PG_PORT} -U ${PG_USERNAME} alfresco
     fi
 
     if [[ ! `dc exec ${PG_SERVICE_NAME} psql -lqt -U ${PG_USERNAME} | cut -d \| -f 1 | grep -qw ${PG_DB_NAME}` ]]; then
         echo "  > Creating the MMS database ('${PG_DB_NAME}')"
-        dc exec ${PG_SERVICE_NAME} createdb -h ${PG_SERVICE_NAME} -p ${PG_PORT} -U ${PG_USERNAME} ${PG_DB_NAME}
+        dc exec ${PG_SERVICE_NAME} env PGPASSWORD=${PG_PASSWORD} createdb -h ${PG_SERVICE_NAME} -p ${PG_PORT} -U ${PG_USERNAME} ${PG_DB_NAME}
     fi
 
     # Don't need to check because the command checks to see if the 'organizations' table exists before creating new ones
-    dc exec ${PG_SERVICE_NAME} psql -h ${PG_SERVICE_NAME} -p ${PG_PORT} -U ${PG_USERNAME} -d ${PG_DB_NAME} -c "${PG_DB_CREATION_COMMAND}"
+    dc exec ${PG_SERVICE_NAME} env PGPASSWORD=${PG_PASSWORD} psql -h ${PG_SERVICE_NAME} -p ${PG_PORT} -U ${PG_USERNAME} -d ${PG_DB_NAME} -c "${PG_DB_CREATION_COMMAND}"
 }
 
 initialize_search() {
@@ -83,17 +85,17 @@ initialize_search() {
       wget -O ${ES_MAPPING_TEMPLATE_FILE} ${ES_MAPPING_TEMPLATE_URL}
     fi
 
-    ES_RESPONSE=`curl -XGET http://${ES_SERVICE_NAME}:${ES_PORT}/_template/template`
+    ES_RESPONSE=`curl -XGET http://127.0.0.1:${ES_PORT}/_template/template`
     if [[ "${ES_RESPONSE:0:1}" != "{" ]]; then
         echo "  > Sleeping to make sure Elasticsearch is running"
         sleep ${ES_WAIT}
-        ES_RESPONSE=`curl -XGET http://${ES_SERVICE_NAME}:${ES_PORT}/_template/template`
+        ES_RESPONSE=`curl -XGET http://127.0.0.1:${ES_PORT}/_template/template`
     fi
 
     if [[ "${ES_RESPONSE}" == "{}" ]]; then
         echo " >> Uploading MMS Mapping Template File to Elasticsearch"
-        curl -XPUT http://${ES_SERVICE_NAME}:${ES_PORT}/_template/template -d @${ES_MAPPING_TEMPLATE_FILE}
-        ES_RESPONSE=`curl -XGET http://${ES_SERVICE_NAME}:${ES_PORT}/_template/template`
+        curl -XPUT http://127.0.0.1:${ES_PORT}/_template/template -d @${ES_MAPPING_TEMPLATE_FILE}
+        ES_RESPONSE=`curl -XGET http://127.0.0.1:${ES_PORT}/_template/template`
         if [[ "${ES_RESPONSE}" == "{}" ]]; then
             echo ""
             echo ">>> Failed to upload the MMS Template to Elasticsearch"

@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
-. /vagrant/.bashrc
+
+echo ">>> Loading environment variables from /vagrant/.env"
+set -a
+. /vagrant/.env
+set +a
 
 
 if [[ ! -f ${CUSTOM_PROFILE_FILENAME} ]]; then
@@ -58,12 +62,10 @@ if [[ ! -f ${DOCKER_COMPOSE_LOCATION} ]]; then
   curl -L "$DOCKER_COMPOSE_BASE_URL/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" \
             -o "$DOCKER_COMPOSE_LOCATION"
   chmod +x "$DOCKER_COMPOSE_LOCATION"
-  echo ">>> Hacky method to make docker usable by other docker users"
-  chmod 666 /var/run/docker.sock
 fi
 
 
 if [[ -z `docker ps -q --no-trunc | grep $(${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml ps -q mms)` ]]; then
   echo ">>> Starting containerized services"
-  dc up -d
+  $DOCKER_COMPOSE_LOCATION -f /vagrant/docker-compose.yml --project-directory /vagrant up -d
 fi

@@ -49,7 +49,7 @@ Vagrant.configure("2") do |config|
 
     https://bintray.com/openmbee/maven/mdk/
 
-    You can check the compatiblity matrix between MMS/MDK here:
+    You can check the compatibility matrix between MMS and MDK here:
 
     https://github.com/Open-MBEE/open-mbee.github.io/blob/master/compat%20matrix.pdf
 
