@@ -31,14 +31,14 @@ server can be developed, e.g., using [Kubernetes][kubernetes].
 ### Login to View Editor
 You can login to the OpenMBEE [View Editor][view-editor] by going to:
 
-    http://localhost:8080/alfresco/mmsapp/mms.html#/login
+    http://127.0.0.1:8080/alfresco/mmsapp/mms.html#/login
 
 and using `admin` as both the username and the password.
 
 ### Troubleshoot
 If that URL is not responding, make sure [Alfresco][alfresco] is running, by going to:
 
-    http://localhost:8080/alfresco
+    http://127.0.0.1:8080/alfresco
 
 If that is not working, checkout the `docker-compose` logs by:
 

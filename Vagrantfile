@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
     ---------------------
     You can login to the View Editor by going to:
 
-    http://localhost:8080/alfresco/mmsapp/mms.html#/login
+    http://127.0.0.1:8080/alfresco/mmsapp/mms.html#/login
 
     and the values of MMS_USERNAME and MMS_PASSWORD in the .env file to log in. The default is `admin` for both.
 
@@ -45,9 +45,13 @@ Vagrant.configure("2") do |config|
     For this server to be useful, you will need to have: MagicDraw, the the MagicDraw Model Development Kit
     (MDK) plugin, and a SysML model.
 
-    As of Nov 30, 2018, the latest MDK plugin version for MagicDraw is 3.3.6 and can be found here:
+    As of Feb 4, 2019, the latest MDK plugin version for MagicDraw is 4.0.0 and can be found here:
 
-    https://bintray.com/openmbee/maven/mdk/3.3.6
+    https://bintray.com/openmbee/maven/mdk/
+
+    You can check the compatiblity matrix between MMS/MDK here:
+
+    https://github.com/Open-MBEE/open-mbee.github.io/blob/master/compat%20matrix.pdf
 
   "
 
