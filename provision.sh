@@ -3,13 +3,16 @@
 echo ">>> Loading environment variables from /vagrant/.env"
 set -a
 . /vagrant/.env
+. /vagrant/.bashrc
 set +a
 
 
 if [[ ! -f ${CUSTOM_PROFILE_FILENAME} ]]; then
-    echo ">>> Adding the aliases to /etc/profile, making it persistent"
-    echo "set -a" > /etc/profile.d/${CUSTOM_PROFILE_FILENAME}
-    echo "source /vagrant/.bashrc" >> /etc/profile.d/${CUSTOM_PROFILE_FILENAME}
+  echo ">>> Adding the environment variables and functions to /etc/profile, making them persistent"
+  echo "set -a" > /etc/profile.d/${CUSTOM_PROFILE_FILENAME}
+  echo "source /vagrant/.env" >> /etc/profile.d/${CUSTOM_PROFILE_FILENAME}
+  echo "source /vagrant/.bashrc" >> /etc/profile.d/${CUSTOM_PROFILE_FILENAME}
+  echo "set +a" >> /etc/profile.d/${CUSTOM_PROFILE_FILENAME}
 fi
 
 
@@ -44,18 +47,24 @@ if ! ( grep -q -E "^docker:" /etc/group ); then
   groupadd docker
 fi
 
-echo "  > Adding 'vagrant' user to the docker group"
-usermod -a -G docker vagrant
+
+if ! groups vagrant | grep -qw docker; then
+    echo "  > Adding 'vagrant' user to the docker group"
+    usermod -a -G docker vagrant
+fi
+
 
 if ! ( systemctl list-unit-files --state=enabled | grep -q -E "^docker.service" ); then
   echo ">>> Setting up docker daemon to start automatically"
   systemctl enable docker
 fi
 
+
 if ! ( systemctl is-active --quiet docker ); then
   echo ">>> Starting docker daemon"
   systemctl start docker
 fi
+
 
 if [[ ! -f ${DOCKER_COMPOSE_LOCATION} ]]; then
   echo ">>> Downloading docker-compose and making it executable"
@@ -65,7 +74,7 @@ if [[ ! -f ${DOCKER_COMPOSE_LOCATION} ]]; then
 fi
 
 
-if [[ -z `docker ps -q --no-trunc | grep $(${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml ps -q mms)` ]]; then
-  echo ">>> Starting containerized services"
-  $DOCKER_COMPOSE_LOCATION -f /vagrant/docker-compose.yml --project-directory /vagrant up -d
+if [[ -z `docker ps -q --no-trunc | grep $(dc ps -q web)` ]]; then
+  echo ">>> Setting up the MMS services"
+  setup
 fi

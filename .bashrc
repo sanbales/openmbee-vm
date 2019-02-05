@@ -3,7 +3,7 @@ set -a
 . /vagrant/.env
 set +a
 
-alias dc='docker-compose -f /vagrant/docker-compose.yml --project-directory /vagrant'
+alias dc='${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml --project-directory /vagrant'
 
 commands() {
   cat << EOF
@@ -24,12 +24,18 @@ enter() {
     dc exec "${1}" env TERM=xterm /bin/sh
 }
 
-clean_restart() {
-    teardown
+setup() {
+    echo ">>> Starting containerized services"
     dc up -d
+
+    echo ">>> Initializing the database service (PostgreSQL)"
     initialize_db
+
+    echo ">>> Initializing the search service (Elasticsearch)"
     initialize_search
-    echo ">>> Use 'dc logs' to see the container output"
+    echo ""
+
+    echo ">>> You can now use 'dc logs' to inspect the services"
 }
 
 teardown() {
@@ -43,34 +49,42 @@ teardown() {
     fi
 }
 
+clean_restart() {
+    teardown
+    setup
+}
+
 initialize_db() {
-    if [[ ! `dc ps -q ${PG_SERVICE_NAME}` ]]; then
+    if ! [[ `dc ps -q ${PG_SERVICE_NAME}` ]]; then
         echo "  > Waiting ${PG_WAIT} seconds for PostgreSQL service to start"
         sleep ${PG_WAIT}
     fi
 
-    if [[ ! `dc exec ${PG_SERVICE_NAME} env PGPASSWORD=${PG_PASSWORD} psql -lq -U ${PG_USERNAME} | grep -q "List of databases"` ]]; then
+    # Check to see PostgreSQL service is running by requesting list of available databases
+    if ! `dc exec ${PG_SERVICE_NAME} psql -lq -U ${PG_USERNAME} | grep -q "List of databases"`; then
         echo "  > Waiting ${PG_WAIT} seconds for PostgreSQL to begin accepting connections"
         sleep ${PG_WAIT}
     fi
 
-    if [[ ! `dc exec db psql -U ${PG_USERNAME} -c ${PG_TEST_CREATEDB_ROLE_COMMAND} | grep -q "(1 row)"` ]]; then
+    # Check to see if new user has ability to create databases
+    if `dc exec ${PG_SERVICE_NAME} psql -U ${PG_USERNAME} -c "${PG_TEST_CREATEDB_ROLE_COMMAND}" | grep -q "(0 row)"`; then
         echo "  > Giving '${PG_USERNAME}' permission to create databases"
-        dc exec ${PG_SERVICE_NAME} env PGPASSWORD=${PG_PASSWORD} psql -h ${PG_SERVICE_NAME} -p ${PG_PORT} -U ${PG_USERNAME} -c "ALTER ROLE ${PG_USERNAME} CREATEDB"
+        dc exec ${PG_SERVICE_NAME} psql -U ${PG_USERNAME} -c "ALTER ROLE ${PG_USERNAME} CREATEDB"
     fi
 
-    if [[ ! `dc exec ${PG_SERVICE_NAME} psql -lqt -U ${PG_USERNAME} | cut -d \| -f 1 | grep -qw alfresco` ]]; then
+    if ! `dc exec ${PG_SERVICE_NAME} psql -lqt -U ${PG_USERNAME} | cut -d \| -f 1 | grep -qw alfresco`; then
         echo "  > Creating the Alfresco database ('alfresco')"
-        dc exec ${PG_SERVICE_NAME} env PGPASSWORD=${PG_PASSWORD} createdb -h ${PG_SERVICE_NAME} -p ${PG_PORT} -U ${PG_USERNAME} alfresco
+        dc exec ${PG_SERVICE_NAME} createdb -U ${PG_USERNAME} alfresco
     fi
 
-    if [[ ! `dc exec ${PG_SERVICE_NAME} psql -lqt -U ${PG_USERNAME} | cut -d \| -f 1 | grep -qw ${PG_DB_NAME}` ]]; then
+    if ! `dc exec ${PG_SERVICE_NAME} psql -lqt -U ${PG_USERNAME} | cut -d \| -f 1 | grep -qw ${PG_DB_NAME}`; then
         echo "  > Creating the MMS database ('${PG_DB_NAME}')"
-        dc exec ${PG_SERVICE_NAME} env PGPASSWORD=${PG_PASSWORD} createdb -h ${PG_SERVICE_NAME} -p ${PG_PORT} -U ${PG_USERNAME} ${PG_DB_NAME}
+        dc exec ${PG_SERVICE_NAME} createdb -U ${PG_USERNAME} ${PG_DB_NAME}
     fi
 
-    # Don't need to check because the command checks to see if the 'organizations' table exists before creating new ones
-    dc exec ${PG_SERVICE_NAME} env PGPASSWORD=${PG_PASSWORD} psql -h ${PG_SERVICE_NAME} -p ${PG_PORT} -U ${PG_USERNAME} -d ${PG_DB_NAME} -c "${PG_DB_CREATION_COMMAND}"
+    if ! `dc exec ${PG_SERVICE_NAME} psql -U ${PG_USERNAME} -d ${PG_DB_NAME} -c "\dt" | grep -qw organizations`; then
+        dc exec ${PG_SERVICE_NAME} psql -U ${PG_USERNAME} -d ${PG_DB_NAME} -c "${PG_DB_CREATION_COMMAND}"
+    fi
 }
 
 initialize_search() {
@@ -80,22 +94,25 @@ initialize_search() {
     fi
 
     if [[ ! -f ${ES_MAPPING_TEMPLATE_FILE} ]]; then
-      echo "  > Could not find '${ES_MAPPING_TEMPLATE_FILE}'!"
-      echo "  > Attempting to download the Elasticsearch Mapping File from the OpenMBEE MMS GitHub Repo"
-      wget -O ${ES_MAPPING_TEMPLATE_FILE} ${ES_MAPPING_TEMPLATE_URL}
+        echo "  > Could not find '${ES_MAPPING_TEMPLATE_FILE}'!"
+        echo "  > Attempting to download the Elasticsearch Mapping File from the OpenMBEE MMS GitHub Repo"
+        wget -O ${ES_MAPPING_TEMPLATE_FILE} ${ES_MAPPING_TEMPLATE_URL}
     fi
 
-    ES_RESPONSE=`curl -XGET http://127.0.0.1:${ES_PORT}/_template/template`
+    ES_RESPONSE=`curl -s -XGET http://127.0.0.1:${ES_PORT}/_template/template`
     if [[ "${ES_RESPONSE:0:1}" != "{" ]]; then
         echo "  > Sleeping to make sure Elasticsearch is running"
         sleep ${ES_WAIT}
-        ES_RESPONSE=`curl -XGET http://127.0.0.1:${ES_PORT}/_template/template`
+
+        echo "  > Re-requesting template from Elasticsearch"
+        ES_RESPONSE=`curl -s -XGET http://127.0.0.1:${ES_PORT}/_template/template`
     fi
 
     if [[ "${ES_RESPONSE}" == "{}" ]]; then
         echo " >> Uploading MMS Mapping Template File to Elasticsearch"
         curl -XPUT http://127.0.0.1:${ES_PORT}/_template/template -d @${ES_MAPPING_TEMPLATE_FILE}
-        ES_RESPONSE=`curl -XGET http://127.0.0.1:${ES_PORT}/_template/template`
+
+        ES_RESPONSE=`curl -s -XGET http://127.0.0.1:${ES_PORT}/_template/template`
         if [[ "${ES_RESPONSE}" == "{}" ]]; then
             echo ""
             echo ">>> Failed to upload the MMS Template to Elasticsearch"
