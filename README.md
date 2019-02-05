@@ -51,7 +51,7 @@ If that is not working, checkout the `docker-compose` logs by:
 2. And inspecting the logs:
 
     ```
-    docker-compose -f /vagrant/docker-compose.yml logs
+    docker-compose -f /vagrant/docker-compose.yml --project-directory /vagrant logs
     ```
     
     Alternatively, a user can use the `dc` alias command:

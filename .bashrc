@@ -8,13 +8,14 @@ alias dc='${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml --project-di
 commands() {
   cat << EOF
 
-OpenMBEE VM Custom Commands Help:
+MMS VM Custom Commands Help:
 
     clean_restart      - remove all containers and volumes and restart containers
     dc                 - function alias for docker-compose (alias for 'docker-compose -f /vagrant/docker-compose.yml')
     enter <container>  - shell into a running container (e.g., 'enter db' to enter the PostgreSQL container)
     initialize_db      - populate the PostgreSQL service with the necessary permissions and databases
     initialize_search  - populate the Elasticsearch service by uploading the MMS Mapping Template
+    setup              - start stopped services and (if necessary) initialize their data
     teardown           - remove all containers and volumes
 
 EOF
