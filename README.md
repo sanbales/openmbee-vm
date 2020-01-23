@@ -62,6 +62,15 @@ If that is not working, checkout the `docker-compose` logs by:
     dc logs
     ``` 
     
+    or
+
+    ```
+    dc logs --follow --tail 0
+    ```
+
+    to inspect how the server is handeling requests and responses.
+
+    
     For more information on the custom commands, type:
     
     ```
