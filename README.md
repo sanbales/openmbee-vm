@@ -7,6 +7,8 @@ A vagrant-based virtual machine (VM) for setting up the [Open Model Based Engine
 It is intended as a stop-gap solution until a scalable containerized version of the OpenMBEE MMS
 server can be developed, e.g., using [Kubernetes][kubernetes].
 
+As of 1.23.2020, this VM does not work as-is with [OpenMBEE MMS Docker Image][docker-image] -- versions 3.3.0 and 3.4.2 have been unsucessfully tested in a local Ubuntu 18.04 server; other versions have not been tested. A future commit will make this VM compatible with those latest versions.
+
 ## Installation
 
 1. Install [Vagrant][vagrant].
