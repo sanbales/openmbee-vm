@@ -39,10 +39,11 @@ setup() {
     #transfer .alfresco-global.properties and mms.properies files to the docker tomcat directory:
     #these files change Alfresco to use the HTTP protocol instead of the HTTPS (the default)
     echo ">>> copy correct config files to vagrant vm..."
-    docker exec -i openmbee-mms sh -c "cat > /usr/local/tomcat/shared/classes/alfresco-global.properties" < ./alfresco-global.properties
-    docker exec -i openmbee-mms sh -c "cat > /usr/local/tomcat/shared/classes/mms.properties" < ./mms.properties
-    
+    docker exec -i openmbee-mms sh -c "cat > /usr/local/tomcat/shared/classes/alfresco-global.properties" < /vagrant/alfresco-global.properties
+    docker exec -i openmbee-mms sh -c "cat > /usr/local/tomcat/shared/classes/mms.properties" < /vagrant/mms.properties
+
     #coerce (again) Postgres to create the required `alfresco` and `mms` databases
+    echo ">>> ensuring the necessary databases were created"
     initialize_db
 
     echo ">>> You can now use 'dc logs' to inspect the services"
