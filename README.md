@@ -33,7 +33,7 @@ As of 1.24.2020, this VM works with [OpenMBEE MMS Docker Image][docker-image] v3
 ## Usage
 
 ### Login to Alfresco
-    http://192.168.1.182:8080/share/page/
+    http://127.0.0.1:8080/share/page/
 using `admin` as both the username and the password.
 
 ### Login to View Editor
@@ -111,11 +111,11 @@ If that is not working, checkout the `docker-compose` logs by:
 
 4. Make sure you can access Tomcat at
    ```
-   http://192.168.1.182:8080
+   http://127.0.0.1:8080
    ```
    and that you see all services running at
    ```
-   http://192.168.1.182:8080/manager/html/list
+   http://127.0.0.1:8080/manager/html/list
    ```
    authenticate with 
    ```
