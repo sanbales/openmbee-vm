@@ -3,6 +3,7 @@ version: '3.2'
 services:
   web:
     image: "${MMS_IMAGE:-openmbee/mms:latest}"
+    container_name: openmbee-mms
     environment:
       ALF_DATA_DIR: "${MMS_ALFRESCO_DATA_DIR:-/mnt/alf_data}"
       APP_USER: "${MMS_USERNAME:-admin}"
@@ -25,8 +26,8 @@ services:
         published: "${MMS_EXTERNAL_PORT:-8080}"
         protocol: tcp
         mode: host
-      - target: 8443
-        published: 8443
+      - target: 8080
+        published: 8080
         protocol: tcp
         mode: host
     restart: on-failure
@@ -35,6 +36,8 @@ services:
 
   search:
     image: elasticsearch:5.5-alpine
+    container_name: openmbee-elasticsearch
+
     networks:
       - internal
     ports:
@@ -46,6 +49,7 @@ services:
 
   db:
     image: postgres:9.4-alpine
+    container_name: openmbee-postgres
     environment:
       POSTGRES_USER: "${PG_USERNAME:-mmsuser}"
       POSTGRES_PASSWORD: "${PG_PASSWORD:?Missing password for PostgreSQL (PG_PASSWORD)}"
