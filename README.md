@@ -7,7 +7,7 @@ A vagrant-based virtual machine (VM) for setting up the [Open Model Based Engine
 It is intended as a stop-gap solution until a scalable containerized version of the OpenMBEE MMS
 server can be developed, e.g., using [Kubernetes][kubernetes].
 
-As of 1.24.2020, this VM works with [OpenMBEE MMS Docker Image][docker-image] v3.4.2 (latest) and has been successfully deployed and tested in a local Ubuntu 18.04 server; other versions have not been tested.  Additionally, the [Model Development Kit (MDK)][mdk] v4.1.3 plugin for MagicDraw][magicdraw] successfully works with the MMS server this repo provisions.
+As of Jan 24, 2020, this VM works with [OpenMBEE MMS Docker Image][docker-image] v3.4.2 (latest) and has been successfully deployed and tested in a local Ubuntu 18.04 server; other versions have not been tested.  Additionally, the [Model Development Kit (MDK)][mdk] v4.1.3 plugin for MagicDraw][magicdraw] successfully works with the MMS server this repo provisions.
 
 
 ## Prerequisites
@@ -127,9 +127,9 @@ If that is not working, checkout the `docker-compose` logs by:
 For this server to be useful, you will need to have: [MagicDraw][magicdraw], the
 [Model Development Kit (MDK)][mdk] plugin, and a SysML model.
 
-As of Nov 30, 2018, the latest MDK plugin version for MagicDraw is 3.3.6 and can be found here:
+As of Jan 24, 2020, the latest MDK plugin version for MagicDraw is 4.1.3 and can be found here:
 
-    https://bintray.com/openmbee/maven/mdk/3.3.6
+    https://bintray.com/openmbee/maven/mdk/4.1.3
 
 [alfresco]: https://www.alfresco.com/ "Alfresco"
 [docker-image]: https://hub.docker.com/r/openmbeeguest/mms-repo/ "OpenMBEE Docker Image"
