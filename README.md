@@ -19,7 +19,7 @@ As of Jan 24, 2020, this VM works with [OpenMBEE MMS Docker Image][docker-image]
 ## Installation
 1. Clone this repository:
     ```
-    git clone https://github.com/sanbales/openmbee-vm.git
+    git clone https://github.com/MJDiaz89/openmbee-vm.git
     ```
 
 2. Provision the virtual machine:
