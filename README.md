@@ -7,7 +7,7 @@ A vagrant-based virtual machine (VM) for setting up the [Open Model Based Engine
 It is intended as a stop-gap solution until a scalable containerized version of the OpenMBEE MMS
 server can be developed, e.g., using [Kubernetes][kubernetes].
 
-As of Jan 24, 2020, this VM works with [OpenMBEE MMS Docker Image][docker-image] v3.4.2 (latest) and has been successfully deployed and tested in a local Ubuntu 18.04 server; other versions have not been tested.  Additionally, the [Model Development Kit (MDK)][mdk] v4.1.3 plugin for MagicDraw][magicdraw] successfully works with the MMS server this repo provisions.
+As of Jan 24, 2020, this VM works with [OpenMBEE MMS Docker Image][docker-image] v3.4.2 (latest) and has been successfully deployed and tested in a local Ubuntu 18.04 server; other versions have not been tested.  Additionally, the [Model Development Kit (MDK)][mdk] v4.1.3 plugin for [MagicDraw][magicdraw] successfully works with the MMS server this repo provisions.
 
 
 ## Prerequisites
