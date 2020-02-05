@@ -133,12 +133,15 @@ If that is not working, checkout the `docker-compose` logs by:
    ```
 
 ### Important Notice
-For this server to be useful, you will need to have: [MagicDraw][magicdraw], the
+To maximize the server's usefulness, you will need to have: [MagicDraw][magicdraw], the
 [Model Development Kit (MDK)][mdk] plugin, and a SysML model.
 
 As of Jan 24, 2020, the latest MDK plugin version for MagicDraw is 4.1.3 and can be found here:
 
     https://bintray.com/openmbee/maven/mdk/4.1.3
+
+**Note:** do not let MDK create an organization for you!  Otherwise, you may end up with an unstable organization.  Instead, create it with the curl command above.
+
 
 [alfresco]: https://www.alfresco.com/ "Alfresco"
 [docker-image]: https://hub.docker.com/r/openmbeeguest/mms-repo/ "OpenMBEE Docker Image"
