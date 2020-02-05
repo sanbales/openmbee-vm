@@ -1,13 +1,13 @@
 # VM for OpenMBEE MMS
 
 A vagrant-based virtual machine (VM) for setting up the [Open Model Based Engineering Environment (OpenMBEE)][openmbee]
-[Model Management System (MMS)][mms].  This VM helps instantiate the [OpenMBEE MMS Docker Image][docker-image].
+[Model Management System (MMS)][mms] and [View Editor (VE)][view-editor].  This VM helps instantiate the [OpenMBEE MMS Docker Image][docker-image].
 
 > This virtual machine was developed to facilitate the installation of the OpenMBEE MMS server.
 It is intended as a stop-gap solution until a scalable containerized version of the OpenMBEE MMS
 server can be developed, e.g., using [Kubernetes][kubernetes].
 
-As of Jan 24, 2020, this VM works with [OpenMBEE MMS Docker Image][docker-image] v3.4.2 (latest) and has been successfully deployed and tested in a local Ubuntu 18.04 server; other versions have not been tested.  Additionally, the [Model Development Kit (MDK)][mdk] v4.1.3 plugin for MagicDraw][magicdraw] successfully works with the MMS server this repo provisions.
+As of Feb 4, 2020, this VM works with [OpenMBEE MMS Docker Image][docker-image] v3.4.2 (latest) and [View Editor (VE)][view-editor] v3.6.1.  This VM has been successfully deployed and tested in a local Ubuntu 18.04 server; other MMS and VE versions have not been tested.  Additionally, the [Model Development Kit (MDK)][mdk] v4.1.3 plugin for MagicDraw][magicdraw] successfully works with the MMS server this repo provisions.
 
 
 ## Prerequisites
@@ -39,11 +39,20 @@ using `admin` as both the username and the password.
 ### Login to View Editor
 You can login to the OpenMBEE [View Editor][view-editor] by going to:
 
-    http://127.0.0.1:8080/alfresco/mmsapp/mms.html#/login
+    http://127.0.0.1:8080/ve/mms.html#/login
 
 and using `admin` as both the username and the password.
 
-> View Editor **does not** come with this repo yet -- perhaps coming soon.
+#### Other useful links
+See everything Tomcat is running :
+
+    http://127.0.0.1:8080/manager/html/
+
+
+See MMS's full API and SDK documentation:
+
+    http://127.0.0.1:8080/alfresco/mms/index.html
+
 
 ### Access REST API
 You can access the Swagger UI at

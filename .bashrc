@@ -49,6 +49,20 @@ setup() {
     echo ">>> ensuring the necessary databases were created"
     initialize_db
 
+    echo ">>> Installing View Editor files"
+    echo "  > Getting latest View Editor files..."
+    latest_ve_version=$(curl -s https://github.com/Open-MBEE/ve/releases/latest | grep -oP "tag/([0-9\.])+" | cut -d "/" -f 2)
+    wget -q https://github.com/Open-MBEE/ve/releases/download/${latest_ve_version}/ve-${latest_ve_version}.zip
+    yum -q -y install unzip
+    unzip -qq ve-${latest_ve_version}.zip 
+    mv dist ve\#\#${latest_ve_version}
+
+    echo "  > Extracting and copying View Editor files over..."
+    docker cp ve\#\#${latest_ve_version} dist/ openmbee-mms:/usr/local/tomcat/webapps/
+    docker exec -i openmbee-mms sh -c "mkdir /usr/local/tomcat/webapps/ve##${latest_ve_version}/WEB-INF" 
+    docker exec -i openmbee-mms sh -c "cat > /usr/local/tomcat/webapps/ve##${latest_ve_version}/WEB-INF/web.xml" < /vagrant/web.xml
+    echo "  > View Editor installed."
+
     echo ">>> You can now use 'dc logs' to inspect the services"
 }
 
