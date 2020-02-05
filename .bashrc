@@ -39,10 +39,10 @@ setup() {
     #transfer the corrected files to the docker tomcat directories:
     #the .properties files change Alfresco to use the HTTP protocol instead of the HTTPS (the default); the tomcat-users files creates necessary admin user
     #after files are written, restart openmbee-mms container for changes to take effect
-    echo ">>> copy correct config files to vagrant vm..."
-    docker exec -i openmbee-mms sh -c "cat > /usr/local/tomcat/shared/classes/alfresco-global.properties" < /vagrant/alfresco-global.properties
-    docker exec -i openmbee-mms sh -c "cat > /usr/local/tomcat/shared/classes/mms.properties" < /vagrant/mms.properties
-    docker exec -i openmbee-mms sh -c "cat > /usr/local/tomcat/conf/tomcat-users.xml" < /vagrant/tomcat-users.xml
+    echo ">>> copying correct config files to vagrant vm..."
+    docker cp /vagrant/alfresco-global.properties openmbee-mms:/usr/local/tomcat/shared/classes/alfresco-global.properties
+    docker cp /vagrant/mms.properties openmbee-mms:/usr/local/tomcat/shared/classes/mms.properties
+    docker cp /vagrant/tomcat-users.xml openmbee-mms:/usr/local/tomcat/conf/tomcat-users.xml
     docker restart openmbee-mms
 
     #coerce (again) Postgres to create the required `alfresco` and `mms` databases
