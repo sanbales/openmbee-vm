@@ -1,0 +1,181 @@
+<h1><code ng:non-bindable="">ViewService</code>
+<div><span class="hint">service in module <code ng:non-bindable="">mms</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="mms-viewservice-page"><p>Similar to the ElementService and proxies a lot of functions to it, this provides
+CRUD for views and products/documents/group</p>
+</div></div>
+<h2 id="dependencies">Dependencies</h2>
+<ul class="dependencies"><li><code ng:non-bindable=""><a href="#/api/ng.$q">$q</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/ng.$http">$http</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/mms.URLService">URLService</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/mms.ElementService">ElementService</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/mms.UtilsService">UtilsService</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/mms.CacheService">CacheService</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/_">_</a></code>
+</li>
+</ul>
+<div class="member method"><h2 id="methods">Methods</h2>
+<ul class="methods"><li><h3 id="methods_addelementtovieworsection">addElementToViewOrSection(reqOb, elementOb, addPeIndex)</h3>
+<div class="addelementtovieworsection"><div class="mms-viewservice-addelementtovieworsection-page"><p>This updates a view or section to include a new element, the new element must be a child
+of an existing element in the view</p>
+</div><h5 id="methods_addelementtovieworsection_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>reqOb</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-viewservice-addelementtovieworsection-page"><p>see ElementService.getElement for description, elementId is the view
+or section instance element id</p>
+</div></td></tr><tr><td>elementOb</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-viewservice-addelementtovieworsection-page"><p>the element object to add (this should be an instanceValue)</p>
+</div></td></tr><tr><td>addPeIndex</td><td><a href="" class="label type-hint type-hint-number">number</a></td><td><div class="mms-viewservice-addelementtovieworsection-page"><p>the index of where to add view or section (instance spec) object</p>
+</div></td></tr></tbody></table><h5 id="methods_addelementtovieworsection_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="mms-viewservice-addelementtovieworsection-page"><p>The promise would be resolved with updated view or section object</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_addviewtoparentview">addViewToParentView(reqOb)</h3>
+<div class="addviewtoparentview"><div class="mms-viewservice-addviewtoparentview-page"><p>This updates a document to include a new view, the new view must be a child
+of an existing view in the document</p>
+</div><h5 id="methods_addviewtoparentview_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>reqOb</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-viewservice-addviewtoparentview-page"><p>see Element.getElement for description, use parentViewId
+and viewId instead of elementId, add &#39;aggr&#39; key</p>
+</div></td></tr></tbody></table><h5 id="methods_addviewtoparentview_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="mms-viewservice-addviewtoparentview-page"><p>The promise would be resolved with updated parent view object</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_createdocument">createDocument(ownerOb, docOb)</h3>
+<div class="createdocument"><div class="mms-viewservice-createdocument-page"><p>Create a new document,
+if name isn&#39;t specified, &quot;Untitled&quot; will be used, a default contents with 
+paragraph of the view documentation will be used.</p>
+</div><h5 id="methods_createdocument_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>ownerOb</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-viewservice-createdocument-page"><p>see createView</p>
+</div></td></tr><tr><td>docOb</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-viewservice-createdocument-page"><p>see createView</p>
+</div></td></tr></tbody></table><h5 id="methods_createdocument_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="mms-viewservice-createdocument-page"><p>The promise will be resolved with the new view.</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_creategroup">createGroup(name, ownerOb, orgId)</h3>
+<div class="creategroup"><div class="mms-viewservice-creategroup-page"><p>create a group depending on what the user has selected:</p>
+<ul>
+<li>if the user has not selected anything, create a group at the root level of the project</li>
+<li>if the user has selected a group, create a child group</li>
+<li>if the user has selected anything else, let the user know that they must select a group
+owner must be specified (parent view/document)
+id cannot be specified (automatically generated)
+if name isn&#39;t specified, &quot;Untitled&quot; will be used.</li>
+</ul>
+</div><h5 id="methods_creategroup_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>name</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-viewservice-creategroup-page"><p>group name new-doc-or-group.html</p>
+</div></td></tr><tr><td>ownerOb</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-viewservice-creategroup-page"><p>parent id, projectId and refId</p>
+</div></td></tr><tr><td>orgId</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-viewservice-creategroup-page"><p>parent orgId</p>
+</div></td></tr></tbody></table><h5 id="methods_creategroup_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="mms-viewservice-creategroup-page"><p>The promise will be resolved with the new group object.</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_createview">createView(ownerOb, viewOb, peDoc)</h3>
+<div class="createview"><div class="mms-viewservice-createview-page"><p>Create a new view, owner must be specified (parent view), id cannot be specified,
+if name isn&#39;t specified, &quot;Untitled&quot; will be used, a default contents with 
+paragraph of the view documentation will be used. If a document is specified, 
+will also add the view to the document, in this case the parent view should 
+already be in the document. The new view will be added as the last child of the 
+parent view.</p>
+</div><h5 id="methods_createview_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>ownerOb</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-viewservice-createview-page"><p>should contain _project and _ref, can be a parent view with _childViews</p>
+</div></td></tr><tr><td>viewOb</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-viewservice-createview-page"><p>can specify optional viewId, viewName, viewDoc to be used when
+creating the new view, boolean isDoc indicate whether it&#39;s a document</p>
+</div></td></tr><tr><td>peDoc</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-viewservice-createview-page"><p>optional documentation to set for pe creation</p>
+</div></td></tr></tbody></table><h5 id="methods_createview_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="mms-viewservice-createview-page"><p>The promise will be resolved with the new view.</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_deletegroup">deleteGroup(elementOb)</h3>
+<div class="deletegroup"><div class="mms-viewservice-deletegroup-page"><p>remove a group</p>
+</div><h5 id="methods_deletegroup_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>elementOb</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-viewservice-deletegroup-page"><p>group to remove</p>
+</div></td></tr></tbody></table><h5 id="methods_deletegroup_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="mms-viewservice-deletegroup-page"><p>The promise will be resolved with the updated group object.</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_downgradedocument">downgradeDocument(elementOb)</h3>
+<div class="downgradedocument"><div class="mms-viewservice-downgradedocument-page"><p>Demote document to a view and update the applied stereotype instance</p>
+</div><h5 id="methods_downgradedocument_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>elementOb</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-viewservice-downgradedocument-page"><p>A document object</p>
+</div></td></tr></tbody></table><h5 id="methods_downgradedocument_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="mms-viewservice-downgradedocument-page"><p>The promise will be resolved with the downgraded view</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_getdocmetadata">getDocMetadata(reqOb, weight)</h3>
+<div class="getdocmetadata"><div class="mms-viewservice-getdocmetadata-page"><p>gets Document properties from docgen&#39;s stereotypes</p>
+</div><h5 id="methods_getdocmetadata_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>reqOb</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-viewservice-getdocmetadata-page"><p>see ElementService.getElement</p>
+</div></td></tr><tr><td>weight</td><td><a href="" class="label type-hint type-hint-integer">integer</a></td><td><div class="mms-viewservice-getdocmetadata-page"><p>the priority of the request</p>
+</div></td></tr></tbody></table><h5 id="methods_getdocmetadata_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="mms-viewservice-getdocmetadata-page"><p>The promise will be resolved with metadata object
+with name value pairs corresponding to document stereotype</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_getdocumentviews">getDocumentViews(reqOb, weight, update)</h3>
+<div class="getdocumentviews"><div class="mms-viewservice-getdocumentviews-page"><p>Gets the view objects for a document. The references are 
+the same as ones gotten from ElementService.</p>
+</div><h5 id="methods_getdocumentviews_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>reqOb</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-viewservice-getdocumentviews-page"><p>see ElementService.getElement</p>
+</div></td></tr><tr><td>weight</td><td><a href="" class="label type-hint type-hint-integer">integer</a></td><td><div class="mms-viewservice-getdocumentviews-page"><p>the priority of the request</p>
+</div> <p><em>(default: 1)</em></p></td></tr><tr><td>update</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-viewservice-getdocumentviews-page"><p>whether to always get the latest
+from server</p>
+</div> <p><em>(default: false)</em></p></td></tr></tbody></table><h5 id="methods_getdocumentviews_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="mms-viewservice-getdocumentviews-page"><p>The promise will be resolved with array of view objects.</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_getelementreferencetree">getElementReferenceTree(reqOb, contents, weight)</h3>
+<div class="getelementreferencetree"><div class="mms-viewservice-getelementreferencetree-page"><p>gets the presentation element tree as an array of tree nodes
+a tree node is this:
+<pre class="prettyprint linenums">
+        {
+            instanceId: id of the instance,
+            instanceVal: instanceValue object,
+            sectionElements: array of child tree nodes,
+            instanceSpecification: instance specification object of the instance,
+            presentationElement: json of the presentation element or a section instance spec with type = Section
+        }
+</pre>
+</div><h5 id="methods_getelementreferencetree_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>reqOb</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-viewservice-getelementreferencetree-page"><p>see ElementService.getElement</p>
+</div></td></tr><tr><td>contents</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-viewservice-getelementreferencetree-page"><p>an expression object from a view or section</p>
+</div></td></tr><tr><td>weight</td><td><a href="" class="label type-hint type-hint-int">int</a></td><td><div class="mms-viewservice-getelementreferencetree-page"><p>the priority of the request</p>
+</div></td></tr></tbody></table><h5 id="methods_getelementreferencetree_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="mms-viewservice-getelementreferencetree-page"><p>The promise will be resolved with array of tree node objects</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_getpresentationelementspec">getPresentationElementSpec(instanceSpec)</h3>
+<div class="getpresentationelementspec"><div class="mms-viewservice-getpresentationelementspec-page"><p>Parses an instanceSpec of the expression reference tree in the contents
+of a View, and returns the corresponding presentation element json object.</p>
+</div><h5 id="methods_getpresentationelementspec_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>instanceSpec</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-viewservice-getpresentationelementspec-page"><p>instance specification object</p>
+</div></td></tr></tbody></table><h5 id="methods_getpresentationelementspec_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-viewservice-getpresentationelementspec-page"><p>The json object for the corresponding presentation element</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_getprojectdocuments">getProjectDocuments(site, update, workspace, version, weight)</h3>
+<div class="getprojectdocuments"><div class="mms-viewservice-getprojectdocuments-page"><p>Gets all the documents in a site</p>
+</div><h5 id="methods_getprojectdocuments_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>site</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-viewservice-getprojectdocuments-page"><p>Site name</p>
+</div></td></tr><tr><td>update</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-viewservice-getprojectdocuments-page"><p>Update latest</p>
+</div> <p><em>(default: false)</em></p></td></tr><tr><td>workspace</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-viewservice-getprojectdocuments-page"><p>workspace to use</p>
+</div> <p><em>(default: master)</em></p></td></tr><tr><td>version</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-viewservice-getprojectdocuments-page"><p>timestamp</p>
+</div> <p><em>(default: latest)</em></p></td></tr><tr><td>weight</td><td><a href="" class="label type-hint type-hint-int">int</a></td><td><div class="mms-viewservice-getprojectdocuments-page"><p>the priority of the request</p>
+</div></td></tr></tbody></table><h5 id="methods_getprojectdocuments_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="mms-viewservice-getprojectdocuments-page"><p>The promise will be resolved with array of document objects</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_getviewelements">getViewElements(reqOb, weight, update)</h3>
+<div class="getviewelements"><div class="mms-viewservice-getviewelements-page"><p>Gets the element objects for elements allowed in this view. The references are 
+the same as ones gotten from ElementService.</p>
+</div><h5 id="methods_getviewelements_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>reqOb</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-viewservice-getviewelements-page"><p>see description at ElementService.getElement, where elementId is id of the view</p>
+</div></td></tr><tr><td>weight</td><td><a href="" class="label type-hint type-hint-integer">integer</a></td><td><div class="mms-viewservice-getviewelements-page"><p>the priority of the request</p>
+</div></td></tr><tr><td>update</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-viewservice-getviewelements-page"><p>(optional) whether to always get the latest
+from server, even if it&#39;s already in cache (this will update everywhere
+it&#39;s displayed, except for the editables)</p>
+</div> <p><em>(default: false)</em></p></td></tr></tbody></table><h5 id="methods_getviewelements_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="mms-viewservice-getviewelements-page"><p>The promise will be resolved with array of element objects.</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_issection">isSection(instanceSpec)</h3>
+<div class="issection"><div class="mms-viewservice-issection-page"><p>Returns true if the passed InstanceSpecification is a Section</p>
+</div><h5 id="methods_issection_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>instanceSpec</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-viewservice-issection-page"><p>A InstanceSpecification json object</p>
+</div></td></tr></tbody></table><h5 id="methods_issection_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-viewservice-issection-page"><p>whether it&#39;s a section</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_removeelementfromvieworsection">removeElementFromViewOrSection(reqOb, instanceVal)</h3>
+<div class="removeelementfromvieworsection"><div class="mms-viewservice-removeelementfromvieworsection-page"><p>This removes the specified instanceVal from the contents of the View or Section</p>
+</div><h5 id="methods_removeelementfromvieworsection_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>reqOb</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-viewservice-removeelementfromvieworsection-page"><p>see ElementService.getElement for description</p>
+</div></td></tr><tr><td>instanceVal</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-viewservice-removeelementfromvieworsection-page"><p>to remove from the View or Section</p>
+</div></td></tr></tbody></table><h5 id="methods_removeelementfromvieworsection_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="mms-viewservice-removeelementfromvieworsection-page"><p>The promise would be resolved with updated View or Section object</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_removeviewfromparentview">removeViewFromParentView(reqOb)</h3>
+<div class="removeviewfromparentview"><div class="mms-viewservice-removeviewfromparentview-page"><p>This removes the specified view from the parent view</p>
+</div><h5 id="methods_removeviewfromparentview_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>reqOb</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-viewservice-removeviewfromparentview-page"><p>see ElementService.getElement, use viewId and parentViewId</p>
+</div></td></tr></tbody></table><h5 id="methods_removeviewfromparentview_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="mms-viewservice-removeviewfromparentview-page"><p>The promise would be resolved with updated parent View object</p>
+</div></td></tr></table></div>
+</li>
+</ul>
+</div>
+</div>

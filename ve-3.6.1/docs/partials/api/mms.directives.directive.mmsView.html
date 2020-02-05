@@ -1,0 +1,91 @@
+<h1><code ng:non-bindable="">mmsView</code>
+<div><span class="hint">directive in module <code ng:non-bindable="">mms.directives</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="mms-directives-directive-page mms-directives-directive-mmsview-page"><p>Given a view id, renders the view according to the json given by mms.ViewService
+The view has a text edit mode, where transclusions can be clicked. The view&#39;s last
+modified time and author is the latest of any transcluded element modified time.
+For available api methods, see methods section.</p>
+<h4 id="description_example">Example</h4>
+<h5 id="description_example_controller">controller (js)</h5>
+<p> <pre class="prettyprint linenums">
+    angular.module('app', ['mms.directives'])
+    .controller('ViewCtrl', ['$scope', function($scope) {
+        $scope.api = {}; //empty object to be populated by the view directive
+        $scope.handler = function(elementId) {
+            //element with elementId clicked in view
+        };
+        $scope.showComments = function() {
+            $scope.api.setShowComments(true);
+        };
+    }]);
+    </pre>
+<h5 id="description_example_template">template (html)</h5>
+<p> <pre class="prettyprint linenums">
+    &lt;div ng-controller="ViewCtrl"&gt;
+        &lt;button ng-click="showComments()"&gt;Show Comments&lt;/button&gt;
+        &lt;mms-view mms-element-id="view_element_id" mms-project-id="view_project_id" mms-cf-clicked="handler(elementId)" mms-view-api="api"&gt;&lt;/mms-view&gt;
+    &lt;/div&gt;
+    </pre>
+<h4 id="description_example-view-at-a-certain-commit">Example view at a certain commit</h4>
+<p> <pre class="prettyprint linenums">
+    &lt;mms-view mms-element-id="view_element_id" mms-project-id="view_project_id" mms-commit-id="COMMIT_ID_HASH"&gt;&lt;/mms-view&gt;
+    </pre>
+</div></div>
+<h2 id="dependencies">Dependencies</h2>
+<ul class="dependencies"><li><code ng:non-bindable=""><a href="#/api/mms.ViewService">ViewService</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/mms.ElementService">ElementService</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/ng.$templateCache">$templateCache</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/growl">growl</a></code>
+</li>
+</ul>
+<h2 id="usage">Usage</h2>
+<div class="usage">as element:<pre class="prettyprint linenums">&lt;mms-view
+       mms-element-id="{string}"
+       mms-project-id="{string}"
+       mms-ref-id="{string=master}"
+       mms-commit-id="{string=latest}"
+       [mms-cf-clicked="{expression}"]&gt;
+&lt;/mms-view&gt;</pre>
+<h4 id="usage_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>mmsElementId</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsview-page"><p>The id of the view</p>
+</div></td></tr><tr><td>mmsProjectId</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsview-page"><p>The project id for the view</p>
+</div></td></tr><tr><td>mmsRefId</td><td><a href="" class="label type-hint type-hint-string">string=master</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsview-page"><p>Reference to use, defaults to master</p>
+</div></td></tr><tr><td>mmsCommitId</td><td><a href="" class="label type-hint type-hint-string">string=latest</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsview-page"><p>Commit ID, default is latest</p>
+</div></td></tr><tr><td>mmsCfClicked <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-expression">expression</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsview-page"><p>The expression to handle transcluded elements in the
+view being clicked, this should be a function whose argument is &#39;elementId&#39;</p>
+</div></td></tr></tbody></table></div>
+<div class="member method"><h2 id="methods">Methods</h2>
+<ul class="methods"><li><h3 id="methods_addeltaction">addEltAction()</h3>
+<div class="addeltaction"><div class="mms-directives-directive-page mms-directives-directive-mmsview-addeltaction-page"><p>Add specified element at the defined &#39;index&#39;</p>
+</div></div>
+</li>
+<li><h3 id="methods_setshowcomments">setShowComments(mode)</h3>
+<div class="setshowcomments"><div class="mms-directives-directive-page mms-directives-directive-mmsview-setshowcomments-page"><p>self explanatory</p>
+</div><h5 id="methods_setshowcomments_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>mode</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsview-setshowcomments-page"><p>arg</p>
+</div></td></tr></tbody></table></div>
+</li>
+<li><h3 id="methods_setshowelements">setShowElements(mode)</h3>
+<div class="setshowelements"><div class="mms-directives-directive-page mms-directives-directive-mmsview-setshowelements-page"><p>self explanatory</p>
+</div><h5 id="methods_setshowelements_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>mode</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsview-setshowelements-page"><p>arg</p>
+</div></td></tr></tbody></table></div>
+</li>
+<li><h3 id="methods_toggleshowcomments">toggleShowComments()</h3>
+<div class="toggleshowcomments"><div class="mms-directives-directive-page mms-directives-directive-mmsview-toggleshowcomments-page"><p>toggle comments visibility</p>
+</div></div>
+</li>
+<li><h3 id="methods_toggleshowedits">toggleShowEdits()</h3>
+<div class="toggleshowedits"><div class="mms-directives-directive-page mms-directives-directive-mmsview-toggleshowedits-page"><p>toggle elements editing panel</p>
+</div></div>
+</li>
+<li><h3 id="methods_toggleshowelements">toggleShowElements()</h3>
+<div class="toggleshowelements"><div class="mms-directives-directive-page mms-directives-directive-mmsview-toggleshowelements-page"><p>toggle elements highlighting</p>
+</div></div>
+</li>
+</ul>
+</div>
+</div>

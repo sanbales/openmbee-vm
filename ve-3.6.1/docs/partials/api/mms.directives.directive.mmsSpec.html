@@ -1,0 +1,135 @@
+<h1><code ng:non-bindable="">mmsSpec</code>
+<div><span class="hint">directive in module <code ng:non-bindable="">mms.directives</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="mms-directives-directive-page mms-directives-directive-mmsspec-page"><p>Outputs a &quot;spec window&quot; of the element whose id is specified. Spec includes name,
+documentation, and value if the element is a property. Also last modified time,
+last user, element id. Editability is determined by a param and also element
+editability. Documentation and string values can have html and can transclude other
+element properties. Conflict can occur during save based on last server read time
+and offers choice of force save, discard edit or simple merge. To control saving
+or editing pass in an api object that will be populated with methods (see methods seciton):</p>
+<h4 id="description_example-spec-with-full-edit">Example spec with full edit (given permission)</h4>
+<h5 id="description_example-spec-with-full-edit_controller">controller (js)</h5>
+<p> <pre class="prettyprint linenums">
+    angular.module('app', ['mms.directives'])
+    .controller('SpecCtrl', ['$scope', function($scope) {
+        $scope.api = {}; //empty object to be populated by the spec api
+        $scope.edit = function() {
+            $scope.api.setEditing(true);
+        };
+        $scope.save = function() {
+            $scope.api.save()
+            .then(function(e) {
+                //success
+            }, function(reason) {
+                //failed
+            });
+        };
+    }]);
+    </pre>
+<h5 id="description_example-spec-with-full-edit_template">template (html)</h5>
+<p> <pre class="prettyprint linenums">
+    &lt;div ng-controller="SpecCtrl"&gt;
+        &lt;button ng-click="edit()"&gt;Edit&lt;/button&gt;
+        &lt;button ng-click="save()"&gt;Save&lt;/button&gt;
+        &lt;mms-spec mms-eid="element_id" mms-edit-field="all" mms-spec-api="api"&gt;&lt;/mms-spec&gt;
+    &lt;/div&gt;
+    </pre>
+<h4 id="description_example-for-showing-an-element-spec-at-a-certain-time">Example for showing an element spec at a certain time</h4>
+<p> <pre class="prettyprint linenums">
+    &lt;mms-spec mms-eid="element_id" mms-version="2014-07-01T08:57:36.915-0700"&gt;&lt;/mms-spec&gt;
+    </pre>
+<h4 id="description_example-for-showing-a-current-element-with-nothing-editable">Example for showing a current element with nothing editable</h4>
+<p> <pre class="prettyprint linenums">
+    &lt;mms-spec mms-eid="element_id" mms-edit-field="none"&gt;&lt;/mms-spec&gt;
+    </pre>
+</div></div>
+<h2 id="dependencies">Dependencies</h2>
+<ul class="dependencies"><li><code ng:non-bindable=""><a href="#/api/mms.Utils">Utils</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/mms.AuthService">AuthService</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/mms.ElementService">ElementService</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/mms.ViewService">ViewService</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/ng.$compile">$compile</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/ng.$templateCache">$templateCache</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/growl">growl</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/_">_</a></code>
+</li>
+</ul>
+<h2 id="usage">Usage</h2>
+<div class="usage">as element:<pre class="prettyprint linenums">&lt;mms-spec
+       mms-element-id="{string}"
+       mms-project-id="{string}"
+       mms-ref-id="{string=master}"
+       mms-commit-id="{string=latest}"
+       [mms-spec-api="{Object}"]
+       [mms-element="{Object}"]&gt;
+&lt;/mms-spec&gt;</pre>
+<h4 id="usage_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>mmsElementId</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsspec-page"><p>The id of the view</p>
+</div></td></tr><tr><td>mmsProjectId</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsspec-page"><p>The project id for the view</p>
+</div></td></tr><tr><td>mmsRefId</td><td><a href="" class="label type-hint type-hint-string">string=master</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsspec-page"><p>Reference to use, defaults to master</p>
+</div></td></tr><tr><td>mmsCommitId</td><td><a href="" class="label type-hint type-hint-string">string=latest</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsspec-page"><p>Commit ID, default is latest</p>
+</div></td></tr><tr><td>mmsSpecApi <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsspec-page"><p>An empty object that&#39;ll be populated with api methods</p>
+</div></td></tr><tr><td>mmsElement <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsspec-page"><p>An element object, if this is provided, a read only
+element spec for it would be shown, this will not use mms services to get the element</p>
+</div></td></tr></tbody></table></div>
+<div class="member method"><h2 id="methods">Methods</h2>
+<ul class="methods"><li><h3 id="methods_changeelement">changeElement(newVal)</h3>
+<div class="changeelement"><div class="mms-directives-directive-page mms-directives-directive-mmsspec-changeelement-page"><p>change element in the spec, this would reevaluate whether it&#39;s editable</p>
+</div><h5 id="methods_changeelement_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>newVal</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsspec-changeelement-page"><p>new element id</p>
+</div></td></tr></tbody></table></div>
+</li>
+<li><h3 id="methods_getediting">getEditing()</h3>
+<div class="getediting"><div class="mms-directives-directive-page mms-directives-directive-mmsspec-getediting-page"><p>get editing state</p>
+</div><h5 id="methods_getediting_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsspec-getediting-page"><p>editing or not</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_getedits">getEdits()</h3>
+<div class="getedits"><div class="mms-directives-directive-page mms-directives-directive-mmsspec-getedits-page"><p>get current edit object</p>
+</div><h5 id="methods_getedits_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsspec-getedits-page"><p>may be null or undefined, if not, is
+current element object that can be edited (may include changes)</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_hasedits">hasEdits()</h3>
+<div class="hasedits"><div class="mms-directives-directive-page mms-directives-directive-mmsspec-hasedits-page"><p>whether editing object has changes compared to base element,
+currently compares name, doc, property values, if element is not
+editable, returns false</p>
+</div><h5 id="methods_hasedits_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsspec-hasedits-page"><p>has changes or not</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_revertedits">revertEdits()</h3>
+<div class="revertedits"><div class="mms-directives-directive-page mms-directives-directive-mmsspec-revertedits-page"><p>reset editing object back to base element values for name, doc, values</p>
+</div></div>
+</li>
+<li><h3 id="methods_save">save()</h3>
+<div class="save"><div class="mms-directives-directive-page mms-directives-directive-mmsspec-save-page"><p>save edited element</p>
+</div><h5 id="methods_save_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsspec-save-page"><p>promise would be resolved with updated element if save is successful.
+For unsuccessful saves, it will be rejected with an object with type and message.
+Type can be error or info. In case of conflict, there is an option to discard, merge,
+or force save. If the user decides to discord or merge, type will be info even though
+the original save failed. Error means an actual error occured.</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_setediting">setEditing(mode)</h3>
+<div class="setediting"><div class="mms-directives-directive-page mms-directives-directive-mmsspec-setediting-page"><p>sets editing state</p>
+</div><h5 id="methods_setediting_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>mode</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsspec-setediting-page"><p>true or false</p>
+</div></td></tr></tbody></table><h5 id="methods_setediting_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsspec-setediting-page"><p>set successful</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_toggleediting">toggleEditing()</h3>
+<div class="toggleediting"><div class="mms-directives-directive-page mms-directives-directive-mmsspec-toggleediting-page"><p>toggles editing</p>
+</div><h5 id="methods_toggleediting_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsspec-toggleediting-page"><p>toggle successful</p>
+</div></td></tr></table></div>
+</li>
+</ul>
+</div>
+</div>

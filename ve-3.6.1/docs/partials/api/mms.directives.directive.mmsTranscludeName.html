@@ -1,0 +1,41 @@
+<h1><code ng:non-bindable="">mmsTranscludeName</code>
+<div><span class="hint">directive in module <code ng:non-bindable="">mms.directives</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="mms-directives-directive-page mms-directives-directive-mmstranscludename-page"><p>Given an element id, puts in the element&#39;s name binding, if there&#39;s a parent 
+mmsView directive, will notify parent view of transclusion on init and name change,
+and on click</p>
+</div></div>
+<h2 id="dependencies">Dependencies</h2>
+<ul class="dependencies"><li><code ng:non-bindable=""><a href="#/api/mms.ElementService">ElementService</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/mms.UxService">UxService</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/mms.Utils">Utils</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/ng.$compile">$compile</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/ng.$templateCache">$templateCache</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/growl">growl</a></code>
+</li>
+</ul>
+<h2 id="usage">Usage</h2>
+<div class="usage">as element:<pre class="prettyprint linenums">&lt;mms-transclude-name
+       mms-element-id="{string}"
+       mms-project-id="{string}"
+       mms-ref-id="{string=master}"
+       mms-commit-id="{string=latest}"
+       mms-watch-id="{bool}"
+       non-editable="{boolean=false}"&gt;
+&lt;/mms-transclude-name&gt;</pre>
+<h4 id="usage_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>mmsElementId</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmstranscludename-page"><p>The id of the view</p>
+</div></td></tr><tr><td>mmsProjectId</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmstranscludename-page"><p>The project id for the view</p>
+</div></td></tr><tr><td>mmsRefId</td><td><a href="" class="label type-hint type-hint-string">string=master</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmstranscludename-page"><p>Reference to use, defaults to master</p>
+</div></td></tr><tr><td>mmsCommitId</td><td><a href="" class="label type-hint type-hint-string">string=latest</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmstranscludename-page"><p>Commit ID, default is latest</p>
+</div></td></tr><tr><td>mmsWatchId</td><td><a href="" class="label type-hint type-hint-bool">bool</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmstranscludename-page"><p>set to true to not destroy element ID watcher</p>
+</div></td></tr><tr><td>nonEditable</td><td><a href="" class="label type-hint type-hint-boolean">boolean=false</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmstranscludename-page"><p>can edit inline or not</p>
+</div></td></tr></tbody></table></div>
+</div>

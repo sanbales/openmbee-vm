@@ -1,0 +1,243 @@
+<h1><code ng:non-bindable="">UtilsService</code>
+<div><span class="hint">service in module <code ng:non-bindable="">mms</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="mms-utilsservice-page"><p>Utilities</p>
+</div></div>
+<h2 id="dependencies">Dependencies</h2>
+<ul class="dependencies"><li><code ng:non-bindable=""><a href="#/api/ng.$q">$q</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/ng.$http">$http</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/CacheService">CacheService</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/URLService">URLService</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/ApplicationService">ApplicationService</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/_">_</a></code>
+</li>
+</ul>
+<div class="member method"><h2 id="methods">Methods</h2>
+<ul class="methods"><li><h3 id="methods_buildtreehierarchy">buildTreeHierarchy(array, id, type, parent, level2_Func)</h3>
+<div class="buildtreehierarchy"><div class="mms-utilsservice-buildtreehierarchy-page"><p>builds hierarchy of tree branch objects</p>
+</div><h5 id="methods_buildtreehierarchy_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>array</td><td><a href="" class="label type-hint type-hint-array">array</a></td><td><div class="mms-utilsservice-buildtreehierarchy-page"><p>array of objects</p>
+</div></td></tr><tr><td>id</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-buildtreehierarchy-page"><p>key of id field</p>
+</div></td></tr><tr><td>type</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-buildtreehierarchy-page"><p>type of object</p>
+</div></td></tr><tr><td>parent</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-utilsservice-buildtreehierarchy-page"><p>key of parent field</p>
+</div></td></tr><tr><td>level2_Func</td><td><a href="" class="label type-hint type-hint-callback">callback</a></td><td><div class="mms-utilsservice-buildtreehierarchy-page"><p>function to get childen objects</p>
+</div></td></tr></tbody></table><h5 id="methods_buildtreehierarchy_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-void">void</a></td><td><div class="mms-utilsservice-buildtreehierarchy-page"><p>root node</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_cleanelement">cleanElement(elem, forEdit)</h3>
+<div class="cleanelement"><div class="mms-utilsservice-cleanelement-page"><p>Cleans </p>
+</div><h5 id="methods_cleanelement_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>elem</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-utilsservice-cleanelement-page"><p>the element object to be cleaned</p>
+</div></td></tr><tr><td>forEdit</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-utilsservice-cleanelement-page"><p>(optional) forEdit.</p>
+</div> <p><em>(default: false)</em></p></td></tr></tbody></table><h5 id="methods_cleanelement_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-utilsservice-cleanelement-page"><p>clean elem</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_cleanvaluespec">cleanValueSpec(vs)</h3>
+<div class="cleanvaluespec"><div class="mms-utilsservice-cleanvaluespec-page"><p>Cleans value specification</p>
+</div><h5 id="methods_cleanvaluespec_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>vs</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-utilsservice-cleanvaluespec-page"><p>value spec object</p>
+</div></td></tr></tbody></table><h5 id="methods_cleanvaluespec_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-void">void</a></td><td><div class="mms-utilsservice-cleanvaluespec-page"><p>nothing</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_convertviewlinks">convertViewLinks(printElement)</h3>
+<div class="convertviewlinks"><div class="mms-utilsservice-convertviewlinks-page"><p>Link the element to the document/view in VE (add an anchor tag)</p>
+</div><h5 id="methods_convertviewlinks_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>printElement</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-convertviewlinks-page"><p>the content of the view/document currently selected on the center pane</p>
+</div></td></tr></tbody></table><h5 id="methods_convertviewlinks_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-void">void</a></td><td><div class="mms-utilsservice-convertviewlinks-page"><p>nothing</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_createclasselement">createClassElement()</h3>
+<div class="createclasselement"><div class="mms-utilsservice-createclasselement-page"><p>returns a class json object with all emf fields set to default, with
+fields from passed in object substituted</p>
+</div></div>
+</li>
+<li><h3 id="methods_createmmsid">createMmsId()</h3>
+<div class="createmmsid"><div class="mms-utilsservice-createmmsid-page"><p>Generate unique SysML element ID</p>
+</div><h5 id="methods_createmmsid_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-createmmsid-page"><p>unique SysML element ID</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_exporthtmlas">exportHtmlAs(exportType, data)</h3>
+<div class="exporthtmlas"><div class="mms-utilsservice-exporthtmlas-page"><p>Converts HTML to PDF</p>
+</div><h5 id="methods_exporthtmlas_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>exportType</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-exporthtmlas-page"><p>The export type (3 for pdf | 2 for word)</p>
+</div></td></tr><tr><td>data</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-utilsservice-exporthtmlas-page"><p>contains htmlString, name, projectId, refId</p>
+</div></td></tr></tbody></table><h5 id="methods_exporthtmlas_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="mms-utilsservice-exporthtmlas-page"><p>Promise would be resolved with &#39;ok&#39;, the server will send an email to user when done</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_filterproperties">filterProperties(a, b)</h3>
+<div class="filterproperties"><div class="mms-utilsservice-filterproperties-page"><p>given element object a and element object b,
+returns new object with b data minus keys not in a 
+(set notation A intersect B)</p>
+</div><h5 id="methods_filterproperties_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>a</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-utilsservice-filterproperties-page"><p>Element Object</p>
+</div></td></tr><tr><td>b</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-utilsservice-filterproperties-page"><p>Element Object</p>
+</div></td></tr></tbody></table><h5 id="methods_filterproperties_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-utilsservice-filterproperties-page"><p>new object</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_generateanchorid">generateAnchorId(prefix)</h3>
+<div class="generateanchorid"><div class="mms-utilsservice-generateanchorid-page"><p>Generates a unique ID to be used in TOC anchor tags (e.g. <a name='tbl_xxxxx...x'>, <a href='#tbl_xxxxx...x'>)</p>
+</div><h5 id="methods_generateanchorid_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>prefix</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-generateanchorid-page"><p>&quot;tbl_&quot; when creating an id for a table, &quot;fig_&quot; when creating an id for a figuer</p>
+</div></td></tr></tbody></table><h5 id="methods_generateanchorid_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-generateanchorid-page"><p>unique ID wit prefix, tbl_ or fig_</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_generatetochtmloption">generateTOCHtmlOption(ob, tree, printElement)</h3>
+<div class="generatetochtmloption"><div class="mms-utilsservice-generatetochtmloption-page"><p>Generates a list of tables, figures, and equations. It also appends the captions to the figures and tables.</p>
+</div><h5 id="methods_generatetochtmloption_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>ob</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-generatetochtmloption-page"><p>an object that stores the html list of tables, figures, and equations as well as the counts of those</p>
+</div></td></tr><tr><td>tree</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-generatetochtmloption-page"><p>the tree hierarchy of the document or view (what is displayed in the left pane)</p>
+</div></td></tr><tr><td>printElement</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-generatetochtmloption-page"><p>contents to be printed (what is displayed in the center pane)</p>
+</div></td></tr></tbody></table><h5 id="methods_generatetochtmloption_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-generatetochtmloption-page"><p>populates the object fed to the function (the first argument) and return</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_getprintcss">getPrintCss(htmlFlag, landscape, meta)</h3>
+<div class="getprintcss"><div class="mms-utilsservice-getprintcss-page"><p>Typeset HTML to PDF (resource: <a href="https://www.princexml.com/">https://www.princexml.com/</a>)</p>
+</div><h5 id="methods_getprintcss_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>htmlFlag</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-getprintcss-page"><p>user input taken from the printConfirm modal: whether to include docGen generated tables and rapid tables, outside of the corresponding PE or not(&lt;-- this comment needs to be approved by Shakeh)</p>
+</div></td></tr><tr><td>landscape</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-getprintcss-page"><p>user input taken from the printConfirm modal</p>
+</div></td></tr><tr><td>meta</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-getprintcss-page"><p>metadata about document/view {
+&#39;top-left&#39;: &#39;loading...&#39;, top: &#39;loading...&#39;, &#39;top-right&#39;: &#39;loading...&#39;,
+&#39;bottom-left&#39;: &#39;loading...&#39;, bottom: &#39;loading...&#39;, &#39;bottom-right&#39;: &#39;loading...&#39;
+};</p>
+</div></td></tr></tbody></table><h5 id="methods_getprintcss_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-getprintcss-page"><p>document/view content string to be passed to the server for conversion</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_hascircularreference">hasCircularReference(scope, curId, curType)</h3>
+<div class="hascircularreference"><div class="mms-utilsservice-hascircularreference-page"><p>Tells whether or not there exists a circular reference</p>
+</div><h5 id="methods_hascircularreference_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>scope</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-utilsservice-hascircularreference-page"><p>scope</p>
+</div></td></tr><tr><td>curId</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-hascircularreference-page"><p>current id</p>
+</div></td></tr><tr><td>curType</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-hascircularreference-page"><p>current type</p>
+</div></td></tr></tbody></table><h5 id="methods_hascircularreference_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-utilsservice-hascircularreference-page"><p>true or false</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_hasconflict">hasConflict(edit, orig, server)</h3>
+<div class="hasconflict"><div class="mms-utilsservice-hasconflict-page"><p>Checks if sever and cache version of the element are
+the same so that the user is aware that they are overriding 
+changes to the element that they have not seen in the cache element.
+Given edit object with only keys that were edited,
+&#39;orig&#39; object and &#39;server&#39; object, should only return true 
+if key is in edit object and value in orig object is different 
+from value in server object. </p>
+</div><h5 id="methods_hasconflict_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>edit</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-utilsservice-hasconflict-page"><p>An object that contains element id and any property changes to be saved.</p>
+</div></td></tr><tr><td>orig</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-utilsservice-hasconflict-page"><p>version of elem object in cache.</p>
+</div></td></tr><tr><td>server</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-utilsservice-hasconflict-page"><p>version of elem object from server.</p>
+</div></td></tr></tbody></table><h5 id="methods_hasconflict_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-boolean">Boolean</a></td><td><div class="mms-utilsservice-hasconflict-page"><p>true if conflict, false if not</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_isdocument">isDocument(e)</h3>
+<div class="isdocument"><div class="mms-utilsservice-isdocument-page"><p>Evaluates if an given element is a document or not</p>
+</div><h5 id="methods_isdocument_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>e</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-utilsservice-isdocument-page"><p>element</p>
+</div></td></tr></tbody></table><h5 id="methods_isdocument_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-utilsservice-isdocument-page"><p>boolean</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_isrequirement">isRequirement(e)</h3>
+<div class="isrequirement"><div class="mms-utilsservice-isrequirement-page"><p>Evaluates if an given element is a requirement from list given above: REQUIREMENT_SID</p>
+</div><h5 id="methods_isrequirement_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>e</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-utilsservice-isrequirement-page"><p>element</p>
+</div></td></tr></tbody></table><h5 id="methods_isrequirement_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-utilsservice-isrequirement-page"><p>boolean</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_isrestrictedvalue">isRestrictedValue(table)</h3>
+<div class="isrestrictedvalue"><div class="mms-utilsservice-isrestrictedvalue-page"><p>deprecated</p>
+</div><h5 id="methods_isrestrictedvalue_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>table</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-isrestrictedvalue-page"><p>table content</p>
+</div></td></tr></tbody></table><h5 id="methods_isrestrictedvalue_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-utilsservice-isrestrictedvalue-page"><p>boolean</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_isview">isView(e)</h3>
+<div class="isview"><div class="mms-utilsservice-isview-page"><p>Evaluates if an given element is a view or not</p>
+</div><h5 id="methods_isview_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>e</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-utilsservice-isview-page"><p>element</p>
+</div></td></tr></tbody></table><h5 id="methods_isview_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-utilsservice-isview-page"><p>boolean</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_makeartifactkey">makeArtifactKey(elementOb, edited)</h3>
+<div class="makeartifactkey"><div class="mms-utilsservice-makeartifactkey-page"><p>Make key for element for use in CacheService</p>
+</div><h5 id="methods_makeartifactkey_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>elementOb</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-makeartifactkey-page"><p>element object</p>
+</div></td></tr><tr><td>edited</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-utilsservice-makeartifactkey-page"><p>element is to be edited</p>
+</div> <p><em>(default: false)</em></p></td></tr></tbody></table><h5 id="methods_makeartifactkey_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-array">Array</a></td><td><div class="mms-utilsservice-makeartifactkey-page"><p>key to be used in CacheService</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_makeelementkey">makeElementKey(elementOb, edited)</h3>
+<div class="makeelementkey"><div class="mms-utilsservice-makeelementkey-page"><p>Make key for element for use in CacheService</p>
+</div><h5 id="methods_makeelementkey_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>elementOb</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-makeelementkey-page"><p>element object</p>
+</div></td></tr><tr><td>edited</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-utilsservice-makeelementkey-page"><p>element is to be edited</p>
+</div> <p><em>(default: false)</em></p></td></tr></tbody></table><h5 id="methods_makeelementkey_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-array">Array</a></td><td><div class="mms-utilsservice-makeelementkey-page"><p>key to be used in CacheService</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_makehtmllist">makeHtmlList(list)</h3>
+<div class="makehtmllist"><div class="mms-utilsservice-makehtmllist-page"><p>make html list string based on list spec object</p>
+</div><h5 id="methods_makehtmllist_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>list</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-utilsservice-makehtmllist-page"><p>list specification object</p>
+</div></td></tr></tbody></table><h5 id="methods_makehtmllist_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-makehtmllist-page"><p>generated html string</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_makehtmlpara">makeHtmlPara(para)</h3>
+<div class="makehtmlpara"><div class="mms-utilsservice-makehtmlpara-page"><p>make html para string based on para spec object</p>
+</div><h5 id="methods_makehtmlpara_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>para</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-utilsservice-makehtmlpara-page"><p>paragraph spec object</p>
+</div></td></tr></tbody></table><h5 id="methods_makehtmlpara_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-makehtmlpara-page"><p>generated html string</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_makehtmltocchild">makeHtmlTOCChild(child, skip)</h3>
+<div class="makehtmltocchild"><div class="mms-utilsservice-makehtmltocchild-page"><p>Generates table of contents for the document/views.</p>
+</div><h5 id="methods_makehtmltocchild_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>child</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-makehtmltocchild-page"><p>the view to be referenced in the table of content</p>
+</div></td></tr><tr><td>skip</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-utilsservice-makehtmltocchild-page"><p>skip adding li for this branch</p>
+</div></td></tr></tbody></table><h5 id="methods_makehtmltocchild_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-makehtmltocchild-page"><p>toc string</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_makehtmltocchild">makeHtmlTOCChild(tree)</h3>
+<div class="makehtmltocchild"><div class="mms-utilsservice-makehtmltocchild-page"><p>Generates table of contents for the document/views.</p>
+</div><h5 id="methods_makehtmltocchild_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>tree</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-makehtmltocchild-page"><p>the root element (document or view)</p>
+</div></td></tr></tbody></table><h5 id="methods_makehtmltocchild_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-makehtmltocchild-page"><p>toc string</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_makehtmltable">makeHtmlTable(table, isFilterable, isSortable)</h3>
+<div class="makehtmltable"><div class="mms-utilsservice-makehtmltable-page"><p>make html table based on table spec object</p>
+</div><h5 id="methods_makehtmltable_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>table</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-utilsservice-makehtmltable-page"><p>table content</p>
+</div></td></tr><tr><td>isFilterable</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-utilsservice-makehtmltable-page"><p>table content</p>
+</div></td></tr><tr><td>isSortable</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-utilsservice-makehtmltable-page"><p>table content</p>
+</div></td></tr></tbody></table><h5 id="methods_makehtmltable_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-makehtmltable-page"><p>generated html string</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_maketablebody">makeTableBody(body, isHeader, isFilterable, isSortable)</h3>
+<div class="maketablebody"><div class="mms-utilsservice-maketablebody-page"><p>make html table body based on body spec object</p>
+</div><h5 id="methods_maketablebody_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>body</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-utilsservice-maketablebody-page"><p>body content</p>
+</div></td></tr><tr><td>isHeader</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-utilsservice-maketablebody-page"><p>is header</p>
+</div></td></tr><tr><td>isFilterable</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-utilsservice-maketablebody-page"><p>is filterable</p>
+</div></td></tr><tr><td>isSortable</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-utilsservice-maketablebody-page"><p>is sortable</p>
+</div></td></tr></tbody></table><h5 id="methods_maketablebody_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-maketablebody-page"><p>generated html string</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_maketablesandfigurestoc">makeTablesAndFiguresTOC(tree, printElement, live, html)</h3>
+<div class="maketablesandfigurestoc"><div class="mms-utilsservice-maketablesandfigurestoc-page"><p>Generates a list of tables, figures, and equations. Default uses presentation elements.
+<code>html</code> param provides option to use html content to generate list. It also appends the
+captions to the figures and tables.</p>
+</div><h5 id="methods_maketablesandfigurestoc_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>tree</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-maketablesandfigurestoc-page"><p>the document/view to be printed (what is on the left pane)</p>
+</div></td></tr><tr><td>printElement</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-maketablesandfigurestoc-page"><p>contents to be printed (what is displayed in the center pane)</p>
+</div></td></tr><tr><td>live</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-utilsservice-maketablesandfigurestoc-page"><p>true only if a specific sorting is required</p>
+</div></td></tr><tr><td>html</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-utilsservice-maketablesandfigurestoc-page"><p>whether to generated list of tables and figures using html content, outside of the corresponding PE or not</p>
+</div></td></tr></tbody></table><h5 id="methods_maketablesandfigurestoc_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-utilsservice-maketablesandfigurestoc-page"><p>results</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_maketablesandfigurestocchild">makeTablesAndFiguresTOCChild(child, printElement, ob, live, showRefName)</h3>
+<div class="maketablesandfigurestocchild"><div class="mms-utilsservice-maketablesandfigurestocchild-page"><p>Generates a list of tables, figures, and equations of the none root node of he tree (containment tree on the left pane). It also appends the captions to the figures and tables.</p>
+</div><h5 id="methods_maketablesandfigurestocchild_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>child</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-maketablesandfigurestocchild-page"><p>presentation element</p>
+</div></td></tr><tr><td>printElement</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-maketablesandfigurestocchild-page"><p>contents to be printed (what is displayed in the center pane)</p>
+</div></td></tr><tr><td>ob</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-utilsservice-maketablesandfigurestocchild-page"><p>an object that stores the html list of tables, figures, and equations as well as the counts of those</p>
+</div></td></tr><tr><td>live</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-utilsservice-maketablesandfigurestocchild-page"><p>true when user would like to preview numbering in the app</p>
+</div></td></tr><tr><td>showRefName</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-utilsservice-maketablesandfigurestocchild-page"><p>the tree hierarchy of the document or view (what is displayed in the left pane)</p>
+</div></td></tr></tbody></table><h5 id="methods_maketablesandfigurestocchild_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-void">void</a></td><td><div class="mms-utilsservice-maketablesandfigurestocchild-page"><p>nothing</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_mergeelement">mergeElement(source, updateEdit)</h3>
+<div class="mergeelement"><div class="mms-utilsservice-mergeelement-page"><p>Make key for element for use in CacheService</p>
+</div><h5 id="methods_mergeelement_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>source</td><td><a href="" class="label type-hint type-hint-object">object</a></td><td><div class="mms-utilsservice-mergeelement-page"><p>the element object to merge in</p>
+</div></td></tr><tr><td>updateEdit</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="mms-utilsservice-mergeelement-page"><p>updateEdit</p>
+</div> <p><em>(default: false)</em></p></td></tr></tbody></table><h5 id="methods_mergeelement_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-void">void</a></td><td><div class="mms-utilsservice-mergeelement-page"><p>nothing</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_normalize">normalize(ob)</h3>
+<div class="normalize"><div class="mms-utilsservice-normalize-page"><p>Normalize common arguments</p>
+</div><h5 id="methods_normalize_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>ob</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-utilsservice-normalize-page"><p>Object with update, workspace, version keys</p>
+</div></td></tr></tbody></table><h5 id="methods_normalize_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-utilsservice-normalize-page"><p>object with update, ws, ver keys based on the input.
+default values: {update: false, ws: &#39;master&#39;, ver: &#39;latest&#39;}</p>
+</div></td></tr></table></div>
+</li>
+</ul>
+</div>
+</div>

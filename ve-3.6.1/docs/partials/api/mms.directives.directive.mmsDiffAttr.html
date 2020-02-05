@@ -1,0 +1,43 @@
+<h1><code ng:non-bindable="">mmsDiffAttr</code>
+<div><span class="hint">directive in module <code ng:non-bindable="">mms.directives</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="mms-directives-directive-page mms-directives-directive-mmsdiffattr-page"><p>Compares a element at two different refs/commits and generates a pretty diff.</p>
+<h4 id="description_example">Example</h4>
+<p>&lt;mms-diff-attr mms-base-element-id=&quot;&quot; mms-attr=&quot;name|doc|val&quot;
+(mms-base-project-id=&quot;&quot; mms-base-ref-id=&quot;&quot; mms-compare-ref-id=&quot;&quot;
+mms-base-commit-id=&quot;&quot; mms-compare-commit-id=&quot;&quot;)&gt;</mms-diff-attr></p>
+</div></div>
+<h2 id="dependencies">Dependencies</h2>
+<ul class="dependencies"><li><code ng:non-bindable=""><a href="#/api/mms.ElementService">ElementService</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/ng.$compile">$compile</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/ng.$rootScope">$rootScope</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/ng.$interval">$interval</a></code>
+</li>
+</ul>
+<h2 id="usage">Usage</h2>
+<div class="usage">as element:<pre class="prettyprint linenums">&lt;mms-diff-attr
+       mms-attr="{string}"
+       mms-base-element-id="{string}"
+       mms-base-project-id="{string}"
+       mms-compare-project-id="{string}"
+       mms-base-ref-id="{string=master}"
+       mms-compare-ref-id="{string=master}"
+       mms-base-commit-id="{string=latest}"
+       mms-compare-commit-id="{string=latest}"&gt;
+&lt;/mms-diff-attr&gt;</pre>
+<h4 id="usage_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>mmsAttr</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsdiffattr-page"><p>Attribute to use -  ie <code>name</code>, <code>doc</code> or <code>value</code></p>
+</div></td></tr><tr><td>mmsBaseElementId</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsdiffattr-page"><p>The id of the element to do comparison of</p>
+</div></td></tr><tr><td>mmsBaseProjectId</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsdiffattr-page"><p>Base project ID for original/base element</p>
+</div></td></tr><tr><td>mmsCompareProjectId</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsdiffattr-page"><p>Compare project ID for compare element</p>
+</div></td></tr><tr><td>mmsBaseRefId</td><td><a href="" class="label type-hint type-hint-string">string=master</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsdiffattr-page"><p>Base ref ID or master, defaults to current ref or master</p>
+</div></td></tr><tr><td>mmsCompareRefId</td><td><a href="" class="label type-hint type-hint-string">string=master</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsdiffattr-page"><p>Compare ref ID or master, defaults to base ref ID</p>
+</div></td></tr><tr><td>mmsBaseCommitId</td><td><a href="" class="label type-hint type-hint-string">string=latest</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsdiffattr-page"><p>Base commit id, default is latest</p>
+</div></td></tr><tr><td>mmsCompareCommitId</td><td><a href="" class="label type-hint type-hint-string">string=latest</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmsdiffattr-page"><p>Compare commit id, default is latest</p>
+</div></td></tr></tbody></table></div>
+</div>

@@ -1,0 +1,172 @@
+<h1><code ng:non-bindable="">mmsTree</code>
+<div><span class="hint">directive in module <code ng:non-bindable="">mms.directives</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="mms-directives-directive-page mms-directives-directive-mmstree-page"><p>Outputs a tree with customizable icons for different types of nodes and callback
+for node branch clicked. Includes api, see methods section. (the name display is
+angular data binded)
+Object for tree model require (can have multiple roots):
+ <pre class="prettyprint linenums">
+    [
+        {
+            label: 'root node name',
+            type: 'a type',
+            data: {name: 'name will be shown', ...},
+            children: [{...}]
+        },
+        {
+            label: 'another root node',
+            type: 'another type',
+            data: {name: 'another name', ...},
+            children: [{...}]
+        }
+    ]
+    </pre>
+Tree options:
+ <pre class="prettyprint linenums">
+    {
+        types: {
+            'a type': 'fa fa-file-o',
+            'another type': 'fa fa-file'
+        }
+    }
+    </pre>
+<h4 id="description_example">Example</h4>
+<h5 id="description_example_controller">controller (js)</h5>
+<p> <pre class="prettyprint linenums">
+    angular.module('app', ['mms.directives'])
+    .controller('TreeCtrl', ['$scope', function($scope) {
+        $scope.api = {}; //empty object to be populated by the spec api
+        $scope.handler = function(branch) {
+            //branch selected
+        };
+        $scope.treeData = [
+            {
+                label: 'Root',
+                type: 'Package',
+                data: {
+                    name: 'Root',
+                    sysmlId: 'id',
+                    //any other stuff
+                },
+                children: [
+                    {
+                        label: 'Child',
+                        type: 'Class',
+                        data: {
+                            name: 'Child',
+                            sysmlId: 'blah',
+                            //other stuff
+                        },
+                        children: []
+                    }
+                ]
+            }
+        ];
+        $scope.options = {
+            types: {
+                'Package': 'fa fa-folder',
+                'Class': 'fa fa-bomb'
+            }
+        };
+    }]);
+    </pre>
+<h5 id="description_example_template">template (html)</h5>
+<p> <pre class="prettyprint linenums">
+    &lt;div ng-controller="TreeCtrl"&gt;
+        &lt;mms-tree tree-data="treeData" on-select="handler(branch)" options="options" tree-control="api"&gt;&lt;/mms-tree&gt;
+    &lt;/div&gt;
+    </pre>
+</div></div>
+<h2 id="dependencies">Dependencies</h2>
+<ul class="dependencies"><li><code ng:non-bindable=""><a href="#/api/ng.$timeout">$timeout</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="#/api/ng.$templateCache">$templateCache</a></code>
+</li>
+</ul>
+<h2 id="usage">Usage</h2>
+<div class="usage">as element:<pre class="prettyprint linenums">&lt;mms-tree
+       tree-data="{Array}"
+       [tree-control="{Object}"]
+       [options="{Object}"]
+       icon-expand="{string='fa fa-caret-right'}"
+       icon-collapse="{string='fa fa-caret-down'}"
+       icon-default="{string='fa fa-file'}"&gt;
+&lt;/mms-tree&gt;</pre>
+<h4 id="usage_parameters">Parameters</h4><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>treeData</td><td><a href="" class="label type-hint type-hint-array">Array</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmstree-page"><p>Array of root nodes</p>
+</div></td></tr><tr><td>treeControl <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmstree-page"><p>Empty object to populate with api</p>
+</div></td></tr><tr><td>options <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmstree-page"><p>Options object to customize icons for types and statuses</p>
+</div></td></tr><tr><td>iconExpand</td><td><a href="" class="label type-hint type-hint-string">string='fa fa-caret-right'</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmstree-page"><p>icon to use when branch is collapsed</p>
+</div></td></tr><tr><td>iconCollapse</td><td><a href="" class="label type-hint type-hint-string">string='fa fa-caret-down'</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmstree-page"><p>icon to use when branch is expanded</p>
+</div></td></tr><tr><td>iconDefault</td><td><a href="" class="label type-hint type-hint-string">string='fa fa-file'</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmstree-page"><p>default icon to use for nodes</p>
+</div></td></tr></tbody></table></div>
+<div class="member method"><h2 id="methods">Methods</h2>
+<ul class="methods"><li><h3 id="methods_add_branch">add_branch(parent, new_branch)</h3>
+<div class="add_branch"><div class="mms-directives-directive-page mms-directives-directive-mmstree-add-branch-page"><p>self explanatory</p>
+</div><h5 id="methods_add_branch_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>parent</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmstree-add-branch-page"><p>parent branch or null</p>
+</div></td></tr><tr><td>new_branch</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmstree-add-branch-page"><p>branch to add to parent or root</p>
+</div></td></tr></tbody></table></div>
+</li>
+<li><h3 id="methods_collapse_all">collapse_all()</h3>
+<div class="collapse_all"><div class="mms-directives-directive-page mms-directives-directive-mmstree-collapse-all-page"><p>self explanatory</p>
+</div></div>
+</li>
+<li><h3 id="methods_collapse_branch">collapse_branch(branch)</h3>
+<div class="collapse_branch"><div class="mms-directives-directive-page mms-directives-directive-mmstree-collapse-branch-page"><p>self explanatory</p>
+</div><h5 id="methods_collapse_branch_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>branch</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmstree-collapse-branch-page"><p>branch to collapse</p>
+</div></td></tr></tbody></table></div>
+</li>
+<li><h3 id="methods_expand_all">expand_all()</h3>
+<div class="expand_all"><div class="mms-directives-directive-page mms-directives-directive-mmstree-expand-all-page"><p>self explanatory</p>
+</div></div>
+</li>
+<li><h3 id="methods_expand_branch">expand_branch(branch)</h3>
+<div class="expand_branch"><div class="mms-directives-directive-page mms-directives-directive-mmstree-expand-branch-page"><p>self explanatory</p>
+</div><h5 id="methods_expand_branch_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>branch</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmstree-expand-branch-page"><p>branch to expand</p>
+</div></td></tr></tbody></table></div>
+</li>
+<li><h3 id="methods_get_branch">get_branch()</h3>
+<div class="get_branch"><div class="mms-directives-directive-page mms-directives-directive-mmstree-get-branch-page"><p>Returns the branch with the specified data</p>
+</div></div>
+</li>
+<li><h3 id="methods_get_next_branch">get_next_branch(branch)</h3>
+<div class="get_next_branch"><div class="mms-directives-directive-page mms-directives-directive-mmstree-get-next-branch-page"><p>self explanatory</p>
+</div><h5 id="methods_get_next_branch_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>branch</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmstree-get-next-branch-page"><p>current branch</p>
+</div></td></tr></tbody></table><h5 id="methods_get_next_branch_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmstree-get-next-branch-page"><p>next branch</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_get_prev_branch">get_prev_branch(branch)</h3>
+<div class="get_prev_branch"><div class="mms-directives-directive-page mms-directives-directive-mmstree-get-prev-branch-page"><p>self explanatory</p>
+</div><h5 id="methods_get_prev_branch_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>branch</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmstree-get-prev-branch-page"><p>current branch</p>
+</div></td></tr></tbody></table><h5 id="methods_get_prev_branch_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmstree-get-prev-branch-page"><p>previous branch</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_get_selected_branch">get_selected_branch()</h3>
+<div class="get_selected_branch"><div class="mms-directives-directive-page mms-directives-directive-mmstree-get-selected-branch-page"><p>self explanatory</p>
+</div><h5 id="methods_get_selected_branch_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmstree-get-selected-branch-page"><p>current selected branch</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_refresh">refresh()</h3>
+<div class="refresh"><div class="mms-directives-directive-page mms-directives-directive-mmstree-refresh-page"><p>rerender the tree when data or options change</p>
+</div></div>
+</li>
+<li><h3 id="methods_select_branch">select_branch(branch)</h3>
+<div class="select_branch"><div class="mms-directives-directive-page mms-directives-directive-mmstree-select-branch-page"><p>self explanatory</p>
+</div><h5 id="methods_select_branch_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>branch</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmstree-select-branch-page"><p>branch to select</p>
+</div></td></tr></tbody></table></div>
+</li>
+<li><h3 id="methods_select_next_branch">select_next_branch(branch)</h3>
+<div class="select_next_branch"><div class="mms-directives-directive-page mms-directives-directive-mmstree-select-next-branch-page"><p>self explanatory</p>
+</div><h5 id="methods_select_next_branch_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>branch</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmstree-select-next-branch-page"><p>current branch</p>
+</div></td></tr></tbody></table></div>
+</li>
+<li><h3 id="methods_select_prev_branch">select_prev_branch(branch)</h3>
+<div class="select_prev_branch"><div class="mms-directives-directive-page mms-directives-directive-mmstree-select-prev-branch-page"><p>self explanatory</p>
+</div><h5 id="methods_select_prev_branch_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>branch</td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="mms-directives-directive-page mms-directives-directive-mmstree-select-prev-branch-page"><p>current branch</p>
+</div></td></tr></tbody></table></div>
+</li>
+</ul>
+</div>
+</div>
