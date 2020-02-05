@@ -26,7 +26,8 @@ enter() {
 }
 
 setup() {
-    echo ">>> Starting containerized services"
+    latest_mms_version=$(curl -s https://registry.hub.docker.com/v2/repositories/openmbee/mms/tags | python -c "import sys,json; print(json.load(sys.stdin)['results'][1]['name'])")
+    echo ">>> Starting containerized services.  Installing latest MMS version: ${latest_mms_version}"
     ${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml --project-directory /vagrant up -d
 
     echo ">>> Initializing the database service (PostgreSQL)"
@@ -39,7 +40,7 @@ setup() {
     #transfer the corrected files to the docker tomcat directories:
     #the .properties files change Alfresco to use the HTTP protocol instead of the HTTPS (the default); the tomcat-users files creates necessary admin user
     #after files are written, restart openmbee-mms container for changes to take effect
-    echo ">>> copying correct config files to vagrant vm..."
+    echo ">>> copying correct MMS and Tomcat config files to vagrant vm..."
     docker cp /vagrant/alfresco-global.properties openmbee-mms:/usr/local/tomcat/shared/classes/alfresco-global.properties
     docker cp /vagrant/mms.properties openmbee-mms:/usr/local/tomcat/shared/classes/mms.properties
     docker cp /vagrant/tomcat-users.xml openmbee-mms:/usr/local/tomcat/conf/tomcat-users.xml
@@ -58,9 +59,9 @@ setup() {
     mv dist ve\#\#${latest_ve_version}
 
     echo "  > Extracting and copying View Editor files over..."
-    docker cp ve\#\#${latest_ve_version} dist/ openmbee-mms:/usr/local/tomcat/webapps/
+    docker cp ve\#\#${latest_ve_version} openmbee-mms:/usr/local/tomcat/webapps/
     docker exec -i openmbee-mms sh -c "mkdir /usr/local/tomcat/webapps/ve##${latest_ve_version}/WEB-INF" 
-    docker exec -i openmbee-mms sh -c "cat > /usr/local/tomcat/webapps/ve##${latest_ve_version}/WEB-INF/web.xml" < /vagrant/web.xml
+    docker cp /vagrant/web.xml openmbee-mms:/usr/local/tomcat/webapps/ve\#\#${latest_ve_version}/WEB-INF/web.xml
     echo "  > View Editor installed."
 
     echo ">>> You can now use 'dc logs' to inspect the services"
