@@ -19,7 +19,7 @@ fi
 # This is required by Elastic Search, otherwise it will crash, as described here:
 # https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html
 if [[ "$(sysctl -n vm.max_map_count)" -ne "$ES_MAX_MAP_COUNT" ]]; then
-  echo ">>> Setting the maximum number of memory map areas a process may have to $(ES_MAX_MAP_COUNT)"
+  echo ">>> Setting the maximum number of memory map areas a process may have to ${ES_MAX_MAP_COUNT}"
   sysctl -w vm.max_map_count=${ES_MAX_MAP_COUNT}
 
   # Make vm.max_map_count setting permanent
