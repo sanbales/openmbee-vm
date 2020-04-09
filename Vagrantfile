@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 5433, host: 5433 #Postgres Admin GUI
 
   config.vm.provider "virtualbox" do |vb|
-    vb.name = "MMS VE Server"
+    vb.name = "MMS VE PG Server"
     vb.cpus = 4
     vb.memory = 12288  # Solr requires a lot of RAM
     vb.gui = false
