@@ -3,6 +3,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "bento/centos-7.5"
   
   config.vm.define "MMS VE Server 2"
+  config.vm.define "MMS VE PGAdmin Server"
 
   config.vm.network "forwarded_port", guest: 8080, host: 8080 #MMS
   config.vm.network "forwarded_port", guest: 9200, host: 9200 #ElasticSearch
@@ -10,7 +11,7 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 5433, host: 5433 #Postgres Admin GUI
 
   config.vm.provider "virtualbox" do |vb|
-    vb.name = "MMS VE PG Server"
+    vb.name = "MMS VE PGAdmin Server"
     vb.cpus = 4
     vb.memory = 12288  # Solr requires a lot of RAM
     vb.gui = false

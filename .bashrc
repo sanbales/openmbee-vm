@@ -124,18 +124,18 @@ initialize_search() {
 
     if [[ ! -f ${ES_MAPPING_TEMPLATE_FILE} ]]; then
         echo "  > Could not find '${ES_MAPPING_TEMPLATE_FILE}'!"
-        echo "  > Attempting to download the Elasticsearch Mapping File from the OpenMBEE MMS GitHub Repo"
-        wget -O ${ES_MAPPING_TEMPLATE_FILE} ${ES_MAPPING_TEMPLATE_URL}
+        # echo "  > Attempting to download the Elasticsearch Mapping File from the OpenMBEE MMS GitHub Repo"
+        # wget -O ${ES_MAPPING_TEMPLATE_FILE} ${ES_MAPPING_TEMPLATE_URL}
     fi
 
-    ES_RESPONSE=`curl -s -XGET http://127.0.0.1:${ES_PORT}/_template/template`
-    if [[ "${ES_RESPONSE:0:1}" != "{" ]]; then
-        echo "  > Sleeping to make sure Elasticsearch is running"
-        sleep ${ES_WAIT}
+    # ES_RESPONSE=`curl -s -XGET http://127.0.0.1:${ES_PORT}/_template/template`
+    # if [[ "${ES_RESPONSE:0:1}" != "{" ]]; then
+    #     echo "  > Sleeping to make sure Elasticsearch is running"
+    #     sleep ${ES_WAIT}
 
-        echo "  > Re-requesting template from Elasticsearch"
-        ES_RESPONSE=`curl -s -XGET http://127.0.0.1:${ES_PORT}/_template/template`
-    fi
+    #     echo "  > Re-requesting template from Elasticsearch"
+    #     ES_RESPONSE=`curl -s -XGET http://127.0.0.1:${ES_PORT}/_template/template`
+    # fi
 
     if [[ "${ES_RESPONSE}" == "{}" ]]; then
         echo " >> Uploading MMS Mapping Template File to Elasticsearch"
