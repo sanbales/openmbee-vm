@@ -1,11 +1,18 @@
 # VM for OpenMBEE MMS
 
-A vagrant-based virtual machine (VM) for setting up the [Open Model Based Engineering Environment (OpenMBEE)][openmbee]
-[Model Management System (MMS)][mms] and [View Editor (VE)][view-editor].  This VM helps instantiate the [OpenMBEE MMS Docker Image][docker-image].
+A vagrant-based virtual machine (VM) for setting up the 
+* [Open Model Based Engineering Environment (OpenMBEE)][openmbee]
+* [Model Management System (MMS)][mms] 
+* [View Editor (VE)][view-editor]
+stack that is part of [OpenMBEE Docker stack][docker-image].
+
+In addition, this stack also sets up
+* [pgAdmin, a Postgres database browser][pgadmin]
+* [Dejavu, an ElasticSearch browser][dejavu]
+as additional tools to help browse the data within MMS.
 
 > This virtual machine was developed to facilitate the installation of the OpenMBEE MMS server.
-It is intended as a stop-gap solution until a scalable containerized version of the OpenMBEE MMS
-server can be developed, e.g., using [Kubernetes][kubernetes].
+It is intended as a stop-gap solution until a scalable containerized version of the OpenMBEE MMS server can be developed, e.g., using [Kubernetes][kubernetes].
 
 As of Feb 4, 2020, this VM works with [OpenMBEE MMS Docker Image][docker-image] v3.4.2 (latest) and [View Editor (VE)][view-editor] v3.6.1 (latest).  This VM has been successfully deployed and tested in a local Ubuntu 18.04 server; other MMS and VE versions have not been tested.  Additionally, the [Model Development Kit (MDK)][mdk] v4.1.3 (latest) plugin for [MagicDraw][magicdraw] successfully works with the MMS server this repo provisions.
 
@@ -42,6 +49,20 @@ You can login to the OpenMBEE [View Editor][view-editor] by going to:
     http://127.0.0.1:8080/ve/mms.html#/login
 
 and using `admin` as both the username and the password.
+
+### Login to PG Admin
+You can browse the Postgres database by going to
+
+    http://127.0.0.1:5433
+
+Authenticate with `pgadmin4@pgadmin.org` as the user and `admin` as the password.
+
+### Login to Dejavu
+You can browse the ElasticSearch database through Dejavu by going to
+
+    http://127.0.0.1:1358
+
+Enter `http://127.0.0.1:9200` in the page's cluster URL; the app name is the ElasticSearch index you want to browse, i.e. use `<project id>` (in lower case) to view a specific project or `*` to browse all.
 
 #### Other useful links
 See everything Tomcat is running :
@@ -153,3 +174,5 @@ As of Jan 24, 2020, the latest MDK plugin version for MagicDraw is 4.1.3 and can
 [vagrant]: https://www.vagrantup.com/downloads.html "Vagrant"
 [view-editor]: https://github.com/Open-MBEE/ve "View Editor"
 [virtualbox]: https://www.virtualbox.org/wiki/Downloads "VirtualBox"
+[pgadmin]: https://www.pgadmin.org/ "pgAdmin"
+[dejavu]: https://opensource.appbase.io/dejavu/ "Dejavu"

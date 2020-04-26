@@ -123,7 +123,7 @@ initialize_search() {
     fi
 
     if [[ ! -f ${ES_MAPPING_TEMPLATE_FILE} ]]; then
-        echo "  > Could not find '${ES_MAPPING_TEMPLATE_FILE}'!"
+        echo "  > ERROR. Could not find '${ES_MAPPING_TEMPLATE_FILE}'!"
         # echo "  > Attempting to download the Elasticsearch Mapping File from the OpenMBEE MMS GitHub Repo"
         # wget -O ${ES_MAPPING_TEMPLATE_FILE} ${ES_MAPPING_TEMPLATE_URL}
     fi
@@ -137,14 +137,27 @@ initialize_search() {
     #     ES_RESPONSE=`curl -s -XGET http://127.0.0.1:${ES_PORT}/_template/template`
     # fi
 
+    # Upload template to ElasticSearch
     if [[ "${ES_RESPONSE}" == "{}" ]]; then
         echo " >> Uploading MMS Mapping Template File to Elasticsearch"
-        curl -XPUT http://127.0.0.1:${ES_PORT}/_template/template -d @${ES_MAPPING_TEMPLATE_FILE}
-
-        ES_RESPONSE=`curl -s -XGET http://127.0.0.1:${ES_PORT}/_template/template`
+        ES_RESPONSE=`curl -XPUT http://127.0.0.1:${ES_PORT}/_template/template -H 'Content-Type: application/json' -d @${ES_MAPPING_TEMPLATE_FILE}`
         if [[ "${ES_RESPONSE}" == "{}" ]]; then
             echo ""
             echo ">>> Failed to upload the MMS Template to Elasticsearch"
+        elif [[ "${ES_RESPONSE}" == "{\"acknowledged\":true}"]]; then
+            echo ""
+            echo ">>> Sucessfully uploaded the MMS Template to Elasticsearch"
+        else
+            echo ""
+            echo ">>> Error uploading the MMS Template to Elasticsearch: ${ES_RESPONSE}"
         fi
     fi
+
+    # Modify ElasticSearch maxClauseCount to handle queries with large number of elements
+    echo " >> Modifying ElasticSearch's default maxClauseCount of 1024 to 999999..."
+    docker exec -i openmbee-elasticsearch sh -c "echo \"indices.query.bool.max_clause_count: 999999\" >> /usr/share/elasticsearch/config/elasticsearch.yml"
+    docker exec -i openmbee-elasticsearch sh -c "echo \"indices.query.bool.max_clause_count: 999999\" >> /config/elasticsearch.yml"
+    docker exec -i openmbee-elasticsearch sh -c "echo \"indices.query.bool.max_clause_count: 999999\" >> /etc/elasticsearch/elasticsearch.yml"
+    echo " >>> Done.  Restarting ElasticSearch"
+    docker restart openmbee-elasticsearch
 }
