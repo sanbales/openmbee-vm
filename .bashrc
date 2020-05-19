@@ -122,7 +122,7 @@ initialize_search() {
         sleep ${ES_WAIT}
     fi
 
-    if [[ ! -f ${ES_MAPPING_TEMPLATE_FILE} ]]; then
+    if [[ ! -f "${ES_MAPPING_TEMPLATE_FILE}" ]]; then
         echo "  > ERROR. Could not find '${ES_MAPPING_TEMPLATE_FILE}'!"
         # echo "  > Attempting to download the Elasticsearch Mapping File from the OpenMBEE MMS GitHub Repo"
         # wget -O ${ES_MAPPING_TEMPLATE_FILE} ${ES_MAPPING_TEMPLATE_URL}
@@ -144,7 +144,7 @@ initialize_search() {
         if [[ "${ES_RESPONSE}" == "{}" ]]; then
             echo ""
             echo ">>> Failed to upload the MMS Template to Elasticsearch"
-        elif [[ "${ES_RESPONSE}" == "{\"acknowledged\":true}"]]; then
+        elif [[ "${ES_RESPONSE}" == "{\"acknowledged\":true}" ]]; then
             echo ""
             echo ">>> Sucessfully uploaded the MMS Template to Elasticsearch"
         else
