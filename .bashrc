@@ -64,6 +64,9 @@ setup() {
     docker cp /vagrant/web.xml openmbee-mms:/usr/local/tomcat/webapps/ve\#\#${latest_ve_version}/WEB-INF/web.xml
     echo "  > View Editor installed."
 
+    echo ">>> Installing Apache Jena Fuseki server..."
+    initialize_apache_jena_fuseki
+
     echo ">>> You can now use 'dc logs' to inspect the services"
 }
 
@@ -128,14 +131,14 @@ initialize_search() {
         # wget -O ${ES_MAPPING_TEMPLATE_FILE} ${ES_MAPPING_TEMPLATE_URL}
     fi
 
-    # ES_RESPONSE=`curl -s -XGET http://127.0.0.1:${ES_PORT}/_template/template`
-    # if [[ "${ES_RESPONSE:0:1}" != "{" ]]; then
-    #     echo "  > Sleeping to make sure Elasticsearch is running"
-    #     sleep ${ES_WAIT}
+    ES_RESPONSE=`curl -s -XGET http://127.0.0.1:${ES_PORT}/_template/template`
+    if [[ "${ES_RESPONSE:0:1}" != "{" ]]; then
+        echo "  > Sleeping to make sure Elasticsearch is running"
+        sleep ${ES_WAIT}
 
-    #     echo "  > Re-requesting template from Elasticsearch"
-    #     ES_RESPONSE=`curl -s -XGET http://127.0.0.1:${ES_PORT}/_template/template`
-    # fi
+        echo "  > Re-requesting template from Elasticsearch"
+        ES_RESPONSE=`curl -s -XGET http://127.0.0.1:${ES_PORT}/_template/template`
+    fi
 
     # Upload template to ElasticSearch
     if [[ "${ES_RESPONSE}" == "{}" ]]; then
@@ -160,4 +163,86 @@ initialize_search() {
     docker exec -i openmbee-elasticsearch sh -c "echo \"indices.query.bool.max_clause_count: 999999\" >> /etc/elasticsearch/elasticsearch.yml"
     echo " >>> Done.  Restarting ElasticSearch"
     docker restart openmbee-elasticsearch
+}
+
+
+initialize_apache_jena_fuseki() {
+    # function loads the Apache Jena's Fuseki docker container
+    # taken from https://github.com/Open-MBEE/mms-rdf/blob/develop/util/local-endpoint.sh and adapted.
+
+    # #!/bin/bash
+    # # check env variable
+    # if [[ -z "${MMS_PROJECT_NAME}" ]]; then
+    #     echo "ERROR: The environment variable MMS_PROJECT_NAME must be defined"
+    #     exit 1
+    # fi
+
+    # extract the protocol
+    s_endpoint_proto="`echo $MMS_SPARQL_ENDPOINT | grep '://' | sed -e's,^\(.*://\).*,\1,g'`"
+
+    # remove the protocol
+    s_endpoint_url=`echo $MMS_SPARQL_ENDPOINT | sed -e s,$s_endpoint_proto,,g`
+
+    # userpass
+    s_endpoint_userpass="`echo $s_endpoint_url | grep @ | cut -d@ -f1`"
+
+    # extract the host & port
+    s_endpoint_hostport=`echo $s_endpoint_url | sed -e s,$s_endpoint_userpass@,,g | cut -d/ -f1`
+    s_endpoint_port=`echo $s_endpoint_hostport | grep : | cut -d: -f2`
+    if [ -n "$s_endpoint_port" ]; then
+        s_endpoint_host=`echo $s_endpoint_hostport | grep : | cut -d: -f1`
+    else
+        s_endpoint_host=$s_endpoint_hostport
+    fi
+
+    # # localhost
+    # if [ $s_endpoint_host != "localhost" ] && [ $s_endpoint_host != "127.0.0.1" ] && [ $s_endpoint_host != "0.0.0.0" ]; then
+    #     echo "ERROR: This helper script was designed for localhost binding only. Inspect the source of this script if you'd like to customize for more advanced local bindings."
+    #     exit 1
+    # fi
+
+    # ready string to capture from container
+    # S_READY_STRING="INFO  Start Fuseki"
+
+    # container name
+    # MMS_SPARQL_SERVER_NAME="fuseki"
+
+    # verbose
+    echo -e "\n>>  Starting Apache Jena Fuseki docker container named '${MMS_SPARQL_SERVER_NAME}' and binding to host port :${s_endpoint_port}...\n"
+
+    # remove previous docker container
+    # docker rm -f $MMS_SPARQL_SERVER_NAME > /dev/null 2>&1
+
+    # launch new container
+    docker run -d --rm \
+        -p "${s_endpoint_port}:3030" \
+        --name $MMS_SPARQL_SERVER_NAME \
+        -v /vagrant:/usr/share/data \
+        atomgraph/fuseki \
+        --mem \
+        --update /ds \
+        --ping \
+        --stats \
+        --update
+
+
+    # # prepare command string to deduce what container output is telling us
+    # read -r -d '' SX_SUBSHELL <<-EOF
+    #     docker logs -f $MMS_SPARQL_SERVER_NAME \
+    #         | tee >( grep -m1 -e "$S_READY_STRING" > /dev/null && kill -9 \$\$ ) \
+    #         | tee >( grep -m1 -e "exited with code" > /dev/null && kill -2 \$\$ )
+    # EOF
+
+    # # await service startup
+    # if bash -c "$SX_SUBSHELL"; then
+    #     echo -e "\nfailed to start $MMS_SPARQL_SERVER_NAME"
+    #     exit 1
+    # fi
+
+    # show container to user
+    docker ps -f "name=$MMS_SPARQL_SERVER_NAME"
+
+    # verbose
+    echo -e "\n>>  Launched Apache Jena's Fuseki docker container named '${MMS_SPARQL_SERVER_NAME}' and bound to host port :${s_endpoint_port}\n"
+
 }

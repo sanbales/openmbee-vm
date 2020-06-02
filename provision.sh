@@ -74,7 +74,7 @@ if [[ ! -f ${DOCKER_COMPOSE_LOCATION} ]]; then
 fi
 
 
-if [[ -z `docker ps -q --no-trunc | grep $(dc ps -q web)` ]]; then
+if [[ -z `docker ps -q --no-trunc | grep $(${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml --project-directory /vagrant ps -q web)` ]]; then
   echo ">>> Setting up the MMS services"
   setup
 fi

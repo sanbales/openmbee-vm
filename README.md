@@ -9,6 +9,7 @@ stack that is part of [OpenMBEE Docker stack][docker-image].
 In addition, this stack also sets up
 * [pgAdmin, a Postgres database browser][pgadmin]
 * [Dejavu, an ElasticSearch browser][dejavu]
+* [Apache Jena Fuseki, a SPARQL server][fuseki]
 as additional tools to help browse the data within MMS.
 
 > This virtual machine was developed to facilitate the installation of the OpenMBEE MMS server.
@@ -63,6 +64,9 @@ You can browse the ElasticSearch database through Dejavu by going to
     http://127.0.0.1:1358
 
 Enter `http://127.0.0.1:9200` in the page's cluster URL; the app name is the ElasticSearch index you want to browse, i.e. use `<project id>` (in lower case) to view a specific project or `*` to browse all.
+
+### Using Apache Jena Fuseki
+This repo only sets up the [Fuseki][fuseki] remote server on http://127.0.0.1:13030.  In order to use Fuseki and MMS, visit https://github.com/Open-MBEE/mms-rdf for instructions.  Those instructions should be ran on the host machine running the Vagrant VM (not the Vagrant VM itself) using all `local` commands.  
 
 #### Other useful links
 See everything Tomcat is running :
@@ -176,3 +180,4 @@ As of Jan 24, 2020, the latest MDK plugin version for MagicDraw is 4.1.3 and can
 [virtualbox]: https://www.virtualbox.org/wiki/Downloads "VirtualBox"
 [pgadmin]: https://www.pgadmin.org/ "pgAdmin"
 [dejavu]: https://opensource.appbase.io/dejavu/ "Dejavu"
+[fuseki]: https://jena.apache.org/documentation/fuseki2/ "fuseki"
