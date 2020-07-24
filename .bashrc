@@ -54,7 +54,7 @@ setup() {
     echo "  > Getting latest View Editor files..."
     latest_ve_version=$(curl -s https://github.com/Open-MBEE/ve/releases/latest | grep -oP "tag/([0-9\.])+" | cut -d "/" -f 2)
     wget -q https://github.com/Open-MBEE/ve/releases/download/${latest_ve_version}/ve-${latest_ve_version}.zip
-    yum -q -y install unzip
+    yum -q -y install unzipS
     unzip -qq ve-${latest_ve_version}.zip 
     mv dist ve\#\#${latest_ve_version}
 
@@ -63,6 +63,9 @@ setup() {
     docker exec -i openmbee-mms sh -c "mkdir /usr/local/tomcat/webapps/ve##${latest_ve_version}/WEB-INF" 
     docker cp /vagrant/web.xml openmbee-mms:/usr/local/tomcat/webapps/ve\#\#${latest_ve_version}/WEB-INF/web.xml
     echo "  > View Editor installed."
+
+    echo ">>> Installing Apache Jena Fuseki server..."
+    initialize_apache_jena_fuseki
 
     echo ">>> You can now use 'dc logs' to inspect the services"
 }
@@ -122,10 +125,10 @@ initialize_search() {
         sleep ${ES_WAIT}
     fi
 
-    if [[ ! -f ${ES_MAPPING_TEMPLATE_FILE} ]]; then
-        echo "  > Could not find '${ES_MAPPING_TEMPLATE_FILE}'!"
-        echo "  > Attempting to download the Elasticsearch Mapping File from the OpenMBEE MMS GitHub Repo"
-        wget -O ${ES_MAPPING_TEMPLATE_FILE} ${ES_MAPPING_TEMPLATE_URL}
+    if [[ ! -f "${ES_MAPPING_TEMPLATE_FILE}" ]]; then
+        echo "  > ERROR. Could not find '${ES_MAPPING_TEMPLATE_FILE}'!"
+        # echo "  > Attempting to download the Elasticsearch Mapping File from the OpenMBEE MMS GitHub Repo"
+        # wget -O ${ES_MAPPING_TEMPLATE_FILE} ${ES_MAPPING_TEMPLATE_URL}
     fi
 
     ES_RESPONSE=`curl -s -XGET http://127.0.0.1:${ES_PORT}/_template/template`
@@ -137,14 +140,49 @@ initialize_search() {
         ES_RESPONSE=`curl -s -XGET http://127.0.0.1:${ES_PORT}/_template/template`
     fi
 
+    # Upload template to ElasticSearch
     if [[ "${ES_RESPONSE}" == "{}" ]]; then
         echo " >> Uploading MMS Mapping Template File to Elasticsearch"
-        curl -XPUT http://127.0.0.1:${ES_PORT}/_template/template -d @${ES_MAPPING_TEMPLATE_FILE}
-
-        ES_RESPONSE=`curl -s -XGET http://127.0.0.1:${ES_PORT}/_template/template`
+        ES_RESPONSE=`curl -XPUT http://127.0.0.1:${ES_PORT}/_template/template -H 'Content-Type: application/json' -d @${ES_MAPPING_TEMPLATE_FILE}`
         if [[ "${ES_RESPONSE}" == "{}" ]]; then
             echo ""
             echo ">>> Failed to upload the MMS Template to Elasticsearch"
+        elif [[ "${ES_RESPONSE}" == "{\"acknowledged\":true}" ]]; then
+            echo ""
+            echo ">>> Sucessfully uploaded the MMS Template to Elasticsearch"
+        else
+            echo ""
+            echo ">>> Error uploading the MMS Template to Elasticsearch: ${ES_RESPONSE}"
         fi
     fi
+
+    # Modify ElasticSearch maxClauseCount to handle queries with large number of elements
+    echo " >> Modifying ElasticSearch's default maxClauseCount of 1024 to 999999..."
+    docker exec -i openmbee-elasticsearch sh -c "echo \"indices.query.bool.max_clause_count: 999999\" >> /usr/share/elasticsearch/config/elasticsearch.yml"
+    docker exec -i openmbee-elasticsearch sh -c "echo \"indices.query.bool.max_clause_count: 999999\" >> /config/elasticsearch.yml"
+    docker exec -i openmbee-elasticsearch sh -c "echo \"indices.query.bool.max_clause_count: 999999\" >> /etc/elasticsearch/elasticsearch.yml"
+    echo " >>> Done.  Restarting ElasticSearch"
+    docker restart openmbee-elasticsearch
+}
+
+
+initialize_apache_jena_fuseki() {
+    # function loads and runs the Apache Jena's Fuseki webapp into Tomcat (running in MMS docker container)
+    
+    echo -e "\n>>  Downloading and extracting Apache Jena Fuseki files.... \n"
+    jena_version=3.16.0
+    jena_filename="apache-jena-fuseki-${jena_version}"
+    wget "https://archive.apache.org/dist/jena/binaries/${jena_filename}.tar.gz"
+    tar -xzf $jena_filename.tar.gz
+    
+    echo -e "\n>>  Uploading Apache Jena Fuseki files to Tomcat.... \n"
+    docker cp $jena_filename/fuseki.war openmbee-mms:"/usr/local/tomcat/webapps/fuseki##${jena_version}.war"
+
+    echo -e "\n>>  Configuring Apache Tomcat to run Jena Fuseki.... \n"
+    docker exec -i openmbee-mms sh -c "mkdir /etc/fuseki"
+    docker exec -i openmbee-mms sh -c "chown -R tomcat:tomcat /etc/fuseki"
+    docker cp /vagrant/shiro.ini openmbee-mms:/etc/fuseki/shiro.ini
+
+    echo -e "\n>>  Complete!  To run Jena Fuseki, visit http://localhost:${MMS_EXTERNAL_PORT}/manager/html/list and click 'start'"
+   
 }

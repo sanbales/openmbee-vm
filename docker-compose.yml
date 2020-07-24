@@ -31,20 +31,21 @@ services:
       - "mmsvol:${MMS_ALFRESCO_DATA_DIR:-/mnt/alf_data}"
 
   search:
-    image: elasticsearch:5.5-alpine
+    image: "${ES_IMAGE:-elasticsearch:5.5}"
     container_name: openmbee-elasticsearch
-
     networks:
       - internal
     ports:
-      - target: 9200
+      - target: "${ES_PORT:-9200}"
         published: "${ES_PORT:-9200}"
         protocol: tcp
         mode: host
+    volumes:
+      - "${ES_CONFIG_FILE}:/config/elasticsearch.yml"
     restart: on-failure
 
   db:
-    image: postgres:9.4-alpine
+    image: "${PG_IMAGE:-postgres:9.4-alpine}"
     container_name: openmbee-postgres
     environment:
       POSTGRES_USER: "${PG_USERNAME:-mmsuser}"
@@ -59,8 +60,34 @@ services:
         mode: host
     restart: on-failure
 
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:4.20
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+    volumes:
+       - pgadmin:/root/.pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5433}:80"
+    networks:
+      - internal
+    restart: on-failure
+
+  search-gui:
+    image: appbaseio/dejavu:3.2.3
+    container_name: dejavu
+    ports: 
+      - '1358:1358'
+    links:
+      - search
+    networks:
+      - internal
+    restart: on-failure
+
 volumes:
   mmsvol:
+  pgadmin:
 
 networks:
   internal:
