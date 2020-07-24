@@ -1,39 +1,44 @@
 # VM for OpenMBEE MMS
 
 A vagrant-based virtual machine (VM) for setting up the 
-* [Open Model Based Engineering Environment (OpenMBEE)][openmbee]
-* [Model Management System (MMS)][mms] 
-* [View Editor (VE)][view-editor]
+* [Open Model Based Engineering Environment (OpenMBEE)][openmbee] v3.4.2
+* [Model Management System (MMS)][mms] v3.4.2
+* [View Editor (VE)][view-editor] v3.6.1
 stack that is part of [OpenMBEE Docker stack][docker-image].
 
 In addition, this stack also sets up
-* [pgAdmin, a Postgres database browser][pgadmin]
-* [Dejavu, an ElasticSearch browser][dejavu]
-* [Apache Jena Fuseki, a SPARQL server][fuseki]
+* [pgAdmin, a Postgres database browser][pgadmin] v4.20
+* [Dejavu, an ElasticSearch browser][dejavu] v3.2.3
+* [Apache Jena Fuseki, a SPARQL server][fuseki] v 3.16.0
 as additional tools to help browse the data within MMS.
 
 > This virtual machine was developed to facilitate the installation of the OpenMBEE MMS server.
 It is intended as a stop-gap solution until a scalable containerized version of the OpenMBEE MMS server can be developed, e.g., using [Kubernetes][kubernetes].
 
-As of Feb 4, 2020, this VM works with [OpenMBEE MMS Docker Image][docker-image] v3.4.2 (latest) and [View Editor (VE)][view-editor] v3.6.1 (latest).  This VM has been successfully deployed and tested in a local Ubuntu 18.04 server; other MMS and VE versions have not been tested.  Additionally, the [Model Development Kit (MDK)][mdk] v4.1.3 (latest) plugin for [MagicDraw][magicdraw] successfully works with the MMS server this repo provisions.
+As of Jul 24, 2020, this VM works with [OpenMBEE MMS Docker Image][docker-image] v3.4.2 (latest) and [View Editor (VE)][view-editor] v3.6.1 (latest).  This VM has been successfully deployed and tested in a local Ubuntu 18.04 server and on Windows 10; other MMS and VE versions or OSes have not been tested.  Additionally, the [Model Development Kit (MDK)][mdk] v4.1.3 (latest) plugin for [MagicDraw][magicdraw] successfully works with the MMS server this repo provisions.
 
 
 ## Prerequisites
 1. Install [Vagrant][vagrant].
 
-2. Install [VirtualBox][virtualbox].
+2. Install a plug-in for Vagrant:
+```
+$ vagrant plugin install vagrant-disksize
+```
+
+3. Install [VirtualBox][virtualbox].
 
 
 ## Installation
 1. Clone this repository:
     ```
-    git clone https://github.com/MJDiaz89/openmbee-vm.git
+    $ git clone https://github.com/MJDiaz89/openmbee-vm.git
     ```
 
 2. Provision the virtual machine:
     ```
-    cd openmbee-vm
-    vagrant up
+    $ cd openmbee-vm
+    $ vagrant up
     ```
 
 > The first time you run this, it will take some time to start all the services, so please be patient.
@@ -97,8 +102,8 @@ curl -w "\n%{http_code}\n" -H "Content-Type: application/json" -u admin:admin --
 
 Make sure the server accepted them:
 ````
-curl -w "\n%{http_code}\n" -H "Content-Type: application/json" -u admin:admin -X GET "http://localhost:8080/alfresco/service/orgs"
-curl -w "\n%{http_code}\n" -H "Content-Type: application/json" -u admin:admin -X GET "http://localhost:8080/alfresco/service/orgs/vetestorg/projects"
+$ curl -w "\n%{http_code}\n" -H "Content-Type: application/json" -u admin:admin -X GET "http://localhost:8080/alfresco/service/orgs"
+$ curl -w "\n%{http_code}\n" -H "Content-Type: application/json" -u admin:admin -X GET "http://localhost:8080/alfresco/service/orgs/vetestorg/projects"
 ````
 
 
@@ -112,32 +117,32 @@ If that is not working, checkout the `docker-compose` logs by:
 1. SSH'ing into the VM:
 
     ```
-    vagrant ssh
+    $ vagrant ssh
     ```
 
 2. And inspecting the logs:
 
     ```
-    docker-compose -f /vagrant/docker-compose.yml --project-directory /vagrant logs
+    $ docker-compose -f /vagrant/docker-compose.yml --project-directory /vagrant logs
     ```
     
     Alternatively, a user can use the `dc` alias command:
     
     ```
-    dc logs
+    $ dc logs
     ``` 
     
     or
 
     ```
-    dc logs --follow --tail 0
+    $ dc logs --follow --tail 0
     ```
 
     to inspect how the server is handeling requests and responses.
 
 3. Make sure the docker containers are actually running:
     ```
-    dc ps
+    $ dc ps
     ```
 
     For more information on the custom commands, type:
