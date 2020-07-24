@@ -2,7 +2,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.box = "bento/centos-7.5"
   
-  config.vm.define "MMS VE PGAdmin Fuseki Server"
+  config.vm.define "MMS Server - new CentOS"
+  #config.disksize.size = '100GB'
 
   config.vm.network "forwarded_port", guest: 8080, host: 8080 #MMS
   config.vm.network "forwarded_port", guest: 9200, host: 9200 #ElasticSearch
@@ -12,7 +13,7 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 13030, host: 13030 #Fuseki
 
   config.vm.provider "virtualbox" do |vb|
-    vb.name = "MMS VE PGAdmin Fuseki Server"
+    vb.name = "MMS Server - new CentOS"
     vb.cpus = 4
     vb.memory = 12288  # Solr requires a lot of RAM
     vb.gui = false

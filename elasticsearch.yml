@@ -5,3 +5,4 @@ http.cors.allow-methods : OPTIONS, HEAD, GET, POST, PUT, DELETE
 http.cors.allow-headers : X-Requested-With,X-Auth-Token,Content-Type, Content-Length,Authorization
 http.cors.allow-credentials : true
 indices.query.bool.max_clause_count: 999999
+indices.query.bool.max_clause_count: 999999

@@ -44,6 +44,7 @@
           roles="repoclient" password="null"/>
 
     <role rolename="manager-gui"/>
-    <user username="admin" password="tomcatadmin" roles="manager-gui"/>
+    <role rolename="manager-script"/>
+    <user username="admin" password="tomcatadmin" roles="manager-gui,manager-script"/>
 
 </tomcat-users>

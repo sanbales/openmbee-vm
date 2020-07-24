@@ -38,6 +38,7 @@ As of Feb 4, 2020, this VM works with [OpenMBEE MMS Docker Image][docker-image] 
 
 > The first time you run this, it will take some time to start all the services, so please be patient.
 
+
 ## Usage
 
 ### Login to Alfresco
@@ -66,7 +67,9 @@ You can browse the ElasticSearch database through Dejavu by going to
 Enter `http://127.0.0.1:9200` in the page's cluster URL; the app name is the ElasticSearch index you want to browse, i.e. use `<project id>` (in lower case) to view a specific project or `*` to browse all.
 
 ### Using Apache Jena Fuseki
-This repo only sets up the [Fuseki][fuseki] remote server on http://127.0.0.1:13030.  In order to use Fuseki and MMS, visit https://github.com/Open-MBEE/mms-rdf for instructions.  Those instructions should be ran on the host machine running the Vagrant VM (not the Vagrant VM itself) using all `local` commands.  
+This repo only sets up the [Fuseki][fuseki] remote server on http://127.0.0.1:8080/fuseki.  However, the server is not started by default at the VM's initialization; it needs to be manually started. To do that, visit Tomcat (http://localhost:8080/manager/).  After authenticating, locate `/fuseki`, and click `start.`
+
+In order to use Fuseki and MMS, visit https://github.com/Open-MBEE/mms-rdf for instructions.  Those instructions should be ran on the host machine running the Vagrant VM (not the Vagrant VM itself) using all `local` commands. Do not run `./util/local-endpoint.sh`, as this repo already sets up the local endpoint.
 
 #### Other useful links
 See everything Tomcat is running :
