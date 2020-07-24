@@ -170,7 +170,7 @@ initialize_apache_jena_fuseki() {
     # function loads and runs the Apache Jena's Fuseki webapp into Tomcat (running in MMS docker container)
     
     echo -e "\n>>  Downloading and extracting Apache Jena Fuseki files.... \n"
-    jena_version=3.16.0
+    jena_version=3.5.0
     jena_filename="apache-jena-fuseki-${jena_version}"
     wget "https://archive.apache.org/dist/jena/binaries/${jena_filename}.tar.gz"
     tar -xzf $jena_filename.tar.gz

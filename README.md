@@ -9,7 +9,7 @@ stack that is part of [OpenMBEE Docker stack][docker-image].
 In addition, this stack also sets up
 * [pgAdmin, a Postgres database browser][pgadmin] v4.20
 * [Dejavu, an ElasticSearch browser][dejavu] v3.2.3
-* [Apache Jena Fuseki, a SPARQL server][fuseki] v3.16.0
+* [Apache Jena Fuseki, a SPARQL server][fuseki] v3.5.0
 as additional tools to help browse the data within MMS.
 
 > This virtual machine was developed to facilitate the installation of the OpenMBEE MMS server.
