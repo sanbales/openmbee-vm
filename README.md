@@ -17,6 +17,7 @@ It is intended as a stop-gap solution until a scalable containerized version of 
 
 As of Jul 24, 2020, this VM works with [OpenMBEE MMS Docker Image][docker-image] v3.4.2 (latest) and [View Editor (VE)][view-editor] v3.6.1 (latest).  This VM has been successfully deployed and tested in a local Ubuntu 18.04 server and on Windows 10; other MMS and VE versions or OSes have not been tested.  Additionally, the [Model Development Kit (MDK)][mdk] v4.1.3 (latest) plugin for [MagicDraw][magicdraw] successfully works with the MMS server this repo provisions.
 
+**WARNING: this server is configured to use http, generic passwords, and allows connections from nearly every IP, as it was intended as local sandbox. This server is not configured for a safe and secure public-facing server!**
 
 ## Prerequisites
 1. Install [Vagrant][vagrant].
@@ -45,6 +46,10 @@ $ vagrant plugin install vagrant-disksize
 
 
 ## Usage
+
+### Login to Apache Tomcat
+   http://127.0.0.1:8080
+using `admin` and `tomcatadmin`.  After, click `List Applications` and you should see all applications running.  You need to manually start the Fuseki server.
 
 ### Login to Alfresco
     http://127.0.0.1:8080/share/page/
