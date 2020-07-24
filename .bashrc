@@ -182,6 +182,7 @@ initialize_apache_jena_fuseki() {
     docker exec -i openmbee-mms sh -c "mkdir /etc/fuseki"
     docker exec -i openmbee-mms sh -c "chown -R tomcat:tomcat /etc/fuseki"
     docker cp /vagrant/shiro.ini openmbee-mms:/etc/fuseki/shiro.ini
+    docker exec -it openmbee-mms sh -c "wget https://raw.githubusercontent.com/apache/jena/master/jena-fuseki2/apache-jena-fuseki/log4j2.properties -P /etc/fuseki" 
 
     echo -e "\n>>  Complete!  To run Jena Fuseki, visit http://localhost:${MMS_EXTERNAL_PORT}/manager/html/list and click 'start'"
    
