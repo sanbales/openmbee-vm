@@ -9,7 +9,7 @@ stack that is part of [OpenMBEE Docker stack][docker-image].
 In addition, this stack also sets up
 * [pgAdmin, a Postgres database browser][pgadmin] v4.20
 * [Dejavu, an ElasticSearch browser][dejavu] v3.2.3
-* [Apache Jena Fuseki, a SPARQL server][fuseki] v 3.16.0
+* [Apache Jena Fuseki, a SPARQL server][fuseki] v3.16.0
 as additional tools to help browse the data within MMS.
 
 > This virtual machine was developed to facilitate the installation of the OpenMBEE MMS server.
@@ -23,9 +23,9 @@ As of Jul 24, 2020, this VM works with [OpenMBEE MMS Docker Image][docker-image]
 1. Install [Vagrant][vagrant].
 
 2. Install a plug-in for Vagrant:
-```
-$ vagrant plugin install vagrant-disksize
-```
+    ```
+    $ vagrant plugin install vagrant-disksize
+    ```
 
 3. Install [VirtualBox][virtualbox].
 
@@ -49,7 +49,7 @@ $ vagrant plugin install vagrant-disksize
 
 ### Login to Apache Tomcat
    http://127.0.0.1:8080
-using `admin` and `tomcatadmin`.  After, click `List Applications` and you should see all applications running.  You need to manually start the Fuseki server.
+using `admin` and `tomcatadmin`.  After, click `List Applications` and you should see all applications running.  On initialization, you need to manually start the Fuseki server.
 
 ### Login to Alfresco
     http://127.0.0.1:8080/share/page/
