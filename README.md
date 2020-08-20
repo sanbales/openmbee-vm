@@ -7,11 +7,15 @@ A Vagrant-based virtual machine (VM) for setting up the
 stack that is part of [OpenMBEE Docker stack][docker-image].
 
 In addition, this stack also sets up
+
 * [pgAdmin, a Postgres database browser][pgadmin] v4.20
 * [Dejavu, an ElasticSearch browser][dejavu] v3.2.3
+
 as additional tools to help browse the data within MMS and 
+
 * [Apache Jena Fuseki, a SPARQL server][fuseki] v3.5.0
 * [WebProtégé, an environment to develop ontologies][webprotege] v4.0.2
+
 as additional tools to help the development of ontologies.
 
 > This virtual machine was developed to facilitate the installation of the OpenMBEE MMS server.
@@ -87,19 +91,22 @@ In order to use Fuseki and MMS, visit https://github.com/Open-MBEE/mms-rdf for i
 There are a few remaining steps that cannot be automated:
 
 1. Enter the Vagrant virtual machine:
-    $ vagrant ssh
+    `$ vagrant ssh`
 
 2. Run the script that creates the admin account:
    
-    $ docker exec -it webprotege java -jar /webprotege-cli.jar create-admin-account
+    `$ docker exec -it webprotege java -jar /webprotege-cli.jar create-admin-account`
    
-Enter the required information.  Ex:
-    Admin name: admin
-    admin email:  admin@admin.com
-    admin password: admin
+   Enter the required information.  Ex:
+        ```
+        Admin name: admin
+        admin email:  admin@admin.com
+        admin password: admin
+        ```
 
 3. Exit the Vagrant virtual machine:
-    $ exit
+
+    `$ exit`
 
 4. Visit http://localhost:8090/#application/settings.  Fill out the form using 
     * Application Name: `WebProtégé` 
