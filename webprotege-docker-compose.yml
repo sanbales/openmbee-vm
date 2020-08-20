@@ -1,0 +1,28 @@
+version: "3.2"
+
+services:
+
+  wpmongo:
+    container_name: webprotege-mongodb
+    image: mongo:4.1-bionic
+    restart: unless-stopped
+    volumes:
+      - ./.protegedata/mongodb:/data/db
+    ports:
+      - 27017:27017
+
+  webprotege:
+    container_name: webprotege
+    image: protegeproject/webprotege
+    depends_on:
+      - wpmongo
+    restart: unless-stopped
+    environment:
+      - webprotege.mongodb.host=wpmongo
+      - JAVA_TOOL_OPTIONS='-Dlogsdir=/var/log/webprotege'
+    volumes:
+    - ./.protegedata/protege:/srv/webprotege
+    ports:
+      - 8088:5000
+      - 8090:8080
+

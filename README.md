@@ -1,6 +1,6 @@
 # VM for OpenMBEE MMS
 
-A vagrant-based virtual machine (VM) for setting up the 
+A Vagrant-based virtual machine (VM) for setting up the 
 * [Open Model Based Engineering Environment (OpenMBEE)][openmbee] v3.4.2
 * [Model Management System (MMS)][mms] v3.4.2
 * [View Editor (VE)][view-editor] v3.6.1
@@ -9,8 +9,10 @@ stack that is part of [OpenMBEE Docker stack][docker-image].
 In addition, this stack also sets up
 * [pgAdmin, a Postgres database browser][pgadmin] v4.20
 * [Dejavu, an ElasticSearch browser][dejavu] v3.2.3
+as additional tools to help browse the data within MMS and 
 * [Apache Jena Fuseki, a SPARQL server][fuseki] v3.5.0
-as additional tools to help browse the data within MMS.
+* [WebProtégé, an environment to develop ontologies][webprotege] v4.0.2
+as additional tools to help the development of ontologies.
 
 > This virtual machine was developed to facilitate the installation of the OpenMBEE MMS server.
 It is intended as a stop-gap solution until a scalable containerized version of the OpenMBEE MMS server can be developed, e.g., using [Kubernetes][kubernetes].
@@ -80,6 +82,31 @@ Enter `http://127.0.0.1:9200` in the page's cluster URL; the app name is the Ela
 This repo only sets up the [Fuseki][fuseki] remote server on http://127.0.0.1:8080/fuseki.  However, the server is not started by default at the VM's initialization; it needs to be manually started. To do that, visit Tomcat (http://localhost:8080/manager/).  After authenticating, locate `/fuseki`, and click `start.`
 
 In order to use Fuseki and MMS, visit https://github.com/Open-MBEE/mms-rdf for instructions.  Those instructions should be ran on the host machine running the Vagrant VM (not the Vagrant VM itself) using all `local` commands. Do not run `./util/local-endpoint.sh`, as this repo already sets up the local endpoint.
+
+### Finalize WebProtégé set-up
+There are a few remaining steps that cannot be automated:
+
+1. Enter the Vagrant virtual machine:
+    $ vagrant ssh
+
+2. Run the script that creates the admin account:
+   
+    $ docker exec -it webprotege java -jar /webprotege-cli.jar create-admin-account
+   
+Enter the required information.  Ex:
+    Admin name: admin
+    admin email:  admin@admin.com
+    admin password: admin
+
+3. Exit the Vagrant virtual machine:
+    $ exit
+
+4. Visit http://localhost:8090/#application/settings.  Fill out the form using 
+    * Application Name: `WebProtégé` 
+    * Email Notification Address: `admin@admin.com`
+    * Scheme: `http`
+    * Host: `localhost` 
+    * Persmissions: enable all
 
 #### Other useful links
 See everything Tomcat is running :
@@ -194,3 +221,4 @@ As of Jan 24, 2020, the latest MDK plugin version for MagicDraw is 4.1.3 and can
 [pgadmin]: https://www.pgadmin.org/ "pgAdmin"
 [dejavu]: https://opensource.appbase.io/dejavu/ "Dejavu"
 [fuseki]: https://jena.apache.org/documentation/fuseki2/ "fuseki"
+[webprotege]: https://github.com/protegeproject/webprotege "WebProtégé"

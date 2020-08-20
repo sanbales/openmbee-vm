@@ -67,6 +67,9 @@ setup() {
     echo ">>> Installing Apache Jena Fuseki server..."
     initialize_apache_jena_fuseki
 
+    echo ">>> Installing WebProtege server..."
+    initialize_webprotege
+
     echo ">>> You can now use 'dc logs' to inspect the services"
 }
 
@@ -186,4 +189,39 @@ initialize_apache_jena_fuseki() {
 
     echo -e "\n>>  Complete!  To run Jena Fuseki, visit http://localhost:${MMS_EXTERNAL_PORT}/manager/html/list and click 'start'"
    
+}
+
+
+
+initialize_webprotege() {
+    # function loads and runs the Web Protege Docker container
+    echo -e "\n>>  Downloading, extracting, and launching WebProtege.... \n"
+
+    #copy WebProtege files
+    wp_version=4.0.2
+    wget "https://github.com/protegeproject/webprotege/archive/v${wp_version}.zip"
+
+    #extract
+    unzip "v${wp_version}.zip"
+
+    #replace docker-compose file
+    cd "webprotege-${wp_version}"
+    cp /vagrant/webprotege-docker-compose.yml docker-compose.yml
+
+    #launch containers
+    docker-compose up -d 
+
+    #some configurating
+    docker exec -it webprotege sh -c "mkdir /var/log/webprotege"
+
+    #update the dc alias to include the new docker-compose file
+    alias dc="${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml -f /home/vagrant/webprotege-${wp_version}/docker-compose.yml --project-directory /vagrant" 
+
+    echo -e "\n>>  Complete!  To run WebProtege, \n
+    \t\t 1) run the following commands and follow the prompts to create the admin account: \n
+    \t\t\t $ vagrant ssh \n
+    \t\t\t $ docker exec -it webprotege java -jar /webprotege-cli.jar create-admin-account \n
+    \t\t\t $ exit #to exit the Vagrant VM shell \n 
+    \t\t 2) visit http://localhost:8090/#application/settings and fill out the form to finalize the initialization of the WebProtege server. \n
+    >> WebProtege is now fully accessible at http://localhost:8090/"
 }
