@@ -54,7 +54,7 @@ setup() {
     echo "  > Getting latest View Editor files..."
     latest_ve_version=$(curl -s https://github.com/Open-MBEE/ve/releases/latest | grep -oP "tag/([0-9\.])+" | cut -d "/" -f 2)
     wget -q https://github.com/Open-MBEE/ve/releases/download/${latest_ve_version}/ve-${latest_ve_version}.zip
-    yum -q -y install unzipS
+    yum -q -y install unzip
     unzip -qq ve-${latest_ve_version}.zip 
     mv dist ve\#\#${latest_ve_version}
 
