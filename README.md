@@ -114,7 +114,9 @@ There are a few remaining steps that cannot be automated:
    Enter the required information.  Ex:
 
     `Admin name: admin`
+
     `admin email:  admin@admin.com`
+
     `admin password: admin`
 
 3. Exit the Vagrant virtual machine:
@@ -129,20 +131,14 @@ There are a few remaining steps that cannot be automated:
     * Persmissions: enable all
 
 #### Other useful links
-See everything Tomcat is running :
-
-    http://127.0.0.1:8080/manager/html/
+See everything Tomcat is running: http://127.0.0.1:8080/manager/html/
 
 
-See MMS's full API and SDK documentation:
-
-    http://127.0.0.1:8080/alfresco/mms/index.html
+See MMS's full API and SDK documentation: http://127.0.0.1:8080/alfresco/mms/index.html
 
 
 ### Access MMS REST API documentation
-You can access the Swagger UI at
-
-    http://127.0.0.1:8080/alfresco/mms/swagger-ui/index.html
+You can access the Swagger UI at http://127.0.0.1:8080/alfresco/mms/swagger-ui/index.html
 
 
 ### Test MMS via REST 
@@ -160,9 +156,7 @@ $ curl -w "\n%{http_code}\n" -H "Content-Type: application/json" -u admin:admin 
 
 
 ### Troubleshoot
-If that URL is not responding, make sure [Alfresco][alfresco] is running, by going to:
-
-    http://127.0.0.1:8080/alfresco
+If that URL is not responding, make sure [Alfresco][alfresco] is running, by going to: http://127.0.0.1:8080/alfresco
 
 If that is not working, checkout the `docker-compose` logs by:
 
@@ -172,10 +166,6 @@ If that is not working, checkout the `docker-compose` logs by:
 
 2. And inspecting the logs:
 
-    `$ docker-compose -f /vagrant/docker-compose.yml --project-directory /vagrant logs`
-    
-    Alternatively, a user can use the `dc` alias command:
-    
     `$ dc logs` 
     
     or
@@ -185,21 +175,14 @@ If that is not working, checkout the `docker-compose` logs by:
     to inspect how the server is handeling requests and responses.
 
 3. Make sure the docker containers are actually running:
-    `$ dc ps`
+
+    `$ dc ps -a`
 
     For more information on the custom commands, type:
     
     `commands` 
 
-4. Make sure you can access Tomcat at
-   
-   http://127.0.0.1:8080
-   
-   and that you see all services running at
-   
-   http://127.0.0.1:8080/manager/html/list
-   
-   authenticate with 
+4. Make sure you can access Tomcat at http://127.0.0.1:8080 and that you see all services running at http://127.0.0.1:8080/manager/html/list.  Authenticate with 
 
     `user: admin`
 
