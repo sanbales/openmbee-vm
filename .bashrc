@@ -212,7 +212,9 @@ initialize_webprotege() {
     docker-compose up -d 
 
     #some configurating
-    docker exec -it webprotege sh -c "mkdir /var/log/webprotege"
+    docker exec -it webprotege sh -c "mkdir /var/log/webprotege" #ensure logging dir exists
+    docker cp /vagrant/webprotege_web.xml webprotege:/usr/local/tomcat/webapps/ROOT/WEB-INF/web.xml #increase max file upload size
+    docker container restart webprotege
 
     #update the dc alias to include the new docker-compose file
     alias dc="${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml -f /home/vagrant/webprotege-${wp_version}/docker-compose.yml --project-directory /vagrant" 
