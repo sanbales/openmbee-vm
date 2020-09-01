@@ -85,6 +85,13 @@ services:
       - internal
     restart: on-failure
 
+  apache-jena:
+    container_name: jena
+    image: "stain/jena:${JENA_VERSION:-3.5.0}"
+    networks:
+      - internal
+    restart: on-failure
+    
 volumes:
   mmsvol:
   pgadmin:

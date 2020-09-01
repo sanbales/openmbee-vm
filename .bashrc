@@ -17,7 +17,7 @@ MMS VM Custom Commands Help:
     initialize_search  - populate the Elasticsearch service by uploading the MMS Mapping Template
     setup              - start stopped services and (if necessary) initialize their data
     teardown           - remove all containers and volumes
-
+    jena <cmds>        - run command on the Jena docker container
 EOF
 }
 
@@ -61,7 +61,7 @@ setup() {
     echo "  > Extracting and copying View Editor files over..."
     docker cp ve\#\#${latest_ve_version} openmbee-mms:/usr/local/tomcat/webapps/
     docker exec -i openmbee-mms sh -c "mkdir /usr/local/tomcat/webapps/ve##${latest_ve_version}/WEB-INF" 
-    docker cp /vagrant/web.xml openmbee-mms:/usr/local/tomcat/webapps/ve\#\#${latest_ve_version}/WEB-INF/web.xml
+    docker cp /vagrant/mms_tomcat_web.xml openmbee-mms:/usr/local/tomcat/webapps/ve\#\#${latest_ve_version}/WEB-INF/web.xml
     echo "  > View Editor installed."
 
     echo ">>> Installing Apache Jena Fuseki server..."
@@ -173,13 +173,12 @@ initialize_apache_jena_fuseki() {
     # function loads and runs the Apache Jena's Fuseki webapp into Tomcat (running in MMS docker container)
     
     echo -e "\n>>  Downloading and extracting Apache Jena Fuseki files.... \n"
-    jena_version=3.5.0
-    jena_filename="apache-jena-fuseki-${jena_version}"
+    jena_filename="apache-jena-fuseki-${JENA_VERSION}"
     wget "https://archive.apache.org/dist/jena/binaries/${jena_filename}.tar.gz"
     tar -xzf $jena_filename.tar.gz
     
     echo -e "\n>>  Uploading Apache Jena Fuseki files to Tomcat.... \n"
-    docker cp $jena_filename/fuseki.war openmbee-mms:"/usr/local/tomcat/webapps/fuseki##${jena_version}.war"
+    docker cp $jena_filename/fuseki.war openmbee-mms:"/usr/local/tomcat/webapps/fuseki##${JENA_VERSION}.war"
 
     echo -e "\n>>  Configuring Apache Tomcat to run Jena Fuseki.... \n"
     docker exec -i openmbee-mms sh -c "mkdir /etc/fuseki"
