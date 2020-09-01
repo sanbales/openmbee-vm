@@ -65,10 +65,7 @@ As of Jul 24, 2020, this VM works with [OpenMBEE MMS Docker Image][docker-image]
 You can login and browse the main Tomcat webserver at http://127.0.0.1:8080 using `admin` and `tomcatadmin`.  After, click `List Applications` and you should see all applications running.  On initialization, you may need to manually start the Fuseki server.
 
 ### Login to Alfresco
-
-http://127.0.0.1:8080/share/page/
-
-using `admin` as both the username and the password.
+You can visit the main Alfresco dashboard at http://127.0.0.1:8080/share/page/ using `admin` as both the username and the password.
 
 ### Login to View Editor
 You can login to the OpenMBEE [View Editor][view-editor] by going to http://127.0.0.1:8080/ve/mms.html#/login and using `admin` as both the username and the password.
