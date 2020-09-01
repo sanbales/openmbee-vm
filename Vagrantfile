@@ -3,7 +3,9 @@ Vagrant.configure("2") do |config|
   config.vm.box = "bento/centos-7.5"
   
   config.vm.define "MMS Server - new CentOS"
-  #config.disksize.size = '100GB'
+  #config.vm.disk :disk, size: "100GB", primary: true
+  config.disksize.size = '75GB'
+
 
   config.vm.network "forwarded_port", guest: 8080, host: 8080 #MMS
   config.vm.network "forwarded_port", guest: 9200, host: 9200 #ElasticSearch
@@ -20,7 +22,7 @@ Vagrant.configure("2") do |config|
     vb.cpus = 4
     vb.memory = 12288  # Solr requires a lot of RAM
     vb.gui = false
-
+    
     vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
   end
 
