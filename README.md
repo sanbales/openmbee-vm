@@ -53,6 +53,7 @@ As of Jul 24, 2020, this VM works with [OpenMBEE MMS Docker Image][docker-image]
 2. Provision the virtual machine:
     
     `$ cd openmbee-vm`
+
     `$ vagrant up`
 
 > The first time you run this, it will take some time to start all the services, so please be patient.
@@ -61,48 +62,32 @@ As of Jul 24, 2020, this VM works with [OpenMBEE MMS Docker Image][docker-image]
 ## Usage
 
 ### Login to Apache Tomcat
-You can login and browse the main Tomcat webserver at
-
-   http://127.0.0.1:8080
-
-using `admin` and `tomcatadmin`.  After, click `List Applications` and you should see all applications running.  On initialization, you may need to manually start the Fuseki server.
+You can login and browse the main Tomcat webserver at http://127.0.0.1:8080 using `admin` and `tomcatadmin`.  After, click `List Applications` and you should see all applications running.  On initialization, you may need to manually start the Fuseki server.
 
 ### Login to Alfresco
 
-    http://127.0.0.1:8080/share/page/
+http://127.0.0.1:8080/share/page/
 
 using `admin` as both the username and the password.
 
 ### Login to View Editor
-You can login to the OpenMBEE [View Editor][view-editor] by going to:
-
-    http://127.0.0.1:8080/ve/mms.html#/login
-
-and using `admin` as both the username and the password.
+You can login to the OpenMBEE [View Editor][view-editor] by going to http://127.0.0.1:8080/ve/mms.html#/login and using `admin` as both the username and the password.
 
 ### Login to PG Admin
-You can browse the Postgres database by going to
-
-    http://127.0.0.1:5433
-
-Authenticate with `pgadmin4@pgadmin.org` as the user and `admin` as the password.
+You can browse the Postgres database by going to http://127.0.0.1:5433. Authenticate with `pgadmin4@pgadmin.org` as the user and `admin` as the password.
 
 ### Login to Dejavu
-You can browse the ElasticSearch database through Dejavu by going to
-
-    http://127.0.0.1:1358
-
-Enter `http://127.0.0.1:9200` in the page's cluster URL; the app name is the ElasticSearch index you want to browse, i.e. use `<project id>` (in lower case) to view a specific project or `*` to browse all.
+You can browse the ElasticSearch database through Dejavu by going to http://127.0.0.1:1358.  Enter `http://127.0.0.1:9200` in the page's cluster URL; the app name is the ElasticSearch index you want to browse, i.e. use `<project id>` (in lower case) to view a specific project or `*` to browse all.
 
 
 ### Using Apache Jena 
 Jena is not configured as a server, but a Docker container that runs your commands and then exits.  To use it, SSH into the Vagrant VM
 
-    `$ vagrant ssh`
+`$ vagrant ssh`
 
 and type the desired commands using the jena prefix, e.g. use the riot command
 
-    `$ jena riot --version`
+`$ jena riot --version`
 
 or
 
@@ -220,6 +205,7 @@ If that is not working, checkout the `docker-compose` logs by:
    authenticate with 
 
     `user: admin`
+
     `password: tomcatadmin`
    
 
@@ -227,9 +213,7 @@ If that is not working, checkout the `docker-compose` logs by:
 To maximize the server's usefulness, you will need to have: [MagicDraw][magicdraw], the
 [Model Development Kit (MDK)][mdk] plugin, and a SysML model.
 
-As of Jan 24, 2020, the latest MDK plugin version for MagicDraw is 4.1.3 and can be found here:
-
-    https://bintray.com/openmbee/maven/mdk/4.1.3
+As of Jan 24, 2020, the latest MDK plugin version for MagicDraw is 4.1.3 and can be found here: https://bintray.com/openmbee/maven/mdk/4.1.3
 
 **Note:** do not let MDK create an organization for you!  Otherwise, you may end up with an unstable organization.  Instead, create it with the curl command above.
 
