@@ -2,7 +2,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.box = "bento/centos-7.5"
   
-  config.vm.define "MMS Server - new CentOS"
+  config.vm.define "MMS Server - new CentOS 2"
   #config.vm.disk :disk, size: "100GB", primary: true
   config.disksize.size = '75GB'
 
@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 27017, host: 27017 #Webprotege's MongoDB
 
   config.vm.provider "virtualbox" do |vb|
-    vb.name = "MMS Server - new CentOS"
+    vb.name = "MMS Server - new CentOS 2"
     vb.cpus = 4
     vb.memory = 12288  # Solr requires a lot of RAM
     vb.gui = false

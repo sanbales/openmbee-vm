@@ -7,3 +7,5 @@ http.cors.allow-credentials : true
 indices.query.bool.max_clause_count: 999999
 indices.query.bool.max_clause_count: 999999
 indices.query.bool.max_clause_count: 999999
+indices.query.bool.max_clause_count: 999999
+indices.query.bool.max_clause_count: 999999

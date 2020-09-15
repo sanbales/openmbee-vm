@@ -174,7 +174,7 @@ initialize_apache_jena_fuseki() {
     
     echo -e "\n>>  Downloading and extracting Apache Jena Fuseki files.... \n"
     jena_filename="apache-jena-fuseki-${JENA_VERSION}"
-    wget "https://archive.apache.org/dist/jena/binaries/${jena_filename}.tar.gz"
+    wget -q "https://archive.apache.org/dist/jena/binaries/${jena_filename}.tar.gz"
     tar -xzf $jena_filename.tar.gz
     
     echo -e "\n>>  Uploading Apache Jena Fuseki files to Tomcat.... \n"
@@ -198,17 +198,17 @@ initialize_webprotege() {
 
     #copy WebProtege files
     wp_version=4.0.2
-    wget "https://github.com/protegeproject/webprotege/archive/v${wp_version}.zip"
+    wget -q "https://github.com/protegeproject/webprotege/archive/v${wp_version}.zip"
 
     #extract
-    unzip "v${wp_version}.zip"
+    unzip -qq "v${wp_version}.zip"
 
     #replace docker-compose file
     cd "webprotege-${wp_version}"
     cp /vagrant/webprotege-docker-compose.yml docker-compose.yml
 
     #launch containers
-    docker-compose up -d 
+    ${DOCKER_COMPOSE_LOCATION} up -d 
 
     #some configurating
     docker exec -it webprotege sh -c "mkdir /var/log/webprotege" #ensure logging dir exists
