@@ -74,7 +74,7 @@ if [[ ! -f ${DOCKER_COMPOSE_LOCATION} ]]; then
 fi
 
 
-if [[ -z `docker ps -q --no-trunc | grep $(dc ps -q web)` ]]; then
-  echo ">>> Setting up the MMS services"
-  setup
-fi
+# if [[ -z `docker ps -q --no-trunc | grep $(dc ps -q web)` ]]; then
+#   echo ">>> Setting up the MMS services"
+#   setup
+# fi
