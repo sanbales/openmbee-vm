@@ -30,8 +30,14 @@ enter() {
 
 
 setup() {
-    echo " >  pulling elastic-search image"
+    echo " >  Pulling elastic-search docker image"
     docker pull ${ES_IMAGE}
+
+    echo " >  Pulling postgres docker image"
+    docker pull ${PG_IMAGE}
+
+    echo " >  Pulling MMS docker image"
+    docker pull ${MMS_IMAGE}
 
     latest_mms_version=$(curl -s https://registry.hub.docker.com/v2/repositories/openmbee/mms/tags | python -c "import sys,json; print(json.load(sys.stdin)['results'][1]['name'])")
     echo ">>> Starting containerized services.  Installing latest MMS version: ${latest_mms_version}"

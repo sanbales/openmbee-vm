@@ -1,6 +1,6 @@
 Vagrant.configure("2") do |config|
 
-  config.vm.box = "bento/centos-7.5"
+  config.vm.box = "bento/centos-7.8"
   
   config.vm.define "OpenMBEE Server"
   #config.vm.disk :disk, size: "100GB", primary: true
