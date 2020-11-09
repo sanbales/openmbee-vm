@@ -33,7 +33,7 @@ fi
 if ! ( command -v docker ); then
   echo ">>> Cleaning up Yum's cache"
   yum clean all
-  rm -rf /var/cache/yum/*
+  rm -rf /var/cache/yum
 
   echo ">>> Installing Docker"
   yum install -y   yum-utils   device-mapper-persistent-data   lvm2

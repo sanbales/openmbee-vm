@@ -5,3 +5,9 @@
 *.log
 
 .vscode
+
+*.zip
+*.tar.gz
+apache-jena-*/
+ve##*/
+webprotege-*/

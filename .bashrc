@@ -3,7 +3,9 @@ set -a
 . /vagrant/.env
 set +a
 
+
 alias dc='${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml --project-directory /vagrant'
+
 
 commands() {
   cat << EOF
@@ -21,14 +23,19 @@ MMS VM Custom Commands Help:
 EOF
 }
 
+
 enter() {
-    ${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml --project-directory /vagrant exec "${1}" env TERM=xterm /bin/sh
+    dc exec "${1}" env TERM=xterm /bin/sh
 }
 
+
 setup() {
+    echo " >  pulling elastic-search image"
+    docker pull ${ES_IMAGE}
+
     latest_mms_version=$(curl -s https://registry.hub.docker.com/v2/repositories/openmbee/mms/tags | python -c "import sys,json; print(json.load(sys.stdin)['results'][1]['name'])")
     echo ">>> Starting containerized services.  Installing latest MMS version: ${latest_mms_version}"
-    ${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml --project-directory /vagrant up -d
+    dc up -d
 
     echo ">>> Initializing the database service (PostgreSQL)"
     initialize_db
@@ -73,10 +80,11 @@ setup() {
     echo ">>> You can now use 'dc logs' to inspect the services"
 }
 
+
 teardown() {
-    ${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml --project-directory /vagrant stop
-    ${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml --project-directory /vagrant kill
-    ${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml --project-directory /vagrant rm -f -v
+    dc stop
+    dc kill
+    dc rm -f -v
     docker system prune -f
     docker volume prune -f
     if [[ -f ${ES_MAPPING_TEMPLATE_FILE} ]]; then
@@ -84,46 +92,49 @@ teardown() {
     fi
 }
 
+
 clean_restart() {
     teardown
     setup
 }
 
+
 initialize_db() {
-    if ! [[ `${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml --project-directory /vagrant ps -q ${PG_SERVICE_NAME}` ]]; then
+    if ! [[ `dc ps -q ${PG_SERVICE_NAME}` ]]; then
         echo "  > Waiting ${PG_WAIT} seconds for PostgreSQL service to start"
         sleep ${PG_WAIT}
     fi
 
     # Check to see PostgreSQL service is running by requesting list of available databases
-    if ! `${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml --project-directory /vagrant exec -T ${PG_SERVICE_NAME} psql -lq -U ${PG_USERNAME} | grep -q "List of databases"`; then
+    if ! `dc exec -T ${PG_SERVICE_NAME} psql -lq -U ${PG_USERNAME} | grep -q "List of databases"`; then
         echo "  > Waiting ${PG_WAIT} seconds for PostgreSQL to begin accepting connections"
         sleep ${PG_WAIT}
     fi
 
     # Check to see if new user has ability to create databases
-    if `${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml --project-directory /vagrant exec -T ${PG_SERVICE_NAME} psql -U ${PG_USERNAME} -c "${PG_TEST_CREATEDB_ROLE_COMMAND}" | grep -q "(0 row)"`; then
+    if `dc exec -T ${PG_SERVICE_NAME} psql -U ${PG_USERNAME} -c "${PG_TEST_CREATEDB_ROLE_COMMAND}" | grep -q "(0 row)"`; then
         echo "  > Giving '${PG_USERNAME}' permission to create databases"
-        ${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml --project-directory /vagrant exec -T ${PG_SERVICE_NAME} psql -U ${PG_USERNAME} -c "ALTER ROLE ${PG_USERNAME} CREATEDB"
+        dc exec -T ${PG_SERVICE_NAME} psql -U ${PG_USERNAME} -c "ALTER ROLE ${PG_USERNAME} CREATEDB"
     fi
 
-    if ! `${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml --project-directory /vagrant exec -T ${PG_SERVICE_NAME} psql -lqt -U ${PG_USERNAME} | cut -d \| -f 1 | grep -qw alfresco`; then
+    if ! `dc exec -T ${PG_SERVICE_NAME} psql -lqt -U ${PG_USERNAME} | cut -d \| -f 1 | grep -qw alfresco`; then
         echo "  > Creating the Alfresco database ('alfresco')"
-        ${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml --project-directory /vagrant exec -T ${PG_SERVICE_NAME} createdb -U ${PG_USERNAME} alfresco
+        dc exec -T ${PG_SERVICE_NAME} createdb -U ${PG_USERNAME} alfresco
     fi
 
-    if ! `${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml --project-directory /vagrant exec -T ${PG_SERVICE_NAME} psql -lqt -U ${PG_USERNAME} | cut -d \| -f 1 | grep -qw ${PG_DB_NAME}`; then
+    if ! `dc exec -T ${PG_SERVICE_NAME} psql -lqt -U ${PG_USERNAME} | cut -d \| -f 1 | grep -qw ${PG_DB_NAME}`; then
         echo "  > Creating the MMS database ('${PG_DB_NAME}')"
-        ${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml --project-directory /vagrant exec -T ${PG_SERVICE_NAME} createdb -U ${PG_USERNAME} ${PG_DB_NAME}
+        dc exec -T ${PG_SERVICE_NAME} createdb -U ${PG_USERNAME} ${PG_DB_NAME}
     fi
 
-    if ! `${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml --project-directory /vagrant exec -T ${PG_SERVICE_NAME} psql -U ${PG_USERNAME} -d ${PG_DB_NAME} -c "\dt" | grep -qw organizations`; then
-        ${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml --project-directory /vagrant exec -T ${PG_SERVICE_NAME} psql -U ${PG_USERNAME} -d ${PG_DB_NAME} -c "${PG_DB_CREATION_COMMAND}"
+    if ! `dc exec -T ${PG_SERVICE_NAME} psql -U ${PG_USERNAME} -d ${PG_DB_NAME} -c "\dt" | grep -qw organizations`; then
+        dc exec -T ${PG_SERVICE_NAME} psql -U ${PG_USERNAME} -d ${PG_DB_NAME} -c "${PG_DB_CREATION_COMMAND}"
     fi
 }
 
+
 initialize_search() {
-    if [[ ! `${DOCKER_COMPOSE_LOCATION} -f /vagrant/docker-compose.yml --project-directory /vagrant ps -q ${ES_SERVICE_NAME}` ]]; then
+    if [[ ! `dc ps -q ${ES_SERVICE_NAME}` ]]; then
         echo "  > Waiting ${ES_WAIT} seconds for Elasticsearch service to start"
         sleep ${ES_WAIT}
     fi
@@ -189,7 +200,6 @@ initialize_apache_jena_fuseki() {
     echo -e "\n>>  Complete!  To run Jena Fuseki, visit http://localhost:${MMS_EXTERNAL_PORT}/manager/html/list and click 'start'"
    
 }
-
 
 
 initialize_webprotege() {
